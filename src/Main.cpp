@@ -1,9 +1,6 @@
 #include "Graphics/Window.h"
-#include "Graphics/VertexBuffer.h"
-#include "Graphics/IndexBuffer.h"
-#include "Graphics/VertexArray.h"
 #include "Graphics/VertexBufferLayout.h"
-#include "Graphics/Shader.h"
+#include "Graphics/Renderer.h"
 
 using namespace Apex;
 
@@ -45,9 +42,12 @@ int main()
 		shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
 		va.UnBind();
-		shader.UnBind();
 		vb.UnBind();
 		ib.UnBind();
+		shader.UnBind();
+
+		// Creating the Renderer
+		Renderer renderer;
 
 		// The Core Game Loop
 		while (!window->Close())
@@ -55,12 +55,8 @@ int main()
 			// Calling glClear()
 			window->Clear();
 
-			shader.Bind();
-			va.Bind();
-			ib.Bind();
-
 			// Rendering
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			renderer.Draw(va, ib, shader);
 
 			// Updating the Window every loop
 			window->Update();
