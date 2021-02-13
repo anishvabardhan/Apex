@@ -1,0 +1,2 @@
+E:\Dev\Apex2D\Debug\Apex2D.exe
+E:\Dev\Apex2D\Debug\Apex2D.pdb
