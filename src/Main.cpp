@@ -6,6 +6,8 @@
 #include "Graphics/Window.h"
 #include "Graphics/VertexBuffer.h"
 #include "Graphics/IndexBuffer.h"
+#include "Graphics/VertexArray.h"
+#include "Graphics/VertexBufferLayout.h"
 
 using namespace Apex;
 
@@ -92,15 +94,16 @@ int main()
 			2, 3, 0
 		};
 
-		unsigned int vao;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
+		// Creating VertexArray
+		VertexArray va;
 
 		// Creating VertexBuffer
 		VertexBuffer vb(vertices, 4 * 2 * sizeof(float));
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+		// Creating Buffer Layout
+		VertexBufferLayout layout;
+		layout.Push<float>(2);
+		va.AddBuffer(vb, layout);
 
 		// Creating IndexBuffer
 		IndexBuffer ib(indices, 6);
@@ -124,7 +127,7 @@ int main()
 			window->Clear();
 
 			glUseProgram(shader);
-			glBindVertexArray(vao);
+			va.Bind();
 			ib.Bind();
 
 			// Rendering
