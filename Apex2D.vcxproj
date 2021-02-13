@@ -155,6 +155,9 @@
   <ItemGroup>
     <ClInclude Include="src\Graphics\Window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Shaders\Basic.shader" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

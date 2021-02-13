@@ -17,9 +17,6 @@ namespace Apex {
 		if (!glfwInit())
 			return -1;
 
-		if (!glewInit())
-			return -1;
-
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), NULL, NULL);
 
 		if (!m_Window)
@@ -29,6 +26,9 @@ namespace Apex {
 		}
 
 		glfwMakeContextCurrent(m_Window);
+
+		if (!glewInit())
+			return -1;
 	}
 
 	void Window::Clear() const
