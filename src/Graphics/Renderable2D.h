@@ -67,6 +67,9 @@ namespace Apex {
 
 		inline const glm::vec3& GetPosition() const { return m_Position; }
 		inline const glm::vec2& GetSize() const { return m_Size; }
+
+		inline void SetPosition(glm::vec3 position) { m_Position = position; }
+		inline void SetSize(glm::vec2 size) { m_Size = size; }
 	};
 
 }

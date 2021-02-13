@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Physics\2D\Collision2D.h" />
     <ClInclude Include="src\glm\common.hpp" />
     <ClInclude Include="src\glm\detail\compute_common.hpp" />
     <ClInclude Include="src\glm\detail\compute_vector_relational.hpp" />
