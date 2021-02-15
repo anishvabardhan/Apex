@@ -20,7 +20,8 @@ int main()
 		shader.Bind();
 
 		// Renderables
-		Renderable2D sprite(glm::vec3(300, 220, 0), glm::vec2(20, 20), shader);
+		Renderable2D sprite(glm::vec3(370, 220, 0), glm::vec2(20, 20), shader);
+		Renderable2D sprite2(glm::vec3(270, 220, 0), glm::vec2(20, 20), shader);
 
 		// Creating an orthographic camera
 		glm::mat4 proj = glm::ortho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), -1.0f, 1.0f);
@@ -37,7 +38,7 @@ int main()
 		shader.UnBind();
 
 		// Creating collision objects
-		Collision2D collision;
+		Collision2D collisionA, collisionB, collisionC;
 
 		// Creating the Renderer
 		Renderer renderer;
@@ -49,17 +50,31 @@ int main()
 			window->Clear();
 
 			// Updating the position of the sprite
-			sprite.SetPosition(glm::vec3(sprite.GetPosition().x + collision.GetX(), sprite.GetPosition().y + collision.GetY(), 0));
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), sprite.GetPosition());
-			glm::mat4 mvp = proj * model;
-			shader.SetUniformMat4f("u_MVP", mvp);
+			sprite.SetPosition(glm::vec3(sprite.GetPosition().x - collisionA.GetX() - collisionC.GetX(), sprite.GetPosition().y, 0));
+			//sprite2.SetPosition(glm::vec3(sprite2.GetPosition().x + collisionB.GetX(), sprite2.GetPosition().y, 0));
 
 			// Checking Collision Detection
-			collision.CollisionWorld(sprite, *window);
+			collisionA.CollisionWorld(sprite, *window);
+			collisionB.CollisionWorld(sprite2, *window);
+			collisionC.CollisionObjects(sprite, sprite2);
+
 
 			// Rendering
-			renderer.Draw(sprite);
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), sprite.GetPosition());
+				glm::mat4 mvp = proj * model;
+				shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+				shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(sprite);
+			}
 
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), sprite2.GetPosition());
+				glm::mat4 mvp = proj * model;
+				shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+				shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(sprite2);
+			}
 			// Updating the Window every loop
 			window->Update();
 		}

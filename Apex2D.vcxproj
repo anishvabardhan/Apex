@@ -149,6 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Maths\Mat4.cpp" />
+    <ClCompile Include="src\Maths\Vec3.cpp" />
+    <ClCompile Include="src\Maths\Vec4.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
@@ -157,8 +160,14 @@
     <ClCompile Include="src\Graphics\Window.cpp" />
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
+    <ClCompile Include="src\Maths\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Maths\Mat4.h" />
+    <ClInclude Include="src\Maths\Maths.h" />
+    <ClInclude Include="src\Maths\Maths_Func.h" />
+    <ClInclude Include="src\Maths\Vec3.h" />
+    <ClInclude Include="src\Maths\Vec4.h" />
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
     <ClInclude Include="src\glm\common.hpp" />
     <ClInclude Include="src\glm\detail\compute_common.hpp" />
@@ -453,6 +462,7 @@
     <ClInclude Include="src\Graphics\Window.h" />
     <ClInclude Include="src\Graphics\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\VertexArray.h" />
+    <ClInclude Include="src\Maths\Vec2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
