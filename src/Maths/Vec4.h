@@ -5,14 +5,14 @@ namespace Apex {
 
 	class Vec4
 	{
+	public:
 		float m_X;
 		float m_Y;
 		float m_Z;
 		float m_W;
 	public:
-		Vec4();
+		Vec4() = default;
 		Vec4(float x, float y, float z, float w);
-		~Vec4();
 
 		Vec4& Add(const Vec4& other);
 		Vec4& Subtract( const Vec4& other);

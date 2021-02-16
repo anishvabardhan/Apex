@@ -12,14 +12,11 @@ namespace Apex {
 	{
 	}
 
-	Vec2::~Vec2()
-	{
-	}
-
 	Vec2& Vec2::Add(const Vec2& other)
 	{
 		m_X += other.m_X;
 		m_Y += other.m_Y;
+
 		return *this;
 	}
 
@@ -27,6 +24,7 @@ namespace Apex {
 	{
 		m_X -= other.m_X;
 		m_Y -= other.m_Y;
+
 		return *this;
 	}
 
@@ -34,6 +32,7 @@ namespace Apex {
 	{
 		m_X *= other.m_X;
 		m_Y *= other.m_Y;
+
 		return *this;
 	}
 
@@ -41,6 +40,7 @@ namespace Apex {
 	{
 		m_X /= other.m_X;
 		m_Y /= other.m_Y;
+
 		return *this;
 	}
 
@@ -96,8 +96,8 @@ namespace Apex {
 
 	std::ostream& operator<<(std::ostream& stream, const Vec2& vector)
 	{
-		// TODO: insert return statement here
 		stream << "(" << vector.GetX() << ", " << vector.GetY() << ")";
+
 		return stream;
 	}
 

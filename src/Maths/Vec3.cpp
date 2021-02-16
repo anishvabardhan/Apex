@@ -12,10 +12,6 @@ namespace Apex {
 	{
 	}
 
-	Vec3::~Vec3()
-	{
-	}
-
 	Vec3& Vec3::Add(const Vec3& other)
 	{
 		m_X += other.m_X;

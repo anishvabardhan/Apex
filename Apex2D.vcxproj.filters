@@ -36,9 +36,6 @@
     <ClCompile Include="src\Graphics\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\2D\Collision2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Maths\Vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -930,9 +927,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderable2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics\2D\Collision2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Maths\Vec2.h">

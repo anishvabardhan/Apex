@@ -23,10 +23,6 @@ namespace Apex {
 		elements[3 + 3 * 4] = d;
 	}
 
-	Mat4::~Mat4()
-	{
-	}
-
 	Mat4 Mat4::identity()
 	{
 		return Mat4(1.0f);

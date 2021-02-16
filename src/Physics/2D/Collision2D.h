@@ -7,10 +7,11 @@ namespace Apex {
 
 	class Collision2D
 	{
-		float increamentX = 0.5f, increamentY = 0.5f;
+		float increamentX = 2.0f, increamentY = 2.0f;
 	public:
-		void CollisionObjects(const Renderable2D& GameObj1, const Renderable2D& GameObj2);
-		void CollisionWorld(const Renderable2D& GameObj, const Window& window);
+
+		bool CollisionObjects(const Renderable2D& GameObj1, const Renderable2D& GameObj2);
+		bool CollisionWorld(const Renderable2D& GameObj, const Window& window);
 
 		inline float GetX() const { return increamentX; }
 		inline float GetY() const { return increamentY; }

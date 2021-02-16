@@ -14,7 +14,12 @@ namespace Apex {
 
 		Mat4();
 		Mat4(float d);
-		~Mat4();
+
+		Vec4 GetColumn(int index)
+		{
+			index *= 4;
+			return Vec4(elements[index], elements[index + 1], elements[index + 2], elements[index + 3]);
+		}
 
 		static Mat4 identity();
 

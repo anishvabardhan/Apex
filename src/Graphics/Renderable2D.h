@@ -14,8 +14,8 @@ namespace Apex {
 	class Renderable2D
 	{
 	protected:
-		glm::vec3 m_Position;
-		glm::vec2 m_Size;
+		Vec3 m_Position;
+		Vec2 m_Size;
 		
 		VertexArray* m_VAO;
 		IndexBuffer* m_IBO;
@@ -23,16 +23,16 @@ namespace Apex {
 		VertexBufferLayout layout;
 		Shader& m_Shader;
 	public:
-		Renderable2D(glm::vec3 position, glm::vec2 size, Shader& shader)
+		Renderable2D(Vec3 position, Vec2 size, Shader& shader)
 			: m_Position(position), m_Size(size), m_Shader(shader)
 		{
 			m_VAO = new VertexArray();
 
 			float vertices[] = {
 				0, 0, 0,
-				0, size.y, 0,
-				size.x, size.y, 0,
-				size.x, 0, 0
+				0, size.m_Y, 0,
+				size.m_X, size.m_Y, 0,
+				size.m_X, 0, 0
 			};
 
 			m_VBO = new VertexBuffer(vertices, 4 * 3 * sizeof(float));
@@ -66,11 +66,11 @@ namespace Apex {
 		inline const IndexBuffer* GetIBO() const { return m_IBO; }
 		inline Shader& GetShader() const { return m_Shader; }
 
-		inline const glm::vec3& GetPosition() const { return m_Position; }
-		inline const glm::vec2& GetSize() const { return m_Size; }
+		inline const Vec3& GetPosition() const { return m_Position; }
+		inline const Vec2& GetSize() const { return m_Size; }
 
-		inline void SetPosition(glm::vec3 position) { m_Position = position; }
-		inline void SetSize(glm::vec2 size) { m_Size = size; }
+		inline void SetPosition(Vec3 position) { m_Position = position; }
+		inline void SetSize(Vec2 size) { m_Size = size; }
 	};
 
 }
