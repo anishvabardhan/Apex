@@ -4,8 +4,6 @@
 
 #include "Physics/2D/Collision2D.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
 #include "Maths/Mat4.h"
 
 using namespace Apex;
@@ -13,25 +11,26 @@ using namespace Apex;
 int main()
 {
 // Creating A Window--------------------------------------------------------------------------------------------
+	
 	Window* window;
 	window = new Window("Apex", 640, 480);
 	{
 // Creating Shader------------------------------------------------------------------------------------------
+		
 		Shader shader("res/Shaders/Basic.shader");
 		shader.Bind();
 
 // Renderables
-		Renderable2D sprite(Vec3(300, 200, 0), Vec2(100, 100), shader);
+		
+		Renderable2D sprite(Vec3(300, 200, 0), Vec2(20, 20), shader);
 
 // Creating an orthographic camera--------------------------------------------------------------------------
-		//glm::mat4 proj = glm::ortho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), -1.0f, 1.0f);
-		//glm::mat4 model = glm::translate(glm::mat4(1.0f), sprite.GetPosition());
-		//glm::mat4 mvp = proj * model;
 
 		Mat4 proj = Mat4::orthographic(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), -1.0f, 1.0f);
 		Mat4 model = Mat4::translation(sprite.GetPosition());
 
 // Setting Uniforms-----------------------------------------------------------------------------------------
+		
 		shader.SetUniform4f("u_Color", 0.5f, 0.5f, 0.5f, 1.0f);
 		shader.SetUniformMat4f("proj", proj);
 		shader.SetUniformMat4f("model", model);
@@ -42,28 +41,38 @@ int main()
 		shader.UnBind();
 
 // Creating collision objects-------------------------------------------------------------------------------
-		//Collision2D collisionA, collisionB, collisionC;
+		
+		Collision2D collisionA;
 
 // Creating the Renderer------------------------------------------------------------------------------------
+		
 		Renderer renderer;
 
-		// The Core Game Loop---------------------------------------------------------------------------------------
+// The Core Game Loop---------------------------------------------------------------------------------------
+		
 		while (!window->Close())
 		{
-// Calling glClear()------------------------------------------------------------------------------------
+// Calling glClear()----------------------------------------------------------------------------------------
+			
 			window->Clear();
 
-// Rendering--------------------------------------------------------------------------------------------
-			Mat4 model = Mat4::translation(sprite.GetPosition());
-			Mat4 mvp = proj * model;
+// Updating the sprite position-----------------------------------------------------------------------------
 			
-			shader.SetUniform4f("u_Color", 0.5f, 0.5f, 0.5f, 1.0f);
-			shader.SetUniformMat4f("proj", proj);
+			sprite.SetPosition(Vec3(sprite.GetPosition().m_X + collisionA.GetX(), sprite.GetPosition().m_Y + collisionA.GetY(), 0.0f));
+			model = Mat4::translation(sprite.GetPosition());
+
+// Checking for collisions----------------------------------------------------------------------------------
+			
+			collisionA.CollisionWorld(sprite, *window);
+
+// Rendering------------------------------------------------------------------------------------------------
+
 			shader.SetUniformMat4f("model", model);
 			
 			renderer.Draw(sprite);
 
-// Updating the Window every loop-----------------------------------------------------------------------
+// Updating the Window every loop---------------------------------------------------------------------------
+			
 			window->Update();
 		}
 	}

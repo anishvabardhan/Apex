@@ -37,6 +37,7 @@ namespace Apex {
 
 		if (!glewInit())
 			return -1;
+		return 0;
 	}
 
 	void Window::Clear() const

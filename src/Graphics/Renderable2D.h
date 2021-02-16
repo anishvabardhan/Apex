@@ -7,7 +7,6 @@
 #include "Shader.h"
 
 #include "Maths/Maths.h"
-#include "glm/glm.hpp"
 
 namespace Apex {
 

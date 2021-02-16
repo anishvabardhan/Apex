@@ -69,6 +69,7 @@ namespace Apex {
 
 		if (!c)
 			return true;
+		return false;
 	}
 
 	bool Mat4::operator!=(const Mat4& other)
@@ -84,6 +85,7 @@ namespace Apex {
 
 		if (!c)
 			return true;
+		return false;
 	}
 
 	Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float near, float far)

@@ -8,7 +8,6 @@
 
 #include <GL/glew.h>
 
-#include "glm/glm.hpp"
 #include "Maths/Mat4.h"
 
 namespace Apex {
