@@ -48,6 +48,9 @@
     <ClCompile Include="src\Maths\Mat4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\2D\Collision2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\Window.h">
@@ -945,6 +948,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Maths\Mat4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\2D\Collision2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

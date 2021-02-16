@@ -160,6 +160,7 @@
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\Maths\Vec2.cpp" />
+    <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Maths\Mat4.h" />
@@ -461,6 +462,7 @@
     <ClInclude Include="src\Graphics\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\VertexArray.h" />
     <ClInclude Include="src\Maths\Vec2.h" />
+    <ClInclude Include="src\Physics\2D\Collision2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
