@@ -3,7 +3,7 @@
 namespace Apex {
 
 	Vec3::Vec3()
-		: m_X(0), m_Y(0)
+		: m_X(0), m_Y(0), m_Z(0)
 	{
 	}
 
@@ -44,6 +44,26 @@ namespace Apex {
 		return *this;
 	}
 
+	Vec3& Vec3::operator+(const Vec3& other)
+	{
+		return Add(other);
+	}
+
+	Vec3& Vec3::operator-(const Vec3& other)
+	{
+		return Subtract(other);
+	}
+
+	Vec3& Vec3::operator*(const Vec3& other)
+	{
+		return Multiply(other);
+	}
+
+	Vec3& Vec3::operator/(const Vec3& other)
+	{
+		return Divide(other);
+	}
+
 	Vec3 Vec3::operator+=(const Vec3& other)
 	{
 		return Add(other);
@@ -66,7 +86,7 @@ namespace Apex {
 
 	bool Vec3::operator==(const Vec3& other)
 	{
-		return this->GetX() == other.GetX() && this->GetY() == other.GetY() && this->GetZ() == other.GetZ();
+		return this->m_X == other.m_X && this->m_Y == other.m_Y && this->m_Z == other.m_Z;
 	}
 
 	bool Vec3::operator!=(const Vec3& other)
@@ -74,30 +94,10 @@ namespace Apex {
 		return !(*this == other);
 	}
 
-	Vec3& operator+(Vec3 one, const Vec3& other)
-	{
-		return one.Add(other);
-	}
-
-	Vec3& operator-(Vec3 one, const Vec3& other)
-	{
-		return one.Subtract(other);
-	}
-
-	Vec3& operator*(Vec3 one, const Vec3& other)
-	{
-		return one.Multiply(other);
-	}
-
-	Vec3& operator/(Vec3 one, const Vec3& other)
-	{
-		return one.Divide(other);
-	}
-
 	std::ostream& operator<<(std::ostream& stream, const Vec3& vector)
 	{
 		// TODO: insert return statement here
-		stream << "(" << vector.GetX() << ", " << vector.GetY() << ", " << vector.GetZ() << ")";
+		stream << "(" << vector.m_X << ", " << vector.m_Y << ", " << vector.m_Z << ")";
 		return stream;
 	}
 

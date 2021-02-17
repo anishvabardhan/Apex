@@ -4,13 +4,13 @@ namespace Apex {
 
 	bool Collision2D::CollisionObjects(const Renderable2D& GameObj1, const Renderable2D& GameObj2)
 	{
-		if ((GameObj1.GetPosition().m_X + GameObj1.GetSize().m_X) == (GameObj2.GetPosition().m_X - GameObj2.GetSize().m_X) || (GameObj1.GetPosition().m_X) == (GameObj2.GetPosition().m_X + GameObj2.GetSize().m_X))
+		if ((GameObj1.GetPosition().m_X + GameObj1.GetSize().m_X) == (GameObj2.GetPosition().m_X) || (GameObj1.GetPosition().m_X) == (GameObj2.GetPosition().m_X + GameObj2.GetSize().m_X))
 		{
 			increamentX = -increamentX;
 			return true;
 		}
 
-		if ((GameObj1.GetPosition().m_Y + GameObj1.GetSize().m_Y) == (GameObj2.GetPosition().m_Y - GameObj2.GetSize().m_Y) || (GameObj1.GetPosition().m_Y) == (GameObj2.GetPosition().m_Y + GameObj2.GetSize().m_Y))
+		if ((GameObj1.GetPosition().m_Y + GameObj1.GetSize().m_Y) == (GameObj2.GetPosition().m_Y) || (GameObj1.GetPosition().m_Y) == (GameObj2.GetPosition().m_Y + GameObj2.GetSize().m_Y))
 		{
 			increamentY = -increamentY;
 			return true;

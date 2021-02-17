@@ -19,10 +19,10 @@ namespace Apex {
 		Vec4& Multiply(const Vec4& other);
 		Vec4& Divide(const Vec4& other);
 
-		friend Vec4& operator+(Vec4 one, const Vec4& other);
-		friend Vec4& operator-(Vec4 one, const Vec4& other);
-		friend Vec4& operator*(Vec4 one, const Vec4& other);
-		friend Vec4& operator/(Vec4 one, const Vec4& other);
+		Vec4& operator+(const Vec4& other);
+		Vec4& operator-(const Vec4& other);
+		Vec4& operator*(const Vec4& other);
+		Vec4& operator/(const Vec4& other);
 
 		Vec4 operator+=(const Vec4& other);
 		Vec4 operator-=(const Vec4& other);
@@ -31,11 +31,6 @@ namespace Apex {
 
 		bool operator==(const Vec4& other);
 		bool operator!=(const Vec4& other);
-
-		inline float GetX() const { return m_X; }
-		inline float GetY() const { return m_Y; }
-		inline float GetZ() const { return m_Z; }
-		inline float GetW() const { return m_W; }
 
 		friend std::ostream& operator<<(std::ostream& stream, const Vec4& vector);
 	};

@@ -44,6 +44,26 @@ namespace Apex {
 		return *this;
 	}
 
+	Vec2& Vec2::operator+(const Vec2& other)
+	{
+		return Add(other);
+	}
+
+	Vec2& Vec2::operator-(const Vec2& other)
+	{
+		return Subtract(other);
+	}
+
+	Vec2& Vec2::operator*(const Vec2& other)
+	{
+		return Multiply(other);
+	}
+
+	Vec2& Vec2::operator/(const Vec2& other)
+	{
+		return Divide(other);
+	}
+
 	Vec2 Vec2::operator+=(const Vec2& other)
 	{
 		return Add(other);
@@ -66,7 +86,7 @@ namespace Apex {
 
 	bool Vec2::operator==(const Vec2& other)
 	{
-		return this->GetX() == other.GetX() && this->GetY() == other.GetY();
+		return this->m_X == other.m_X && this->m_Y == other.m_Y;
 	}
 
 	bool Vec2::operator!=(const Vec2& other)
@@ -74,29 +94,9 @@ namespace Apex {
 		return !(*this == other);
 	}
 
-	Vec2& operator+(Vec2 one, const Vec2& other)
-	{
-		return one.Add(other);
-	}
-
-	Vec2& operator-(Vec2 one, const Vec2& other)
-	{
-		return one.Subtract(other);
-	}
-
-	Vec2& operator*(Vec2 one, const Vec2& other)
-	{
-		return one.Multiply(other);
-	}
-
-	Vec2& operator/(Vec2 one, const Vec2& other)
-	{
-		return one.Divide(other);
-	}
-
 	std::ostream& operator<<(std::ostream& stream, const Vec2& vector)
 	{
-		stream << "(" << vector.GetX() << ", " << vector.GetY() << ")";
+		stream << "(" << vector.m_X << ", " << vector.m_Y << ")";
 
 		return stream;
 	}

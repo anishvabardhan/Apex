@@ -118,9 +118,9 @@ namespace Apex {
 	{
 		Mat4 result(1.0f);
 
-		result.elements[12] = translation.GetX();
-		result.elements[13] = translation.GetY();
-		result.elements[14] = translation.GetZ();
+		result.elements[12] = translation.m_X;
+		result.elements[13] = translation.m_Y;
+		result.elements[14] = translation.m_Z;
 
 		return result;
 	}
@@ -129,17 +129,17 @@ namespace Apex {
 	{
 		Mat4 result(1.0f);
 
-		result.elements[0] = axis.GetX() * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
-		result.elements[1] = axis.GetY() * axis.GetX() * (1.0f - cos(toRadians(angle))) + axis.GetZ() * sin(toRadians(angle));
-		result.elements[2] = axis.GetX() * axis.GetZ() * (1.0f - cos(toRadians(angle))) - axis.GetY() * sin(toRadians(angle));
+		result.elements[0] = axis.m_X * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
+		result.elements[1] = axis.m_Y * axis.m_X * (1.0f - cos(toRadians(angle))) + axis.m_Z * sin(toRadians(angle));
+		result.elements[2] = axis.m_X * axis.m_Z * (1.0f - cos(toRadians(angle))) - axis.m_Y * sin(toRadians(angle));
 
-		result.elements[4] = axis.GetX() * axis.GetY() * (1.0f - cos(toRadians(angle))) - axis.GetZ() * sin(toRadians(angle));
-		result.elements[5] = axis.GetY() * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
-		result.elements[6] = axis.GetY() * axis.GetZ() * (1.0f - cos(toRadians(angle))) + axis.GetX() * sin(toRadians(angle));
+		result.elements[4] = axis.m_X * axis.m_Y * (1.0f - cos(toRadians(angle))) - axis.m_Z * sin(toRadians(angle));
+		result.elements[5] = axis.m_Y * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
+		result.elements[6] = axis.m_Y * axis.m_Z * (1.0f - cos(toRadians(angle))) + axis.m_X * sin(toRadians(angle));
 
-		result.elements[8] = axis.GetX() * axis.GetZ() * (1.0f - cos(toRadians(angle))) + axis.GetY() * sin(toRadians(angle));
-		result.elements[9] = axis.GetY() * axis.GetZ() * (1.0f - cos(toRadians(angle))) - axis.GetX() * sin(toRadians(angle));
-		result.elements[10] = axis.GetZ() * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
+		result.elements[8] = axis.m_X * axis.m_Z * (1.0f - cos(toRadians(angle))) + axis.m_Y * sin(toRadians(angle));
+		result.elements[9] = axis.m_Y * axis.m_Z * (1.0f - cos(toRadians(angle))) - axis.m_X * sin(toRadians(angle));
+		result.elements[10] = axis.m_Z * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
 
 		return result;
 	}
@@ -148,9 +148,9 @@ namespace Apex {
 	{
 		Mat4 result(1.0f);
 
-		result.elements[0] = scale.GetX();
-		result.elements[5] = scale.GetY();
-		result.elements[10] = scale.GetZ();
+		result.elements[0] = scale.m_X;
+		result.elements[5] = scale.m_Y;
+		result.elements[10] = scale.m_Z;
 
 		return result;
 	}
