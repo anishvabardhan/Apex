@@ -8,6 +8,7 @@ namespace Apex {
 	class Collision2D
 	{
 		float increamentX = 2.0f, increamentY = 2.0f;
+		bool CollisionX, CollisionY;
 	public:
 
 		bool CollisionObjects(const Renderable2D& GameObj1, const Renderable2D& GameObj2);

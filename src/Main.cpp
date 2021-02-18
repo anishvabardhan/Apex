@@ -6,6 +6,8 @@
 
 #include "Maths/Mat4.h"
 
+#include <ctime>
+
 using namespace Apex;
 
 int main()
@@ -23,7 +25,7 @@ int main()
 // Renderables
 		
 		Renderable2D sprite(Vec3(300, 200, 0), Vec2(20, 20), shader);
-		Renderable2D food(Vec3(500, 300, 0), Vec2(20, 20), shader);
+		Renderable2D food(Vec3(500, 200, 0), Vec2(20, 20), shader);
 		Renderable2D WallBottom(Vec3(0, 0, 0), Vec2(640, 20), shader);
 		Renderable2D WallTop(Vec3(0, 460, 0), Vec2(640, 20), shader);
 		Renderable2D WallLeft(Vec3(0, 20, 0), Vec2(20, 480), shader);
@@ -53,7 +55,7 @@ int main()
 		
 		Renderer renderer;
 
-		float a = 2.0f, b = 0.0f, c = 100.0f, d = 50.0f;
+		float a = 2.0f, b = 0.0f, c = 50.0f, d = 70.0f;
 
 // The Core Game Loop---------------------------------------------------------------------------------------
 		
@@ -66,7 +68,7 @@ int main()
 // Updating the sprite position through input---------------------------------------------------------------
 			
 			sprite.SetPosition(Vec3(sprite.GetPosition().m_X + a, sprite.GetPosition().m_Y + b, 0.0f));
-			
+
 			model = Mat4::translation(sprite.GetPosition());
 
 			if (window->IsKeyPressed(GLFW_KEY_W))
@@ -115,10 +117,15 @@ int main()
 				window->SetClose();
 			}
 
-			//if (collision.CollisionObjects(sprite, food))
-			//{
-			//	food.SetPosition(Vec3(food.GetPosition().m_X - (c * collision.GetX()), food.GetPosition().m_Y - (d * collision.GetY()), 0));
-			//}
+			if (collision.CollisionObjects(sprite, food))
+			{
+				c = -d;
+				d = -c;
+				while (food.GetPosition().m_X < 620 && food.GetPosition().m_Y < 440)
+				{
+					food.SetPosition(Vec3(food.GetPosition().m_X - c, food.GetPosition().m_Y + d, 0));
+				}
+			}
 
 // Rendering------------------------------------------------------------------------------------------------
 			
