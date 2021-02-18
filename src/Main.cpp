@@ -23,6 +23,7 @@ int main()
 // Renderables
 		
 		Renderable2D sprite(Vec3(300, 200, 0), Vec2(20, 20), shader);
+		Renderable2D food(Vec3(500, 300, 0), Vec2(20, 20), shader);
 		Renderable2D WallBottom(Vec3(0, 0, 0), Vec2(640, 20), shader);
 		Renderable2D WallTop(Vec3(0, 460, 0), Vec2(640, 20), shader);
 		Renderable2D WallLeft(Vec3(0, 20, 0), Vec2(20, 480), shader);
@@ -52,7 +53,7 @@ int main()
 		
 		Renderer renderer;
 
-		float a = 2.0f, b = 2.0f;
+		float a = 2.0f, b = 0.0f, c = 100.0f, d = 50.0f;
 
 // The Core Game Loop---------------------------------------------------------------------------------------
 		
@@ -62,37 +63,62 @@ int main()
 			
 			window->Clear();
 
-// Updating the sprite position-----------------------------------------------------------------------------
+// Updating the sprite position through input---------------------------------------------------------------
 			
 			sprite.SetPosition(Vec3(sprite.GetPosition().m_X + a, sprite.GetPosition().m_Y + b, 0.0f));
 			
 			model = Mat4::translation(sprite.GetPosition());
 
+			if (window->IsKeyPressed(GLFW_KEY_W))
+			{
+				b = 2.0f;
+				a = 0.0f;
+			}
+
+			if (window->IsKeyPressed(GLFW_KEY_S))
+			{
+				b = -2.0f;
+				a = 0.0f;
+			}
+
+			if (window->IsKeyPressed(GLFW_KEY_A))
+			{
+				a = -2.0f;
+				b = 0.0f;
+			}
+
+			if (window->IsKeyPressed(GLFW_KEY_D))
+			{
+				a = 2.0f;
+				b = 0.0f;
+			}
+
 // Checking for collisions----------------------------------------------------------------------------------
 			
 			if (collision.CollisionObjects(sprite, WallTop))
 			{
-				a = collision.GetX();
-				b = collision.GetY();
+				window->SetClose();
 			}
 
 			if (collision.CollisionObjects(sprite, WallBottom))
 			{
-				a = collision.GetX();
-				b = collision.GetY();
+				window->SetClose();
 			}
 
 			if (collision.CollisionObjects(sprite, WallLeft))
 			{
-				a = collision.GetX();
-				b = collision.GetY();
+				window->SetClose();
 			}
 
 			if (collision.CollisionObjects(sprite, WallRight))
 			{
-				a = collision.GetX();
-				b = collision.GetY();
+				window->SetClose();
 			}
+
+			//if (collision.CollisionObjects(sprite, food))
+			//{
+			//	food.SetPosition(Vec3(food.GetPosition().m_X - (c * collision.GetX()), food.GetPosition().m_Y - (d * collision.GetY()), 0));
+			//}
 
 // Rendering------------------------------------------------------------------------------------------------
 			
@@ -104,6 +130,16 @@ int main()
 				shader.SetUniformMat4f("model", model);
 
 				renderer.Draw(sprite);
+			}
+
+			// Rendering the food---------------------------------------------------------------------------
+
+			{
+				shader.SetUniform4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
+				model = Mat4::translation(food.GetPosition());
+				shader.SetUniformMat4f("model", model);
+
+				renderer.Draw(food);
 			}
 
 			// Rendering the bottom wall--------------------------------------------------------------------
