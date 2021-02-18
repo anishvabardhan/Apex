@@ -16,6 +16,9 @@ namespace Apex {
 
 		inline float GetX() const { return increamentX; }
 		inline float GetY() const { return increamentY; }
+
+		inline void SetX(float x) { increamentX = x; }
+		inline void SetY(float y) { increamentY = y; }
 	};
 
 }

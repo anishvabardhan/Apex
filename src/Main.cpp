@@ -25,11 +25,7 @@ int main()
 // Renderables
 		
 		Renderable2D sprite(Vec3(300, 200, 0), Vec2(20, 20), shader);
-		Renderable2D food(Vec3(500, 200, 0), Vec2(20, 20), shader);
-		Renderable2D WallBottom(Vec3(0, 0, 0), Vec2(640, 20), shader);
-		Renderable2D WallTop(Vec3(0, 460, 0), Vec2(640, 20), shader);
-		Renderable2D WallLeft(Vec3(0, 20, 0), Vec2(20, 480), shader);
-		Renderable2D WallRight(Vec3(620, 20, 0), Vec2(20, 440), shader);
+		Renderable2D Block(Vec3(280, 25, 0), Vec2(80, 20), shader);
 
 // Creating an orthographic camera--------------------------------------------------------------------------
 
@@ -49,13 +45,13 @@ int main()
 
 // Creating collision objects-------------------------------------------------------------------------------
 		
-		Collision2D collision;
+		Collision2D collisionA;
 
 // Creating the Renderer------------------------------------------------------------------------------------
 		
 		Renderer renderer;
 
-		float a = 2.0f, b = 0.0f, c = 50.0f, d = 70.0f;
+		float a = 2.0f;
 
 // The Core Game Loop---------------------------------------------------------------------------------------
 		
@@ -67,64 +63,27 @@ int main()
 
 // Updating the sprite position through input---------------------------------------------------------------
 			
-			sprite.SetPosition(Vec3(sprite.GetPosition().m_X + a, sprite.GetPosition().m_Y + b, 0.0f));
+			sprite.SetPosition(Vec3(sprite.GetPosition().m_X + collisionA.GetX(), sprite.GetPosition().m_Y + collisionA.GetY(), 0.0f));
 
 			model = Mat4::translation(sprite.GetPosition());
 
-			if (window->IsKeyPressed(GLFW_KEY_W))
+			if (window->IsKeyPressed(GLFW_KEY_A) && Block.GetPosition().m_X >= 10)
 			{
-				b = 2.0f;
-				a = 0.0f;
+				Block.SetPosition(Vec3(Block.GetPosition().m_X - a, Block.GetPosition().m_Y, 0.0f));
 			}
 
-			if (window->IsKeyPressed(GLFW_KEY_S))
+			if (window->IsKeyPressed(GLFW_KEY_D) && Block.GetPosition().m_X < 550)
 			{
-				b = -2.0f;
-				a = 0.0f;
-			}
-
-			if (window->IsKeyPressed(GLFW_KEY_A))
-			{
-				a = -2.0f;
-				b = 0.0f;
-			}
-
-			if (window->IsKeyPressed(GLFW_KEY_D))
-			{
-				a = 2.0f;
-				b = 0.0f;
+				Block.SetPosition(Vec3(Block.GetPosition().m_X + a, Block.GetPosition().m_Y, 0.0f));
 			}
 
 // Checking for collisions----------------------------------------------------------------------------------
 			
-			if (collision.CollisionObjects(sprite, WallTop))
-			{
-				window->SetClose();
-			}
+			collisionA.CollisionWorld(sprite, *window);
 
-			if (collision.CollisionObjects(sprite, WallBottom))
+			if (collisionA.CollisionObjects(sprite, Block))
 			{
-				window->SetClose();
-			}
-
-			if (collision.CollisionObjects(sprite, WallLeft))
-			{
-				window->SetClose();
-			}
-
-			if (collision.CollisionObjects(sprite, WallRight))
-			{
-				window->SetClose();
-			}
-
-			if (collision.CollisionObjects(sprite, food))
-			{
-				c = -d;
-				d = -c;
-				while (food.GetPosition().m_X < 620 && food.GetPosition().m_Y < 440)
-				{
-					food.SetPosition(Vec3(food.GetPosition().m_X - c, food.GetPosition().m_Y + d, 0));
-				}
+				collisionA.SetY(-collisionA.GetY());
 			}
 
 // Rendering------------------------------------------------------------------------------------------------
@@ -139,54 +98,14 @@ int main()
 				renderer.Draw(sprite);
 			}
 
-			// Rendering the food---------------------------------------------------------------------------
+			// Rendering the Block--------------------------------------------------------------------------
 
 			{
 				shader.SetUniform4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
-				model = Mat4::translation(food.GetPosition());
+				model = Mat4::translation(Block.GetPosition());
 				shader.SetUniformMat4f("model", model);
 
-				renderer.Draw(food);
-			}
-
-			// Rendering the bottom wall--------------------------------------------------------------------
-			
-			{
-				shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-				model = Mat4::translation(WallBottom.GetPosition());
-				shader.SetUniformMat4f("model", model);
-
-				renderer.Draw(WallBottom);
-			}
-
-			// Rendering the top wall-----------------------------------------------------------------------
-			
-			{
-				shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-				model = Mat4::translation(WallTop.GetPosition());
-				shader.SetUniformMat4f("model", model);
-
-				renderer.Draw(WallTop);
-			}
-
-			// Rendering the left wall----------------------------------------------------------------------
-			
-			{
-				shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-				model = Mat4::translation(WallLeft.GetPosition());
-				shader.SetUniformMat4f("model", model);
-
-				renderer.Draw(WallLeft);
-			}
-
-			// Rendering the right wall---------------------------------------------------------------------
-			
-			{
-				shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-				model = Mat4::translation(WallRight.GetPosition());
-				shader.SetUniformMat4f("model", model);
-
-				renderer.Draw(WallRight);
+				renderer.Draw(Block);
 			}
 
 // Updating the Window every loop---------------------------------------------------------------------------

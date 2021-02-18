@@ -21,12 +21,15 @@ namespace Apex {
 			increamentX = -increamentX;
 			return true;
 		}
-		if (GameObj.GetPosition().m_Y + GameObj.GetSize().m_Y >= window.GetHeight() || GameObj.GetPosition().m_Y <= 0)
+
+		if (GameObj.GetPosition().m_Y + GameObj.GetSize().m_Y >= window.GetHeight())
 		{
 			increamentY = -increamentY;
 			return true;
 		}
 
+		if (GameObj.GetPosition().m_Y < -30)
+			window.SetClose();
 		return false;
 	}
 
