@@ -12,7 +12,7 @@ namespace Apex {
 		float m_W;
 	public:
 		Vec4() = default;
-		Vec4(float x, float y, float z, float w);
+		explicit Vec4(float x, float y, float z, float w);
 
 		Vec4& Add(const Vec4& other);
 		Vec4& Subtract( const Vec4& other);

@@ -10,7 +10,7 @@ namespace Apex {
 		unsigned int m_RendererID;
 		unsigned int m_Count;
 	public:
-		IndexBuffer(const unsigned int* data, unsigned int count);
+		explicit IndexBuffer(const unsigned int* data, unsigned int count);
 		~IndexBuffer();
 
 		void Bind() const;

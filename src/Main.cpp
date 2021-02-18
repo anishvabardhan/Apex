@@ -6,8 +6,6 @@
 
 #include "Maths/Mat4.h"
 
-#include <ctime>
-
 using namespace Apex;
 
 int main()
@@ -26,6 +24,7 @@ int main()
 		
 		Renderable2D sprite(Vec3(300, 200, 0), Vec2(20, 20), shader);
 		Renderable2D Block(Vec3(280, 25, 0), Vec2(80, 20), shader);
+
 
 // Creating an orthographic camera--------------------------------------------------------------------------
 

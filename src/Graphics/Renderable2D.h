@@ -22,7 +22,7 @@ namespace Apex {
 		VertexBufferLayout layout;
 		Shader& m_Shader;
 	public:
-		Renderable2D(Vec3 position, Vec2 size, Shader& shader)
+		explicit Renderable2D(Vec3 position, Vec2 size, Shader& shader)
 			: m_Position(position), m_Size(size), m_Shader(shader)
 		{
 			m_VAO = new VertexArray();

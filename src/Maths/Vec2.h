@@ -10,7 +10,7 @@ namespace Apex {
 		float m_Y;
 	public:
 		Vec2();
-		Vec2(float x, float y);
+		explicit Vec2(float x, float y);
 
 		Vec2& Add(const Vec2& other);
 		Vec2& Subtract( const Vec2& other);

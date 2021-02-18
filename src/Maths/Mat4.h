@@ -13,7 +13,7 @@ namespace Apex {
 		};
 
 		Mat4();
-		Mat4(float d);
+		explicit Mat4(float d);
 
 		static Mat4 identity();
 

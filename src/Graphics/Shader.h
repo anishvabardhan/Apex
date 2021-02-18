@@ -24,7 +24,7 @@ namespace Apex {
 		unsigned int m_RendererID;
 		std::unordered_map<std::string, int> m_UniformLocationCache;
 	public:
-		Shader(const std::string& filepath);
+		explicit Shader(const std::string& filepath);
 		~Shader();
 
 		void Bind() const;

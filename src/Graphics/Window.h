@@ -17,7 +17,7 @@ namespace Apex {
 	
 		static bool m_Keys[MAX_KEYS];
 	public:
-		Window(std::string title, int width, int height);
+		explicit Window(std::string title, int width, int height);
 		~Window();
 
 		int Init();
