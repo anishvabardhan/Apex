@@ -10,22 +10,16 @@ namespace Apex {
 		}
 	}
 
-	Mat4::Mat4(float d)
-	{
-		for (int i = 0; i < 4 * 4; i++)
-		{
-			elements[i] = 0.0f;
-		}
-
-		elements[0 + 0 * 4] = d;
-		elements[1 + 1 * 4] = d;
-		elements[2 + 2 * 4] = d;
-		elements[3 + 3 * 4] = d;
-	}
-
 	Mat4 Mat4::identity()
 	{
-		return Mat4(1.0f);
+		Mat4 result;
+
+		result.elements[0 + 0 * 4] = 1.0f;
+		result.elements[1 + 1 * 4] = 1.0f;
+		result.elements[2 + 2 * 4] = 1.0f;
+		result.elements[3 + 3 * 4] = 1.0f;
+
+		return result;
 	}
 
 	Mat4& Mat4::Multiply(const Mat4& other)
@@ -90,7 +84,7 @@ namespace Apex {
 
 	Mat4 Mat4::orthographic(float left, float right, float bottom, float top, float near, float far)
 	{
-		Mat4 result(1.0f);
+		Mat4 result;
 
 		result.elements[0] = 2 / (right - left);
 		result.elements[5] = 2 / (top - bottom);
@@ -98,13 +92,14 @@ namespace Apex {
 		result.elements[12] = (right + left) / (left - right);
 		result.elements[13] = (top + bottom) / (bottom - top);
 		result.elements[14] = (far + near) / (far - near);
+		result.columns[3].m_W = 1;
 
 		return result;
 	}
 
 	Mat4 Mat4::perspective(float fov, float aspectRatio, float near, float far)
 	{
-		Mat4 result(1.0f);
+		Mat4 result;
 
 		result.elements[0] = 1 / (aspectRatio * tan(fov / 2));
 		result.elements[5] = 1 / tan(toRadians(fov / 2));
@@ -116,8 +111,12 @@ namespace Apex {
 
 	Mat4 Mat4::translation(const Vec3& translation)
 	{
-		Mat4 result(1.0f);
+		Mat4 result;
 
+		result.columns[0].m_X = 1.0f;
+		result.columns[1].m_Y = 1.0f;
+		result.columns[2].m_Z = 1.0f;
+		result.columns[3].m_W = 1.0f;
 		result.elements[12] = translation.m_X;
 		result.elements[13] = translation.m_Y;
 		result.elements[14] = translation.m_Z;
@@ -127,7 +126,7 @@ namespace Apex {
 
 	Mat4 Mat4::rotation(float angle, const Vec3& axis)
 	{
-		Mat4 result(1.0f);
+		Mat4 result;
 
 		result.elements[0] = axis.m_X * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
 		result.elements[1] = axis.m_Y * axis.m_X * (1.0f - cos(toRadians(angle))) + axis.m_Z * sin(toRadians(angle));
@@ -141,16 +140,19 @@ namespace Apex {
 		result.elements[9] = axis.m_Y * axis.m_Z * (1.0f - cos(toRadians(angle))) - axis.m_X * sin(toRadians(angle));
 		result.elements[10] = axis.m_Z * (1.0f - cos(toRadians(angle))) + cos(toRadians(angle));
 
+		result.elements[15] = 1.0f;
+
 		return result;
 	}
 
 	Mat4 Mat4::scale(const Vec3& scale)
 	{
-		Mat4 result(1.0f);
+		Mat4 result;
 
 		result.elements[0] = scale.m_X;
 		result.elements[5] = scale.m_Y;
 		result.elements[10] = scale.m_Z;
+		result.elements[15] = 1.0f;
 
 		return result;
 	}
