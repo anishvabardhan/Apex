@@ -10,7 +10,7 @@ using namespace Apex;
 
 int main()
 {
-// Creating A Window--------------------------------------------------------------------------------------------
+// Creating A Window----------------------------------------------------------------------------------------
 	
 	Window* window;
 	window = new Window("Apex", 640, 480);
@@ -20,7 +20,7 @@ int main()
 		Shader shader("res/Shaders/Basic.shader");
 		shader.Bind();
 
-// Renderables
+// Renderables----------------------------------------------------------------------------------------------
 		
 		Renderable2D sprite(Vec3(300, 200, 0), Vec2(20, 20), shader);
 		Renderable2D Block(Vec3(280, 25, 0), Vec2(80, 20), shader);
