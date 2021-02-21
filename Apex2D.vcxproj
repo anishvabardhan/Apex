@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
     <ClCompile Include="src\Maths\Vec4.cpp" />
@@ -166,6 +167,8 @@
     <ClCompile Include="src\Tests\BreakOut.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\OrthoGraphic.h" />
+    <ClInclude Include="src\Graphics\Camera.h" />
     <ClInclude Include="src\Maths\Mat4.h" />
     <ClInclude Include="src\Maths\Maths.h" />
     <ClInclude Include="src\Maths\Maths_Func.h" />

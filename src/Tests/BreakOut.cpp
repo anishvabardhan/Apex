@@ -33,7 +33,11 @@ void BreakOut::Init()
 
 // Creating a Camera------------------------------------------------------------------------------------------------------------------------------
 
-	Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, (float)g_Window->GetWidth(), 0.0f, (float)g_Window->GetHeight(), -1.0f, 1.0f);
+	Apex::OrthoGraphic ortho(0.0f, (float)g_Window->GetWidth(), 0.0f, (float)g_Window->GetHeight(), -1.0f, 1.0f);
+    Apex::Mat4 proj = ortho.CreateCamera();
+
+// Creating a Model of Quad-----------------------------------------------------------------------------------------------------------------------
+
 	Apex::Mat4 model = Apex::Mat4::translation(quad.GetPosition());
 
 //Setting Uniforms--------------------------------------------------------------------------------------------------------------------------------
