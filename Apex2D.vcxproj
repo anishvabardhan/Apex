@@ -163,6 +163,7 @@
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
+    <ClCompile Include="src\Tests\BreakOut.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Maths\Mat4.h" />
@@ -465,6 +466,7 @@
     <ClInclude Include="src\Graphics\VertexArray.h" />
     <ClInclude Include="src\Maths\Vec2.h" />
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
+    <ClInclude Include="src\Tests\BreakOut.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
