@@ -1,7 +1,5 @@
 #include "Tests/BreakOut/BreakOut.h"
 
-using namespace Apex;
-
 int main()
 {
 // Creating Breakout Test----------------------------------------------------------------------------------------
