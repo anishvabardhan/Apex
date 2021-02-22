@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maths/Mat4.h"
+#include "Maths/Maths.h"
 
 namespace Apex {
 
@@ -8,7 +8,7 @@ namespace Apex {
 	{
 		Mat4 m_Proj;
 	public:
-		OrthoGraphic(float left, float right, float bottom, float top);
+		explicit OrthoGraphic(float left, float right, float bottom, float top);
 
 		const Mat4& GetProjMatrix() const { return m_Proj; }
 	};
