@@ -7,7 +7,7 @@
 
 #include "Physics/2D/Collision2D.h"
 
-#include "Maths/Mat4.h"
+#include "Maths/Maths.h"
 
 class BreakOut
 {
@@ -19,7 +19,4 @@ public:
 	~BreakOut();
 
 	void Init();
-
-	inline int GetWidth() const { return g_Width; }
-	inline int GetHeight() const { return g_Height; }
 };
