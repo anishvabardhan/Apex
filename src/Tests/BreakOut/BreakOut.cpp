@@ -33,8 +33,7 @@ void BreakOut::Init()
 
 // Creating a Camera------------------------------------------------------------------------------------------------------------------------------
 
-	Apex::OrthoGraphic ortho(0.0f, (float)g_Window->GetWidth(), 0.0f, (float)g_Window->GetHeight(), -1.0f, 1.0f);
-    Apex::Mat4 proj = ortho.CreateCamera();
+	Apex::OrthoGraphic Camera(0.0f, (float)g_Window->GetWidth(), 0.0f, (float)g_Window->GetHeight());
 
 // Creating a Model of Quad-----------------------------------------------------------------------------------------------------------------------
 
@@ -43,7 +42,7 @@ void BreakOut::Init()
 //Setting Uniforms--------------------------------------------------------------------------------------------------------------------------------
 
 	shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-	shader.SetUniformMat4f("proj", proj);
+	shader.SetUniformMat4f("proj", Camera.GetProjMatrix());
 	shader.SetUniformMat4f("model", model);
 
 	quad.GetVAO()->UnBind();

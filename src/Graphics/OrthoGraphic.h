@@ -1,17 +1,16 @@
 #pragma once
 
-#include "Camera.h"
+#include "Maths/Mat4.h"
 
 namespace Apex {
 
-	class OrthoGraphic : public Camera
+	class OrthoGraphic
 	{
-		float m_Left ,m_Right, m_Bottom, m_Top, m_Near, m_Far;
+		Mat4 m_Proj;
 	public:
-		explicit OrthoGraphic(float left, float right, float bottom, float top, float near, float far);
-		~OrthoGraphic();
+		OrthoGraphic(float left, float right, float bottom, float top);
 
-		virtual Mat4 CreateCamera() override;
+		const Mat4& GetProjMatrix() const { return m_Proj; }
 	};
 
 }

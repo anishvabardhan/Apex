@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graphics\Perspective.cpp" />
     <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
@@ -165,12 +164,10 @@
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
-    <ClCompile Include="src\Tests\BreakOut.cpp" />
+    <ClCompile Include="src\Tests\BreakOut\BreakOut.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphics\Perspective.h" />
     <ClInclude Include="src\Graphics\OrthoGraphic.h" />
-    <ClInclude Include="src\Graphics\Camera.h" />
     <ClInclude Include="src\Maths\Mat4.h" />
     <ClInclude Include="src\Maths\Maths.h" />
     <ClInclude Include="src\Maths\Maths_Func.h" />
@@ -471,7 +468,7 @@
     <ClInclude Include="src\Graphics\VertexArray.h" />
     <ClInclude Include="src\Maths\Vec2.h" />
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
-    <ClInclude Include="src\Tests\BreakOut.h" />
+    <ClInclude Include="src\Tests\BreakOut\BreakOut.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />

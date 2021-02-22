@@ -51,13 +51,10 @@
     <ClCompile Include="src\Physics\2D\Collision2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\BreakOut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Graphics\OrthoGraphic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Perspective.cpp">
+    <ClCompile Include="src\Tests\BreakOut\BreakOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -962,16 +959,10 @@
     <ClInclude Include="src\Physics\2D\Collision2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tests\BreakOut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics\OrthoGraphic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Perspective.h">
+    <ClInclude Include="src\Tests\BreakOut\BreakOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
