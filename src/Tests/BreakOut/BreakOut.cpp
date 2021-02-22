@@ -12,7 +12,6 @@ BreakOut::BreakOut(int width, int height, std::string title)
 
 BreakOut::~BreakOut()
 {
-
 }
 
 void BreakOut::Init()
@@ -40,7 +39,7 @@ void BreakOut::Init()
 
 // Creating a Collision object--------------------------------------------------------------------------------------------------------------------
 
-	Apex::Collision2D collisionA;
+	Apex::Collision2D collision;
 
 // Creating a Renderer----------------------------------------------------------------------------------------------------------------------------
 
@@ -56,11 +55,11 @@ void BreakOut::Init()
 
 		// Updating the quad position through input-----------------------------------------------------------------------------------------------
 
-		quad.SetPosition(Apex::Vec3(quad.GetPosition().m_X + collisionA.GetX(), quad.GetPosition().m_Y + collisionA.GetY(), 0.0f));
+		quad.SetPosition(Apex::Vec3(quad.GetPosition().m_X + collision.GetX(), quad.GetPosition().m_Y + collision.GetY(), 0.0f));
 
 		// Checking for collisions----------------------------------------------------------------------------------------------------------------
 
-		collisionA.CollisionWorld(quad, *g_Window);
+		collision.CollisionWorld(quad, *g_Window);
 
 	// Rendering----------------------------------------------------------------------------------------------------------------------------------
 
