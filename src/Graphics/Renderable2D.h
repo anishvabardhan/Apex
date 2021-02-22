@@ -87,7 +87,7 @@ namespace Apex {
 
 // Binding the Buffers and shaders-----------------------------------------------------------------------
 
-		void Bind()
+		void Bind() const
 		{
 			m_VBO->Bind();
 			m_VAO->Bind();
@@ -97,7 +97,7 @@ namespace Apex {
 
 // UnBinding the Buffers and shaders---------------------------------------------------------------------
 
-		void UnBind()
+		void UnBind() const
 		{
 			m_VBO->UnBind();
 			m_VAO->UnBind();
