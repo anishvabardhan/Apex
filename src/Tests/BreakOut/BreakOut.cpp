@@ -47,6 +47,8 @@ void BreakOut::Init()
 
 	float a = 2.0f;
 
+// Instantiating the Game Loop-------------------------------------------------------------------------------------------------------------------
+
 	while (!g_Window->Close())
 	{
 		// Calling glClear()----------------------------------------------------------------------------------------------------------------------
@@ -65,13 +67,12 @@ void BreakOut::Init()
 
 		// Rendering the quad---------------------------------------------------------------------------------------------------------------------
 
-		{
-			shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);			
-			shader.SetUniformMat4f("model", quad.GetModel());
+		
+		shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);			
+		shader.SetUniformMat4f("model", quad.GetModel());
 
-			renderer.Draw(quad);
-		}
-
+		renderer.Draw(quad);
+		
 		// Updating the Window every loop---------------------------------------------------------------------------------------------------------
 
 		g_Window->Update();

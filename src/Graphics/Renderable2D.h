@@ -41,8 +41,8 @@ namespace Apex {
 
 		~Renderable2D()
 		{
-			delete m_VAO;
 			delete m_IBO;
+			delete m_VAO;
 			delete m_VBO;
 		}
 
