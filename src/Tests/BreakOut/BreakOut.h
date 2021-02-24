@@ -11,6 +11,9 @@
 
 class BreakOut
 {
+
+// Member Variables-------------------------------------------------------------------------------------
+
 	int g_Width, g_Height;
 	std::string g_Title;
 	Apex::Window* g_Window;

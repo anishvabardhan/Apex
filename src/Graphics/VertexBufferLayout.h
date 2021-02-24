@@ -7,6 +7,9 @@ namespace Apex{
 
 	struct VertexBufferElement
 	{
+
+// Member Variables-------------------------------------------------------------------------------------
+
 		unsigned int type;
 		unsigned int count;
 		unsigned char normalized;
@@ -26,6 +29,9 @@ namespace Apex{
 
 	class VertexBufferLayout
 	{
+
+// Member Variables-------------------------------------------------------------------------------------
+
 		std::vector<VertexBufferElement> m_Elements;
 		unsigned int m_Stride;
 	public:

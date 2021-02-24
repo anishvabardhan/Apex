@@ -13,6 +13,7 @@ namespace Apex {
 	class Renderable2D
 	{
 	protected:
+
 // Member Variables-------------------------------------------------------------------------------------
 
 		Vec3 m_Position;
@@ -115,7 +116,7 @@ namespace Apex {
 		inline const Vec3& GetPosition() const { return m_Position; }
 		inline const Vec2& GetSize() const { return m_Size; }
 
-		inline const Mat4& GetModel() { m_Model = Mat4::translation(m_Position); return m_Model; }
+		inline const Mat4& GetModelPosition() { m_Model = Mat4::translation(m_Position); return m_Model; }
 
 // Creating Setter Methods-------------------------------------------------------------------------------
 

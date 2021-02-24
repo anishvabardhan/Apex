@@ -7,6 +7,8 @@ namespace Apex {
 
 	class VertexBuffer
 	{
+// Member Variables-------------------------------------------------------------------------------------
+
 		unsigned int m_RendererID;
 	public:
 		explicit VertexBuffer(const void* data, unsigned int size);

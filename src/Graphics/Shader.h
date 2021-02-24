@@ -20,6 +20,8 @@ namespace Apex {
 
 	class Shader
 	{
+// Member Variables-------------------------------------------------------------------------------------
+
 		std::string m_FilePath;
 		unsigned int m_RendererID;
 		std::unordered_map<std::string, int> m_UniformLocationCache;

@@ -35,7 +35,8 @@ void BreakOut::Init()
 
 //Setting Uniforms--------------------------------------------------------------------------------------------------------------------------------
 
-	shader.SetUniformMat4f("proj", Camera.GetProjMatrix());
+	shader.SetUniformMat4f("u_ViewProj", Camera.GetViewProjMatrix());
+	//shader.SetUniformMat4f("view", Camera.GetViewMatrix());
 
 // Creating a Collision object--------------------------------------------------------------------------------------------------------------------
 
@@ -44,8 +45,6 @@ void BreakOut::Init()
 // Creating a Renderer----------------------------------------------------------------------------------------------------------------------------
 
 	Apex::Renderer renderer;
-
-	float a = 2.0f;
 
 // Instantiating the Game Loop-------------------------------------------------------------------------------------------------------------------
 
@@ -69,7 +68,7 @@ void BreakOut::Init()
 
 		
 		shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);			
-		shader.SetUniformMat4f("model", quad.GetModel());
+		shader.SetUniformMat4f("u_Model", quad.GetModelPosition());
 
 		renderer.Draw(quad);
 		

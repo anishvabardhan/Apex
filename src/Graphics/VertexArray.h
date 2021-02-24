@@ -7,6 +7,8 @@ namespace Apex {
 
 	class VertexArray
 	{
+// Member Variables-------------------------------------------------------------------------------------
+
 		unsigned int m_RendererID;
 	public:
 		VertexArray();

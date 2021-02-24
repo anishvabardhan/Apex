@@ -10,6 +10,9 @@ namespace Apex {
 
 	class Window
 	{
+
+// Member Variables-------------------------------------------------------------------------------------
+
 		std::string m_Title;
 		int m_Width;
 		int m_Height;

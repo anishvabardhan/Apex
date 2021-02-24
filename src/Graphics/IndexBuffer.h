@@ -7,6 +7,8 @@ namespace Apex {
 
 	class IndexBuffer
 	{
+// Member Variables-------------------------------------------------------------------------------------
+
 		unsigned int m_RendererID;
 		unsigned int m_Count;
 	public:
