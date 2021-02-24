@@ -36,7 +36,6 @@ void BreakOut::Init()
 //Setting Uniforms--------------------------------------------------------------------------------------------------------------------------------
 
 	shader.SetUniformMat4f("u_ViewProj", Camera.GetViewProjMatrix());
-	//shader.SetUniformMat4f("view", Camera.GetViewMatrix());
 
 // Creating a Collision object--------------------------------------------------------------------------------------------------------------------
 
@@ -66,7 +65,6 @@ void BreakOut::Init()
 
 		// Rendering the quad---------------------------------------------------------------------------------------------------------------------
 
-		
 		shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);			
 		shader.SetUniformMat4f("u_Model", quad.GetModelPosition());
 
