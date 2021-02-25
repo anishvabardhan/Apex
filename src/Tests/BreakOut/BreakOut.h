@@ -17,9 +17,12 @@ class BreakOut
 	int g_Width, g_Height;
 	std::string g_Title;
 	Apex::Window* g_Window;
+	Apex::Shader g_Shader;
 public:
 	explicit BreakOut(int width, int height, std::string title);
 	~BreakOut();
 
 	void Init();
+
+	Apex::Shader& CreateShader(const std::string& filepath);
 };
