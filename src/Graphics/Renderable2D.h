@@ -15,6 +15,7 @@ namespace Apex {
 	protected:
 
 // Member Variables-------------------------------------------------------------------------------------
+		float m_Rotation;
 
 		Vec3 m_Position;
 		Vec2 m_Size;
@@ -114,13 +115,16 @@ namespace Apex {
 		inline Shader& GetShader() const { return m_Shader; }
 
 		inline const Vec3& GetPosition() const { return m_Position; }
+		inline const float& GetRotation() const { return m_Rotation; }
 		inline const Vec2& GetSize() const { return m_Size; }
 
-		inline const Mat4& GetModelPosition() { m_Model = Mat4::translation(m_Position); return m_Model; }
+		inline Mat4& GetModelPosition() { m_Model = Mat4::translation(m_Position); return m_Model; }
+		inline Mat4& GetModelRotation() { m_Model = Mat4::rotation(m_Rotation, Vec3(0, 0, 1)); return m_Model; }
 
 // Creating Setter Methods-------------------------------------------------------------------------------
 
 		inline void SetPosition(Vec3 position) { m_Position = position; }
+		inline void SetRotation(float rotation) { m_Rotation = rotation; }
 		inline void SetSize(Vec2 size) { m_Size = size; }
 	};
 
