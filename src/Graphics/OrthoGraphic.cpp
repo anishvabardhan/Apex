@@ -8,4 +8,11 @@ namespace Apex {
 		m_ViewProj = m_Proj * m_View;
 	}
 
+	void OrthoGraphic::RecalculateViewMatrix()
+	{
+		Mat4 Transform = Mat4::translation(m_Position) * Mat4::rotation(m_Rotation, Vec3(0, 0, 1));
+
+		//m_View = 
+	}
+
 }
