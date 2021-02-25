@@ -22,8 +22,6 @@ void BreakOut::Init()
 
 // Creating a Shader------------------------------------------------------------------------------------------------------------------------------
 
-	//Apex::Shader shader("res/Shaders/Basic.shader");
-	//shader.Bind();
 	CreateShader("res/Shaders/Basic.shader");
 
 // Creating Quads---------------------------------------------------------------------------------------------------------------------------------
@@ -81,12 +79,6 @@ void BreakOut::Init()
 	quad.UnBind();
 
 }
-
-//Apex::Renderable2D& BreakOut::CreateBlock(Apex::Vec3 position, Apex::Vec2 size, Apex::Shader shader)
-//{
-//    Apex::Renderable2D renderable(position, size, shader);
-//	return renderable;
-//}
 
 Apex::Shader& BreakOut::CreateShader(const std::string& filepath)
 {
