@@ -18,6 +18,7 @@ namespace Apex {
 		Mat4();
 
 		static Mat4 identity();
+		static Mat4 inverse();
 
 		Mat4& Multiply(const Mat4& other);
 

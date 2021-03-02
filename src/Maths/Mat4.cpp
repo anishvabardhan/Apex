@@ -22,6 +22,13 @@ namespace Apex {
 		return result;
 	}
 
+	Mat4 Mat4::inverse()
+	{
+		Mat4 result;
+
+		return Mat4();
+	}
+
 	Mat4& Mat4::Multiply(const Mat4& other)
 	{
 		for (int y = 0; y < 4; y++)

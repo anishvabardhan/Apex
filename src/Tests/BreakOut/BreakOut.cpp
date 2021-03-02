@@ -26,7 +26,7 @@ void BreakOut::Init()
 
 // Creating Quads---------------------------------------------------------------------------------------------------------------------------------
 
-	Apex::Renderable2D quad(Apex::Vec3(300, 200, 0), Apex::Vec2(20, 20), g_Shader);
+	Apex::Renderable2D quad(Apex::Vec3(170, 90, 0), Apex::Vec2(300, 300), g_Shader);
 
 // Creating a Camera------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,17 +54,16 @@ void BreakOut::Init()
 
 		// Updating the quad position through input-----------------------------------------------------------------------------------------------
 
-		quad.SetPosition(Apex::Vec3(quad.GetPosition().m_X + collision.GetX(), quad.GetPosition().m_Y + collision.GetY(), 0.0f));
+		//quad.SetPosition(Apex::Vec3(quad.GetPosition().m_X + collision.GetX(), quad.GetPosition().m_Y + collision.GetY(), 0.0f));
 
 		// Checking for collisions----------------------------------------------------------------------------------------------------------------
 
-		collision.CollisionWorld(quad, *g_Window);
+		//collision.CollisionWorld(quad, *g_Window);
 
 	// Rendering----------------------------------------------------------------------------------------------------------------------------------
 
 		// Rendering the quad---------------------------------------------------------------------------------------------------------------------
 
-		g_Shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);		
 		g_Shader.SetUniformMat4f("u_Model", quad.GetModelPosition());
 
 		renderer.Draw(quad);
@@ -77,7 +76,6 @@ void BreakOut::Init()
 // Unbinding the members of Renderables-----------------------------------------------------------------------------------------------------------
 
 	quad.UnBind();
-
 }
 
 // Defining a Function to Create a shader---------------------------------------------------------------------------------------------------------

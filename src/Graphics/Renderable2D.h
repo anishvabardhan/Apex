@@ -18,6 +18,7 @@ namespace Apex {
 		float m_Rotation;
 
 		Vec3 m_Position;
+		Vec4 m_Color;
 		Vec2 m_Size;
 
 		Mat4 m_Model;
@@ -54,15 +55,16 @@ namespace Apex {
 		void CreateVBO()
 		{
 			float vertices[] = {
-				0, 0, 0,
-				0, m_Size.m_Y, 0,
-				m_Size.m_X, m_Size.m_Y, 0,
-				m_Size.m_X, 0, 0
+				0,          0,          0,     0.0f, 1.0f, 0.0f, 1.0f,
+				0,          m_Size.m_Y, 0,     0.0f, 0.0f, 1.0f, 1.0f,
+				m_Size.m_X, m_Size.m_Y, 0,     1.0f, 0.0f, 0.0f, 1.0f,
+				m_Size.m_X, 0,          0,     1.0f, 1.0f, 0.0f, 1.0f
 			};
 
-			m_VBO = new VertexBuffer(vertices, 4 * 3 * sizeof(float));
+			m_VBO = new VertexBuffer(vertices, sizeof(vertices));
 
 			layout.Push<float>(3);
+			layout.Push<float>(4);
 		}
 
 // Creating Index Buffers--------------------------------------------------------------------------------
