@@ -63,8 +63,8 @@ namespace Apex {
 
 			m_VBO = new VertexBuffer(vertices, sizeof(vertices));
 
-			layout.Push<float>(3);
-			layout.Push<float>(4);
+			layout.Push<float>(3); // Vertex Positions
+			layout.Push<float>(4); // Vertex Colors
 		}
 
 // Creating Index Buffers--------------------------------------------------------------------------------
