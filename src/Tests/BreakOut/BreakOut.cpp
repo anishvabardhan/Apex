@@ -54,11 +54,11 @@ void BreakOut::Init()
 
 		// Updating the quad position through input-----------------------------------------------------------------------------------------------
 
-		//quad.SetPosition(Apex::Vec3(quad.GetPosition().m_X + collision.GetX(), quad.GetPosition().m_Y + collision.GetY(), 0.0f));
+		quad.SetPosition(Apex::Vec3(quad.GetPosition().m_X + collision.GetX(), quad.GetPosition().m_Y + collision.GetY(), 0.0f));
 
 		// Checking for collisions----------------------------------------------------------------------------------------------------------------
 
-		//collision.CollisionWorld(quad, *g_Window);
+		collision.CollisionWorld(quad, *g_Window);
 
 	// Rendering----------------------------------------------------------------------------------------------------------------------------------
 
