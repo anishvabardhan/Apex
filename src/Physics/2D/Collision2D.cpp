@@ -35,13 +35,13 @@ namespace Apex {
 
 	bool Collision2D::CollisionWorld(Astroid& GameObj, const Window& window)
 	{
-		if (GameObj.GetPosition().m_X + 20 >= window.GetWidth() || GameObj.GetPosition().m_X <= 0)
+		if (GameObj.GetPosition().m_X + 50 >= window.GetWidth() || GameObj.GetPosition().m_X <= 0)
 		{
 			increamentX = -increamentX;
 			return true;
 		}
 
-		if (GameObj.GetPosition().m_Y + 20 >= window.GetHeight() || GameObj.GetPosition().m_Y <= 0)
+		if (GameObj.GetPosition().m_Y + 50 >= window.GetHeight() || GameObj.GetPosition().m_Y <= 0)
 		{
 			increamentY = -increamentY;
 			return true;

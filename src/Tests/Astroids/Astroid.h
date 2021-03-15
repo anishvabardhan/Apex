@@ -41,9 +41,9 @@ public:
 	{
 		float vertices[] = {
 			0.0f,  0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
-			0.0f,  20.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
-			20.0f, 20.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
-			20.0f, 0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f
+			0.0f,  50.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
+			50.0f, 50.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
+			50.0f, 0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f
 		};
 
 		g_VBO = new Apex::VertexBuffer(vertices, sizeof(vertices));
@@ -86,11 +86,10 @@ public:
 	inline Apex::Mat4& GetAstroidPosition() { g_Model = Apex::Mat4::translation(g_Position); return g_Model; }
 
 	inline Apex::Vec3 GetPosition() const { return g_Position; }
+	inline void SetPosition(Apex::Vec3 position) { g_Position = position; }
 
 	inline Apex::VertexBuffer* GetVBO() const { return g_VBO; }
 	inline Apex::IndexBuffer* GetIBO() const { return g_IBO; }
 	inline Apex::VertexArray* GetVAO() const { return g_VAO; }
 	inline Apex::Shader& GetShader() const { return g_Shader; }
-
-	inline void SetAstroidPosition(Apex::Vec3 position) { g_Position = position; }
 };

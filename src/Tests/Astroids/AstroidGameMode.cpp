@@ -22,7 +22,7 @@ void AstroidGameMode::CreateGame()
 
 	g_Shader.SetUniformMat4f("u_ViewProj", Camera.GetViewProjMatrix());
 
-	Apex::Collision2D c_CollisionA, c_CollisionB;
+	Apex::Collision2D c_CollisionA;
 
 	Apex::Renderer r_Renderer;
 
@@ -30,8 +30,14 @@ void AstroidGameMode::CreateGame()
 	{
 		g_Window->Clear();
 
-		g_Shader.SetUniformMat4f("u_Model", as1.GetAstroidPosition());
-		r_Renderer.Draw(as1);
+		as1.SetPosition(Apex::Vec3(as1.GetPosition().m_X + c_CollisionA.GetX(), as1.GetPosition().m_Y + c_CollisionA.GetY(), 0.0f));
+		
+		c_CollisionA.CollisionWorld(as1, *g_Window);
+
+		{
+			g_Shader.SetUniformMat4f("u_Model", as1.GetAstroidPosition());
+			r_Renderer.Draw(as1);
+		}
 
 		g_Window->Update();
 	}
