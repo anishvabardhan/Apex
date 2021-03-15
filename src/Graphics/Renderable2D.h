@@ -55,10 +55,10 @@ namespace Apex {
 		void CreateVBO()
 		{
 			float vertices[] = {
-				0,          0,          0,     0.0f, 1.0f, 0.0f, 1.0f,
-				0,          m_Size.m_Y, 0,     0.0f, 0.0f, 1.0f, 1.0f,
-				m_Size.m_X, m_Size.m_Y, 0,     1.0f, 0.0f, 0.0f, 1.0f,
-				m_Size.m_X, 0,          0,     1.0f, 1.0f, 0.0f, 1.0f
+				0,          0,          0,       1.0f, 1.0f, 1.0f, 1.0f, //0
+				0,          m_Size.m_Y, 0,       1.0f, 1.0f, 1.0f, 1.0f, //1
+				m_Size.m_X, m_Size.m_Y, 0,       1.0f, 1.0f, 1.0f, 1.0f, //2
+				m_Size.m_X,          0, 0,       1.0f, 1.0f, 1.0f, 1.0f, //3
 			};
 
 			m_VBO = new VertexBuffer(vertices, sizeof(vertices));

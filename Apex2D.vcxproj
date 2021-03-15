@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Astroid.cpp" />
     <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="src\Tests\BreakOut\BreakOut.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astroid.h" />
     <ClInclude Include="src\Graphics\OrthoGraphic.h" />
     <ClInclude Include="src\Maths\Mat4.h" />
     <ClInclude Include="src\Maths\Maths.h" />
@@ -468,6 +470,7 @@
     <ClInclude Include="src\Graphics\VertexArray.h" />
     <ClInclude Include="src\Maths\Vec2.h" />
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
+    <ClInclude Include="src\Tests\Astroids\Astroid.h" />
     <ClInclude Include="src\Tests\BreakOut\BreakOut.h" />
   </ItemGroup>
   <ItemGroup>

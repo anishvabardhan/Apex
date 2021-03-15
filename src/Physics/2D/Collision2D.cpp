@@ -7,14 +7,16 @@ namespace Apex {
 		// collision x-axis?
 		bool collisionX = GameObj1.GetPosition().m_X + GameObj1.GetSize().m_X >= GameObj2.GetPosition().m_X &&
 			GameObj2.GetPosition().m_X + GameObj2.GetSize().m_X >= GameObj1.GetPosition().m_X;
+
 		// collision y-axis?
 		bool collisionY = GameObj1.GetPosition().m_Y + GameObj1.GetSize().m_Y >= GameObj2.GetPosition().m_Y &&
 			GameObj2.GetPosition().m_Y + GameObj2.GetSize().m_Y >= GameObj1.GetPosition().m_Y;
+
 		// collision only if on both axes
 		return collisionX && collisionY;
 	}
 
-	bool Collision2D::CollisionWorld(const Renderable2D& GameObj, const Window& window)
+	bool Collision2D::CollisionWorld(Renderable2D& GameObj, const Window& window)
 	{
 		if (GameObj.GetPosition().m_X + GameObj.GetSize().m_X >= window.GetWidth() || GameObj.GetPosition().m_X <= 0)
 		{
