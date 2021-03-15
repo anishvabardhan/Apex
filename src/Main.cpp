@@ -1,12 +1,9 @@
 #include "Tests/BreakOut/BreakOut.h"
+#include "Tests/Astroids/AstroidGameMode.h"
 
 int main()
 {
-// Creating Breakout Test----------------------------------------------------------------------------------------
-	
-	{
-		BreakOut breakout(640, 480, "BreakOut");
-	}
+	AstroidGameMode Game(640, 480, "Astroids");
 
 	return 0;
 }

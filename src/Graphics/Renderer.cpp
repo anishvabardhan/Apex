@@ -20,4 +20,14 @@ namespace Apex {
 		glDrawElements(GL_LINE_STRIP, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
+	void Renderer::Draw(const Astroid& renderable) const
+	{
+		renderable.GetVAO()->Bind();
+		renderable.GetIBO()->Bind();
+		renderable.GetShader().Bind();
+
+		glDrawElements(GL_LINE_STRIP, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+	}
+
 }

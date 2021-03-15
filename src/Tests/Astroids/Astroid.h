@@ -6,23 +6,31 @@
 #include "Graphics/VertexBufferLayout.h"
 #include "Graphics/Shader.h"
 
+#include "Maths/Mat4.h"
+
 class Astroid
 {
 	Apex::Vec3 g_Position;
+	Apex::Mat4 g_Model;
 
 	Apex::VertexBuffer* g_VBO;
 	Apex::IndexBuffer* g_IBO;
 	Apex::VertexArray* g_VAO;
-	Apex::VertexBufferLayout* g_Layout;
-	Apex::Shader g_Shader;
+	Apex::VertexBufferLayout g_Layout;
+	Apex::Shader& g_Shader;
 public:
-	Astroid(Apex::Vec3 position)
-		:g_Position(position)
+	Astroid(Apex::Vec3 position, Apex::Shader& shader)
+		:g_Position(position), g_Shader(shader)
 	{
 		Init();
 	};
 
-	~Astroid() {}
+	~Astroid() 
+	{
+		delete g_IBO;
+		delete g_VAO;
+		delete g_VBO;
+	}
 	
 	void Init() 
 	{
@@ -40,8 +48,8 @@ public:
 
 		g_VBO = new Apex::VertexBuffer(vertices, sizeof(vertices));
 
-		g_Layout->Push<float>(3);
-		g_Layout->Push<float>(4);
+		g_Layout.Push<float>(3);
+		g_Layout.Push<float>(4);
 
 		unsigned int indices[] = {
 			0, 1, 2,
@@ -52,26 +60,34 @@ public:
 
 		g_VAO = new Apex::VertexArray();
 
-		g_VAO->AddBuffer(*g_VBO, *g_Layout);
+		g_VAO->AddBuffer(*g_VBO, g_Layout);
 
 		g_VBO->Bind();
 		g_IBO->Bind();
 		g_VAO->Bind();
+		g_Shader.Bind();
 	}
 
-	void Bind()
+	void Bind() const
 	{
 		g_VBO->Bind();
 		g_IBO->Bind();
 		g_VAO->Bind();
+		g_Shader.Bind();
 	}
-	void UnBind()
+	void UnBind() const
 	{
 		g_VBO->UnBind();
 		g_IBO->UnBind();
 		g_VAO->UnBind();
+		g_Shader.UnBind();
 	}
 
-	Apex::Vec3 GetAstroidPosition() const { return g_Position; }
-	void SetAstroidPosition(Apex::Vec3 position) { g_Position = position; }
+	inline Apex::Mat4& GetAstroidPosition() { g_Model = Apex::Mat4::translation(g_Position); return g_Model; }
+	inline Apex::VertexBuffer* GetVBO() const { return g_VBO; }
+	inline Apex::IndexBuffer* GetIBO() const { return g_IBO; }
+	inline Apex::VertexArray* GetVAO() const { return g_VAO; }
+	inline Apex::Shader& GetShader() const { return g_Shader; }
+
+	inline void SetAstroidPosition(Apex::Vec3 position) { g_Position = position; }
 };
