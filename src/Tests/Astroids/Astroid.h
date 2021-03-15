@@ -84,6 +84,9 @@ public:
 	}
 
 	inline Apex::Mat4& GetAstroidPosition() { g_Model = Apex::Mat4::translation(g_Position); return g_Model; }
+
+	inline Apex::Vec3 GetPosition() const { return g_Position; }
+
 	inline Apex::VertexBuffer* GetVBO() const { return g_VBO; }
 	inline Apex::IndexBuffer* GetIBO() const { return g_IBO; }
 	inline Apex::VertexArray* GetVAO() const { return g_VAO; }
