@@ -30,4 +30,13 @@ namespace Apex {
 
 	}
 
+	void Renderer::Draw(const Player& renderable) const
+	{
+		renderable.GetVAO()->Bind();
+		renderable.GetIBO()->Bind();
+		renderable.GetShader().Bind();
+
+		glDrawElements(GL_TRIANGLES, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
 }

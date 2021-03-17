@@ -9,6 +9,7 @@
 #include "Maths/Maths.h"
 
 #include "Astroid.h"
+#include "Player.h"
 
 class AstroidGameMode
 {

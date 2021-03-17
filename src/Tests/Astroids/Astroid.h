@@ -40,10 +40,10 @@ public:
 	void CreateBuffer()
 	{
 		float vertices[] = {
-			0.0f,  0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
-			0.0f,  50.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
-			50.0f, 50.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,
-			50.0f, 0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f
+			0.0f,  0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f,   //0
+			0.0f,  50.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,	 //1
+			50.0f, 50.0f, 0.0f,        0.5f, 0.5f, 0.5f, 1.0f,	 //2
+			50.0f, 0.0f,  0.0f,        0.5f, 0.5f, 0.5f, 1.0f	 //3
 		};
 
 		g_VBO = new Apex::VertexBuffer(vertices, sizeof(vertices));
