@@ -11,6 +11,8 @@
 #include "Astroid.h"
 #include "Player.h"
 
+#define MAX_ASTROIDS 4
+
 class AstroidGameMode
 {
 	int g_Width, g_Height;

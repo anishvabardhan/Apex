@@ -28,6 +28,8 @@ namespace Apex {
 		const Mat4& GetViewMatrix() const { return m_View; }
 		const Mat4& GetViewProjMatrix() const { return m_ViewProj; }
 
+		void SetViewMatrix(Mat4 matrix) { m_View = matrix; }
+
 		const Vec3 GetPosition() const { return m_Position; }
 		void SetPosition(const Vec3& position) { m_Position = position; RecalculateViewMatrix(); }
 
