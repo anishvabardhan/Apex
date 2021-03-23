@@ -15,6 +15,8 @@ Player::~Player()
 
 void Player::Init()
 {
+	g_Model = Apex::Mat4::translation(g_Position) * Apex::Mat4::rotation(g_RotateAngle, Apex::Vec3(0, 0, 1));
+
 	CreateBuffer();
 }
 

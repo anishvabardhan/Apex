@@ -27,23 +27,27 @@ void AstroidGameMode::CreateGame()
 
 	Apex::Renderer r_Renderer;
 
+	float angle = 1.0f;
+
 	while (!g_Window->Close())
 	{
 		g_Window->Clear();
 
-		as1.SetPosition(Apex::Vec3(as1.GetPosition().m_X + c_CollisionA.GetX(), as1.GetPosition().m_Y + c_CollisionA.GetY(), 0.0f));
+		//as1.SetPosition(Apex::Vec3(as1.GetPosition().m_X + c_CollisionA.GetX(), as1.GetPosition().m_Y + c_CollisionA.GetY(), 0.0f));
+		player0.UpdatePlayerTransform(angle);
+		angle += 1.0f;
 
 		c_CollisionA.CollisionWorld(as1, *g_Window);
 
 		{
-			g_Shader.SetUniformMat4f("u_Model", player0.GetPlayerPosition());
+			g_Shader.SetUniformMat4f("u_Model", player0.GetPlayerTransform());
 			r_Renderer.Draw(player0);
 		}
-		
+		/*
 		{
 			g_Shader.SetUniformMat4f("u_Model", as1.GetAstroidPosition());
 			r_Renderer.Draw(as1);
-		}
+		}*/
 
 		g_Window->Update();
 	}

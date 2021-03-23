@@ -13,6 +13,7 @@ class Player
 	Apex::Vec3 g_Position;
 	Apex::Mat4 g_Model;
 
+	float g_RotateAngle = 0.0f;
 	Apex::VertexArray* g_VAO;
 	Apex::VertexBuffer* g_VBO;
 	Apex::IndexBuffer* g_IBO;
@@ -28,10 +29,15 @@ public:
 	void Bind() const;
 	void UnBind() const;
 
-	inline Apex::Mat4 GetPlayerPosition() { g_Model = Apex::Mat4::translation(g_Position); return g_Model; }
+	inline Apex::Mat4 GetPlayerTransform() { return g_Model; }
+
+	inline void UpdatePlayerTransform(float angle) { g_Model = Apex::Mat4::translation(g_Position) * Apex::Mat4::rotation(angle, Apex::Vec3(0, 0, 1)); }
 
 	inline Apex::Vec3 GetPosition() const { return g_Position; }
 	inline void SetPosition(Apex::Vec3 position) { g_Position = position; }
+
+	inline float GetRotationAngle() const { return g_RotateAngle; }
+	inline void SetRotationAngle(float angle) { g_RotateAngle = angle; }
 
 	inline Apex::VertexArray* GetVAO() const { return g_VAO; }
 	inline Apex::VertexBuffer* GetVBO() const { return g_VBO; }
