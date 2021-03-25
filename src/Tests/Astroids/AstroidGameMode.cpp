@@ -34,7 +34,7 @@ void AstroidGameMode::CreateGame()
 		g_Window->Clear();
 
 		//as1.SetPosition(Apex::Vec3(as1.GetPosition().m_X + c_CollisionA.GetX(), as1.GetPosition().m_Y + c_CollisionA.GetY(), 0.0f));
-		player0.UpdatePlayerTransform(angle);
+		player0.SetRotationAngle(angle);
 		angle += 1.0f;
 
 		c_CollisionA.CollisionWorld(as1, *g_Window);

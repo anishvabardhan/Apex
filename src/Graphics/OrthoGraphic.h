@@ -34,7 +34,7 @@ namespace Apex {
 		void SetPosition(const Vec3& position) { m_Position = position; RecalculateViewMatrix(); }
 
 		const float GetRotation() const { return m_Rotation; }
-		void SetRotation(const float& rotation) { m_Rotation = rotation; RecalculateViewMatrix(); }
+		void SetRotation(float rotation) { m_Rotation = rotation; RecalculateViewMatrix(); }
 	private:
 		void RecalculateViewMatrix();
 	};

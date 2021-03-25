@@ -23,10 +23,10 @@ void Player::Init()
 void Player::CreateBuffer()
 {
 	float vertices[] = {
-		  0, -10, 0,     1.0f, 1.0f, 1.0f, 1.0f,  //0
-		-20, -20, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //1
-		  0,  20, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //2
-		 20, -20, 0,	 1.0f, 1.0f, 1.0f, 1.0f	  //3
+		  0,  -5, 0,     1.0f, 1.0f, 1.0f, 1.0f,  //1
+		-10, -10, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //2
+		  0,  10, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //3
+		 10, -10, 0,	 1.0f, 1.0f, 1.0f, 1.0f	  //4
 	};
 
 	g_VBO = new Apex::VertexBuffer(vertices, sizeof(vertices));
