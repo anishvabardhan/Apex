@@ -3,7 +3,7 @@
 
 int main()
 {
-	AstroidGameMode Game(640, 480, "Astroids");
+	AstroidGameMode Game(960, 640, "Astroids");
 
 	return 0;
 }

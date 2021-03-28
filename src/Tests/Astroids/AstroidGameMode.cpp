@@ -17,7 +17,7 @@ void AstroidGameMode::CreateGame()
 	CreateShader("res/Shaders/Basic.shader");
 
 	Astroid as1(Apex::Vec3(300, 200, 0), g_Shader);
-	Player player0(Apex::Vec3(300, 200, 0), g_Shader);
+	Player player(Apex::Vec3(300, 200, 0), g_Shader);
 
 	Apex::OrthoGraphic Camera(0.0f, (float)g_Window->GetWidth(), 0.0f, (float)g_Window->GetHeight());
 
@@ -33,27 +33,21 @@ void AstroidGameMode::CreateGame()
 	{
 		g_Window->Clear();
 
-		//as1.SetPosition(Apex::Vec3(as1.GetPosition().m_X + c_CollisionA.GetX(), as1.GetPosition().m_Y + c_CollisionA.GetY(), 0.0f));
-		player0.SetRotationAngle(angle);
+		player.SetRotationAngle(angle);
 		angle += 1.0f;
 
-		c_CollisionA.CollisionWorld(as1, *g_Window);
+		//c_CollisionA.CollisionWorld(as1, *g_AppWindow);
 
 		{
-			g_Shader.SetUniformMat4f("u_Model", player0.GetPlayerTransform());
-			r_Renderer.Draw(player0);
+			g_Shader.SetUniformMat4f("u_Model", player.GetPlayerTransform());
+			r_Renderer.Draw(player);
 		}
-		/*
-		{
-			g_Shader.SetUniformMat4f("u_Model", as1.GetAstroidPosition());
-			r_Renderer.Draw(as1);
-		}*/
 
 		g_Window->Update();
 	}
 
 	as1.UnBind();
-	player0.UnBind();
+	player.UnBind();
 }
 
 Apex::Shader& AstroidGameMode::CreateShader(const std::string& filepath)

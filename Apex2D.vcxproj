@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Astroid.cpp" />
     <ClCompile Include="src\Tests\Astroids\Player.cpp" />
     <ClCompile Include="src\Tests\Astroids\AstroidGameMode.cpp" />
     <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="src\Tests\BreakOut\BreakOut.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Astroid.h" />
     <ClInclude Include="src\Tests\Astroids\Player.h" />
     <ClInclude Include="src\Tests\Astroids\AstroidGameMode.h" />
     <ClInclude Include="src\Graphics\OrthoGraphic.h" />

@@ -3,6 +3,7 @@
 #include "Graphics/Window.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/OrthoGraphic.h"
+#include "Graphics/Renderable2D.h"
 
 #include "Physics/2D/Collision2D.h"
 
