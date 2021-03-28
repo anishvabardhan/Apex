@@ -15,7 +15,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	g_Model = Apex::Mat4::translation(g_Position) * Apex::Mat4::rotation(g_RotateAngle, Apex::Vec3(0, 0, 1));
+	g_Model = Apex::Mat4::translation(g_Position);
 
 	CreateBuffer();
 }
@@ -23,10 +23,10 @@ void Player::Init()
 void Player::CreateBuffer()
 {
 	float vertices[] = {
-		  0,  0, 0,     1.0f, 1.0f, 1.0f, 1.0f,  //1
-		  0, 50, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //2
-		  50,50, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //3
-		  50, 0, 0,	 1.0f, 1.0f, 1.0f, 1.0f	  //4
+		  0,  -5, 0,     1.0f, 1.0f, 1.0f, 1.0f,  //1
+		 -10,-10, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //2
+		  0,  10, 0, 	 1.0f, 1.0f, 1.0f, 1.0f,  //3
+		  10,-10, 0,	 1.0f, 1.0f, 1.0f, 1.0f	  //4
 	};
 
 	g_VBO = new Apex::VertexBuffer(vertices, sizeof(vertices));

@@ -30,7 +30,7 @@ public:
 	void Bind() const;
 	void UnBind() const;
 
-	inline Apex::Mat4 GetPlayerTransform() { g_Model = Apex::Mat4::translation(g_Position) * Apex::Mat4::rotation(g_RotateAngle, Apex::Vec3(0, 0, 1)); return g_Model; }
+	inline Apex::Mat4 GetPlayerTransform() { g_Model = Apex::Mat4::translation(g_Position); return g_Model; }
 
 	inline Apex::Vec3 GetPosition() const { return g_Position; }
 	inline void SetPosition(Apex::Vec3 position) { g_Position = position; }
