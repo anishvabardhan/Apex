@@ -5,6 +5,7 @@ namespace Apex {
 	Window* window = nullptr;
 
 	Window::Window()
+		:m_IsRun(false), m_Hwnd(NULL)
 	{
 	}
 
@@ -58,7 +59,7 @@ namespace Apex {
 		if (!window)
 			window = this;
 
-		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, NULL);
+		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, NULL);
 
 		if (!m_Hwnd)
 			return false;
@@ -99,6 +100,14 @@ namespace Apex {
 	bool Window::IsRun()
 	{
 		return m_IsRun;
+	}
+
+	void Window::OnCreate()
+	{
+	}
+
+	void Window::OnUpdate()
+	{
 	}
 
 	void Window::OnDestroy()

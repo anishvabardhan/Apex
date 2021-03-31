@@ -1,9 +1,9 @@
-#include "Window/AppWindow.h"
+#include "Window/Window.h"
 
 int main()
 {
-	//AstroidGameMode Game(960, 640, "Astroids");
-	Apex::AppWindow app;
+	Apex::Window app;
+
 	if (app.Init())
 	{
 		while (app.IsRun())
