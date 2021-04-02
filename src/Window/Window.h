@@ -16,7 +16,7 @@ namespace Apex {
 		bool Release();
 		bool IsRun();
 
-		virtual void OnCreate();
+		virtual void OnCreate(HWND hwnd);
 		virtual void OnUpdate();
 		virtual void OnDestroy();
 	protected:
