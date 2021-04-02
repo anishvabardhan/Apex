@@ -59,7 +59,7 @@ namespace Apex {
 		if (!window)
 			window = this;
 
-		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, NULL);
+		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 1024, 768, NULL, NULL, NULL, NULL);
 
 		if (!m_Hwnd)
 			return false;
@@ -104,6 +104,7 @@ namespace Apex {
 
 	void Window::OnCreate()
 	{
+		
 	}
 
 	void Window::OnUpdate()
