@@ -5,7 +5,7 @@ namespace Apex {
 	Window* window = nullptr;
 
 	Window::Window()
-		:m_IsRun(false), m_Hwnd(NULL)
+		:m_IsRun(false), m_Hwnd(NULL), m_OurWindowHandleToDeviceContext(NULL), m_OurWindowHandleToRenderContext(NULL)
 	{
 	}
 
@@ -25,8 +25,7 @@ namespace Apex {
 
 		case WM_DESTROY:
 		{
-			window->OnDestroy();
-			::PostQuitMessage(0);
+			window->OnDestroy(window->GetRenderContext());
 			break;
 		}
 
@@ -59,17 +58,14 @@ namespace Apex {
 		if (!window)
 			window = this;
 
-		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 1024, 768, NULL, NULL, NULL, NULL);
+		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 960, 640, NULL, NULL, NULL, NULL);
 
 		if (!m_Hwnd)
 			return false;
 
 		::ShowWindow(m_Hwnd, SW_SHOW);
-		::UpdateWindow(m_Hwnd);
 
 		m_IsRun = true;
-
-		
 
 		return true;
 	}
@@ -104,47 +100,58 @@ namespace Apex {
 		return m_IsRun;
 	}
 
+	BOOL Window::MakeContextCurrent(HDC hdc, HGLRC hglrc)
+	{
+		return wglMakeCurrent(hdc, hglrc);
+	}
+
+	HGLRC Window::CreateRenderContext(HDC hdc)
+	{
+		PIXELFORMATDESCRIPTOR pfd;
+		memset(&pfd, 0, sizeof(pfd));
+		pfd.nSize = sizeof(pfd);
+		pfd.nVersion = 1;
+		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		pfd.iPixelType = PFD_TYPE_RGBA;
+		pfd.cColorBits = 32;
+		pfd.cDepthBits = 0;
+		pfd.cStencilBits = 0;
+		pfd.iLayerType = PFD_MAIN_PLANE;
+
+		int pixel_format = ::ChoosePixelFormat(hdc, &pfd);
+		if (pixel_format == NULL)
+			return NULL;
+
+		if (!::SetPixelFormat(hdc, pixel_format, &pfd))
+			return NULL;
+
+		HGLRC context = wglCreateContext(hdc);
+		if (context == NULL)
+			return NULL;
+
+		return context;
+	}
+
 	void Window::OnCreate(HWND hwnd)
 	{
-		PIXELFORMATDESCRIPTOR pfd =
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),
-			1,
-			PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    //Flags
-			PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
-			32,                   // Colordepth of the framebuffer.
-			0, 0, 0, 0, 0, 0,
-			0,
-			0,
-			0,
-			0, 0, 0, 0,
-			24,                   // Number of bits for the depthbuffer
-			8,                    // Number of bits for the stencilbuffer
-			0,                    // Number of Aux buffers in the framebuffer.
-			PFD_MAIN_PLANE,
-			0,
-			0, 0, 0
-		};
+		m_OurWindowHandleToDeviceContext = GetDC(hwnd);
 
-		HDC ourWindowHandleToDeviceContext = GetDC(hwnd);
-
-		int  letWindowsChooseThisPixelFormat;
-		letWindowsChooseThisPixelFormat = ChoosePixelFormat(ourWindowHandleToDeviceContext, &pfd);
-		SetPixelFormat(ourWindowHandleToDeviceContext, letWindowsChooseThisPixelFormat, &pfd);
-
-		HGLRC ourOpenGLRenderingContext = wglCreateContext(ourWindowHandleToDeviceContext);
-		wglMakeCurrent(ourWindowHandleToDeviceContext, ourOpenGLRenderingContext);
-
-		MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
+		m_OurWindowHandleToRenderContext = CreateRenderContext(m_OurWindowHandleToDeviceContext);
+		
+		MakeContextCurrent(m_OurWindowHandleToDeviceContext, m_OurWindowHandleToRenderContext);
+		//MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 	}
 
 	void Window::OnUpdate()
 	{
+		::UpdateWindow(m_Hwnd);
 	}
 
-	void Window::OnDestroy()
+	void Window::OnDestroy(HGLRC rendercontext)
 	{
 		m_IsRun = false;
+		wglDeleteContext(m_OurWindowHandleToRenderContext);
+		::PostQuitMessage(0);
 	}
 
 }
