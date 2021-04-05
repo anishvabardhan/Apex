@@ -1,7 +1,11 @@
 #pragma once
 
 #include <Windows.h>
-#include <GL/GL.h>
+
+#include <GL/glew.h>
+#include <GL/wglew.h>
+
+#include <iostream>
 
 namespace Apex {
 
@@ -17,8 +21,7 @@ namespace Apex {
 		bool IsRun();
 		
 		BOOL MakeContextCurrent(HDC hdc, HGLRC hglrc);
-
-		HGLRC CreateRenderContext(HDC hdc);
+		HGLRC CreateOldRenderContext(HDC hdc);
 
 		virtual void OnCreate(HWND hwnd);
 		virtual void OnUpdate();

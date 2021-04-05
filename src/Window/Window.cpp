@@ -104,8 +104,8 @@ namespace Apex {
 	{
 		return wglMakeCurrent(hdc, hglrc);
 	}
-
-	HGLRC Window::CreateRenderContext(HDC hdc)
+	
+	HGLRC Window::CreateOldRenderContext(HDC hdc)
 	{
 		PIXELFORMATDESCRIPTOR pfd;
 		memset(&pfd, 0, sizeof(pfd));
@@ -117,28 +117,30 @@ namespace Apex {
 		pfd.cDepthBits = 0;
 		pfd.cStencilBits = 0;
 		pfd.iLayerType = PFD_MAIN_PLANE;
-
+	
 		int pixel_format = ::ChoosePixelFormat(hdc, &pfd);
 		if (pixel_format == NULL)
 			return NULL;
-
+	
 		if (!::SetPixelFormat(hdc, pixel_format, &pfd))
 			return NULL;
-
+	
 		HGLRC context = wglCreateContext(hdc);
 		if (context == NULL)
 			return NULL;
-
+	
 		return context;
 	}
+
 
 	void Window::OnCreate(HWND hwnd)
 	{
 		m_OurWindowHandleToDeviceContext = GetDC(hwnd);
-
-		m_OurWindowHandleToRenderContext = CreateRenderContext(m_OurWindowHandleToDeviceContext);
+		
+		m_OurWindowHandleToRenderContext = CreateOldRenderContext(m_OurWindowHandleToDeviceContext);
 		
 		MakeContextCurrent(m_OurWindowHandleToDeviceContext, m_OurWindowHandleToRenderContext);
+
 		//MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 	}
 
@@ -150,7 +152,10 @@ namespace Apex {
 	void Window::OnDestroy(HGLRC rendercontext)
 	{
 		m_IsRun = false;
+		wglMakeCurrent(NULL, NULL);
 		wglDeleteContext(m_OurWindowHandleToRenderContext);
+		if (!ReleaseDC(m_Hwnd, m_OurWindowHandleToDeviceContext))
+			MessageBox(m_Hwnd, L"Cannot Release !!", L"ERROR!!", MB_OK);
 		::PostQuitMessage(0);
 	}
 
