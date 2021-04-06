@@ -141,7 +141,7 @@ namespace Apex {
 		
 		MakeContextCurrent(m_OurWindowHandleToDeviceContext, m_OurWindowHandleToRenderContext);
 
-		//MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
+		MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 	}
 
 	void Window::OnUpdate()

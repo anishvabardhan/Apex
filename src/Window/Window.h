@@ -2,8 +2,7 @@
 
 #include <Windows.h>
 
-#include <GL/glew.h>
-#include <GL/wglew.h>
+#include <GL/GL.h>
 
 #include <iostream>
 
