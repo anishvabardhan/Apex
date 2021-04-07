@@ -148,8 +148,6 @@ namespace Apex {
 		glEnable(GL_BLEND);
 		glEnable(GL_LINE_SMOOTH);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		//MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 	}
 
 	void Window::OnUpdate()

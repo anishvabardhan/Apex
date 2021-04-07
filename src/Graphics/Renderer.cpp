@@ -31,11 +31,20 @@ namespace Apex {
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		glTranslatef(0.0f, 0.0f, -5.0f);
-		glBegin(GL_TRIANGLES);
+		glTranslatef(-1.0f, 0.0f, -5.0f);
+		glBegin(GL_LINE_STRIP);
 		glVertex3f( 0.0f,  1.0f, 0.0f);
 		glVertex3f( 1.0f, -1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glVertex3f( 0.0f,  1.0f, 0.0f);
+		glEnd();
+
+		glTranslatef(3.0f, 0.0f, -5.0f);
+		glBegin(GL_QUADS);
+		glVertex3f( 2.0f,  2.0f, 0.0f);
+		glVertex3f( 2.0f, -2.0f, 0.0f);
+		glVertex3f(-2.0f, -2.0f, 0.0f);
+		glVertex3f(-2.0f,  2.0f, 0.0f);
 		glEnd();
 	}
 
