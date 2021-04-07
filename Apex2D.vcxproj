@@ -156,17 +156,14 @@
     <ClCompile Include="src\Maths\Vec3.cpp" />
     <ClCompile Include="src\Maths\Vec4.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
-    <ClCompile Include="src\Graphics\Shader.cpp" />
-    <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\OrthoGraphic.h" />
+    <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Maths\Mat4.h" />
     <ClInclude Include="src\Maths\Maths.h" />
     <ClInclude Include="src\Maths\Maths_Func.h" />
@@ -457,13 +454,7 @@
     <ClInclude Include="src\glm\vec3.hpp" />
     <ClInclude Include="src\glm\vec4.hpp" />
     <ClInclude Include="src\glm\vector_relational.hpp" />
-    <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\Renderer.h" />
-    <ClInclude Include="src\Graphics\Shader.h" />
-    <ClInclude Include="src\Graphics\IndexBuffer.h" />
-    <ClInclude Include="src\Graphics\VertexBufferLayout.h" />
-    <ClInclude Include="src\Graphics\VertexBuffer.h" />
-    <ClInclude Include="src\Graphics\VertexArray.h" />
     <ClInclude Include="src\Maths\Vec2.h" />
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
     <ClInclude Include="src\Window\Window.h" />

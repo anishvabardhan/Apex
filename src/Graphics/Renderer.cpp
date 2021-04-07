@@ -1,8 +1,10 @@
 #include "Renderer.h"
 
+#include <GL/glew.h>
+
 namespace Apex {
 
-	void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
+	/*void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
 	{
 		shader.Bind();
 		va.Bind();
@@ -18,9 +20,9 @@ namespace Apex {
 		renderable.GetShader().Bind();
 
 		glDrawElements(GL_LINE_STRIP, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
-	}
+	}*/
 
-	void Renderer::MainRender()
+	void Renderer::InitRender()
 	{
 		glViewport(0, 0, 1024, 768);
 		glLoadIdentity();
@@ -30,21 +32,22 @@ namespace Apex {
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 
+	void Renderer::MainRender()
+	{
 		glTranslatef(-1.0f, 0.0f, -5.0f);
-		glBegin(GL_LINE_STRIP);
-		glVertex3f( 0.0f,  1.0f, 0.0f);
-		glVertex3f( 1.0f, -1.0f, 0.0f);
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 0.0f);
-		glVertex3f( 0.0f,  1.0f, 0.0f);
 		glEnd();
-
 		glTranslatef(3.0f, 0.0f, -5.0f);
 		glBegin(GL_QUADS);
-		glVertex3f( 2.0f,  2.0f, 0.0f);
-		glVertex3f( 2.0f, -2.0f, 0.0f);
+		glVertex3f(2.0f, 2.0f, 0.0f);
+		glVertex3f(2.0f, -2.0f, 0.0f);
 		glVertex3f(-2.0f, -2.0f, 0.0f);
-		glVertex3f(-2.0f,  2.0f, 0.0f);
+		glVertex3f(-2.0f, 2.0f, 0.0f);
 		glEnd();
 	}
 

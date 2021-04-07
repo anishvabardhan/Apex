@@ -31,6 +31,41 @@ namespace Apex {
 			::PostQuitMessage(0);
 			break;
 		}
+		case WM_KEYDOWN:
+		{
+			window->GetKey[wparam] = true;
+			break;
+		}
+
+		case WM_KEYUP:
+		{
+			window->GetKey[wparam] = false;
+			break;
+		}
+
+		case WM_LBUTTONDOWN:
+		{
+			window->GetMouse[wparam] = true;
+			break;
+		}
+
+		case WM_LBUTTONUP:
+		{
+			window->GetMouse[wparam] = false;
+			break;
+		}
+
+		case WM_RBUTTONDOWN:
+		{
+			window->GetMouse[wparam] = true;
+			break;
+		}
+
+		case WM_RBUTTONUP:
+		{
+			window->GetMouse[wparam] = false;
+			break;
+		}
 
 		default:
 			return ::DefWindowProc(hwnd, msg, wparam, lparam);
@@ -162,6 +197,11 @@ namespace Apex {
 		wglDeleteContext(m_OurWindowHandleToRenderContext);
 		if (!ReleaseDC(m_Hwnd, m_OurWindowHandleToDeviceContext))
 			MessageBox(m_Hwnd, L"Cannot Release !!", L"ERROR!!", MB_OK);
+	}
+
+	Window* Window::GetInstance()
+	{
+		return window;
 	}
 
 }

@@ -1,5 +1,6 @@
 #include "Window/Window.h"
 #include "Graphics/Renderer.h"
+#include "Input/Input.h"
 
 #include <gl/GL.h>
 
@@ -13,8 +14,13 @@ int main()
 		while (app.IsRun())
 		{
 			app.Broadcast();
-
-			renderer->MainRender();
+			
+			renderer->InitRender();
+			
+			if (app.GetKey[D])
+			{
+				renderer->MainRender();
+			}
 
 			SwapBuffers(app.GetDeviceContext());
 		}
