@@ -1,8 +1,12 @@
 #include "Window/Window.h"
+#include "Graphics/Renderer.h"
+
+#include <gl/GL.h>
 
 int main()
 {
 	Apex::Window app;
+	Apex::Renderer* renderer = nullptr;
 
 	if (app.Init())
 	{
@@ -10,8 +14,7 @@ int main()
 		{
 			app.Broadcast();
 
-			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-			glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
+			renderer->MainRender();
 
 			SwapBuffers(app.GetDeviceContext());
 		}

@@ -2,8 +2,6 @@
 
 #include <Windows.h>
 
-#include <GL/GL.h>
-
 #include <iostream>
 
 namespace Apex {

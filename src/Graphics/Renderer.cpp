@@ -20,23 +20,23 @@ namespace Apex {
 		glDrawElements(GL_LINE_STRIP, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
-	void Renderer::Draw(const Astroid& renderable) const
+	void Renderer::MainRender()
 	{
-		renderable.GetVAO()->Bind();
-		renderable.GetIBO()->Bind();
-		renderable.GetShader().Bind();
+		glViewport(0, 0, 1024, 768);
+		glLoadIdentity();
 
-		glDrawElements(GL_LINE_STRIP, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		glMatrixMode(GL_PROJECTION);
+		gluPerspective(45.0f, (GLfloat)1024.0f / (GLfloat)768.0f, 1.0f, 1000.0f);
 
-	}
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	void Renderer::Draw(const Player& renderable) const
-	{
-		renderable.GetVAO()->Bind();
-		renderable.GetIBO()->Bind();
-		renderable.GetShader().Bind();
-
-		glDrawElements(GL_TRIANGLES, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		glTranslatef(0.0f, 0.0f, -5.0f);
+		glBegin(GL_TRIANGLES);
+		glVertex3f( 0.0f,  1.0f, 0.0f);
+		glVertex3f( 1.0f, -1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glEnd();
 	}
 
 }

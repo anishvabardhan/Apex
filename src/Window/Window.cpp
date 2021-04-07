@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include <gl/GL.h>
+
 namespace Apex {
 
 	Window* window = nullptr;
@@ -26,6 +28,7 @@ namespace Apex {
 		case WM_DESTROY:
 		{
 			window->OnDestroy(window->GetRenderContext());
+			::PostQuitMessage(0);
 			break;
 		}
 
@@ -58,7 +61,7 @@ namespace Apex {
 		if (!window)
 			window = this;
 
-		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 960, 640, NULL, NULL, NULL, NULL);
+		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 1024, 768, NULL, NULL, NULL, NULL);
 
 		if (!m_Hwnd)
 			return false;
@@ -113,8 +116,8 @@ namespace Apex {
 		pfd.nVersion = 1;
 		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 		pfd.iPixelType = PFD_TYPE_RGBA;
-		pfd.cColorBits = 32;
-		pfd.cDepthBits = 0;
+		pfd.cColorBits = 24;
+		pfd.cDepthBits = 32;
 		pfd.cStencilBits = 0;
 		pfd.iLayerType = PFD_MAIN_PLANE;
 	
@@ -141,7 +144,12 @@ namespace Apex {
 		
 		MakeContextCurrent(m_OurWindowHandleToDeviceContext, m_OurWindowHandleToRenderContext);
 
-		MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
+		glLineWidth(1.5f);
+		glEnable(GL_BLEND);
+		glEnable(GL_LINE_SMOOTH);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		//MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 	}
 
 	void Window::OnUpdate()
@@ -156,7 +164,6 @@ namespace Apex {
 		wglDeleteContext(m_OurWindowHandleToRenderContext);
 		if (!ReleaseDC(m_Hwnd, m_OurWindowHandleToDeviceContext))
 			MessageBox(m_Hwnd, L"Cannot Release !!", L"ERROR!!", MB_OK);
-		::PostQuitMessage(0);
 	}
 
 }
