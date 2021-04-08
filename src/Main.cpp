@@ -16,11 +16,7 @@ int main()
 			app.Broadcast();
 			
 			renderer->InitRender();
-			
-			if (app.GetKey[D])
-			{
-				renderer->MainRender();
-			}
+			renderer->MainRender();
 
 			SwapBuffers(app.GetDeviceContext());
 		}
