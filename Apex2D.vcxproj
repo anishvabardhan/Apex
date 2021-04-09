@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="tests\Astroids\Ship.cpp" />
     <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tests\Astroids\Ship.h" />
     <ClInclude Include="src\Graphics\OrthoGraphic.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Maths\Mat4.h" />
