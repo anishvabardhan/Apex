@@ -2,6 +2,7 @@
 
 #include "Window/Window.h"
 #include "Input/Input.h"
+#include "../tests/Astroids/Ship.h"
 
 #include <gl/GL.h>
 
@@ -61,16 +62,10 @@ namespace Apex {
 	void Renderer::MainRender()
 	{
 		//----------------------------------------------------------------------------------------------
-		//Multiply Translation Matrix to Current Matrix-------------------------------------------------
-
-		glTranslatef(512.0f, 384.0f, 0.0f);
-		glBegin(GL_LINE_STRIP);
-		glColor3f(0.5f, 0.5f, 0.5f);
-		glVertex3f(   0.0f,  100.0f, 0.0f);
-		glVertex3f( 100.0f, -100.0f, 0.0f);
-		glVertex3f(-100.0f, -100.0f, 0.0f);
-		glVertex3f(   0.0f,  100.0f, 0.0f);
-		glEnd();
+		//Creating a Ship-------------------------------------------------------------------------------
+		
+		Ship m_Player(Vec2(512.0f, 384.0f));
+		m_Player.Render();
 	}
 
 }
