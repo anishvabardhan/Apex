@@ -1,6 +1,6 @@
 #include "Ship.h"
 
-#include <GL/glew.h>
+#include <gl/glew.h>
 
 namespace Apex {
 
@@ -15,15 +15,17 @@ namespace Apex {
 
 	void Ship::Render()
 	{
-		glTranslatef(m_Position.m_X, m_Position.m_Y, 0.0f);
-
-		glBegin(GL_LINE_STRIP);
-		glColor3f(   0.5f,   0.5f, 0.5f);
+		glPushMatrix();
+		glColor3f(   0.2f,   0.3f, 0.8f);
 		glVertex3f(  0.0f,  15.0f, 0.0f);
 		glVertex3f( 10.0f, -10.0f, 0.0f);
 		glVertex3f(-10.0f, -10.0f, 0.0f);
-		glVertex3f(  0.0f,  15.0f, 0.0f);
-		glEnd();
+		glPopMatrix();
+	}
+
+	void Ship::Translation()
+	{
+		glTranslatef(m_Position.m_X, m_Position.m_Y, 0.0f);
 	}
 
 }

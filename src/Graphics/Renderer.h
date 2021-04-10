@@ -1,7 +1,5 @@
 #pragma once
 
-#include <deque>
-
 //#include "Renderable2D.h"
 
 namespace Apex {
@@ -14,6 +12,9 @@ namespace Apex {
 		*/
 		void InitRender();
 		void MainRender();
+
+		void Begin();
+		void End();
 	};
 
 }

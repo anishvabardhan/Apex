@@ -8,10 +8,12 @@ namespace Apex {
 	{
 		Vec2 m_Position;
 	public:
-		Ship(Vec2 position);
+		explicit Ship(Vec2 position);
 		~Ship();
 
 		void Render();
+
+		void Translation();
 
 		inline Vec2 GetPosition() const { return m_Position; }
 	};
