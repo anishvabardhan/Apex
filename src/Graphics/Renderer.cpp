@@ -1,10 +1,6 @@
 #include "Renderer.h"
 
-#include "Window/Window.h"
-#include "Input/Input.h"
-#include "../tests/Astroids/Ship.h"
-#include "../tests/Astroids/Astroid.h"
-
+#include <Windows.h>
 #include <gl/GL.h>
 
 namespace Apex {
@@ -35,14 +31,14 @@ namespace Apex {
 		glViewport(0, 0, 1024, 768);
 
 		//--------------------------------------------------------------------------------------------------
-        //Set Matrix Mode to Projection Matrix-----------------------------------------------------------
-		
-		glMatrixMode(GL_PROJECTION);
-		
-		//--------------------------------------------------------------------------------------------------
 		//Set Current Matrix as Identity Matrix--------------------------------------------------------------------------
 
 		glLoadIdentity();
+
+		//--------------------------------------------------------------------------------------------------
+        //Set Matrix Mode to Projection Matrix-----------------------------------------------------------
+		
+		glMatrixMode(GL_PROJECTION);
 
 		//--------------------------------------------------------------------------------------------------
 		//Multiply Orthographic Matrix to Current Matrix----------------------------------------------------
@@ -58,19 +54,6 @@ namespace Apex {
 		//Specify Clear Values for the Color Buffers--------------------------------------------------------
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	}
-
-	void Renderer::MainRender()
-	{
-		//----------------------------------------------------------------------------------------------
-		//Creating a Ship-------------------------------------------------------------------------------
-		
-		Ship m_Player(Vec2(512.0f, 384.0f));
-		
-		m_Player.Translation();
-		Begin();
-		m_Player.Render();
-		End();
 	}
 
 	void Renderer::Begin()

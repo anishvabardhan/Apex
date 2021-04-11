@@ -11,7 +11,6 @@ namespace Apex {
 		void Draw(const Renderable2D& renderable) const;
 		*/
 		void InitRender();
-		void MainRender();
 
 		void Begin();
 		void End();

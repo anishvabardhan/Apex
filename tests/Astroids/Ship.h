@@ -13,7 +13,8 @@ namespace Apex {
 
 		void Render();
 
-		void Translation();
+		void Translation(float x = 0, float y = 0);
+		void Rotation(float angle);
 
 		inline Vec2 GetPosition() const { return m_Position; }
 	};

@@ -1,6 +1,7 @@
 #include "Astroid.h"
 
-#include <gl/glew.h>
+#include <Windows.h>
+#include <gl/GL.h>
 
 namespace Apex {
 
@@ -15,15 +16,13 @@ namespace Apex {
 
 	void Astroid::Render()
 	{
-		glPushMatrix();
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(  0.0f,  50.0f, 0.0f);
-		glVertex3f( 25.0f,  25.0f, 0.0f);
-		glVertex3f( 25.0f, -25.0f, 0.0f);
-		glVertex3f(  0.0f, -50.0f, 0.0f);
-		glVertex3f(-25.0f, -25.0f, 0.0f);
-		glVertex3f(-25.0f,  25.0f, 0.0f);
-		glPopMatrix();
+		glColor3f(   1.0f,   0.0f, 0.0f);
+		glVertex3f(  0.0f,  25.0f, 0.0f);
+		glVertex3f( 16.5f,  16.5f, 0.0f);
+		glVertex3f( 16.5f, -16.5f, 0.0f);
+		glVertex3f(  0.0f, -25.0f, 0.0f);
+		glVertex3f(-16.5f, -16.5f, 0.0f);
+		glVertex3f(-16.5f,  16.5f, 0.0f);
 	}
 
 	void Astroid::Translation()
