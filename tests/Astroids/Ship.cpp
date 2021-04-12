@@ -18,13 +18,17 @@ namespace Apex {
 	{
 		glColor3f(   1.0f,   0.8f, 0.0f);
 
+		glPushMatrix();
 		glVertex3f(  0.0f,  15.0f, 0.0f);
 		glVertex3f( 10.0f, -10.0f, 0.0f);
 		glVertex3f(-10.0f, -10.0f, 0.0f);
+		glPopMatrix();
 	}
 
 	void Ship::Translation(float x, float y)
 	{
+		glLoadIdentity();
+
 		if (m_Position.m_X + x > 0 && m_Position.m_Y + y > 0)
 		{
 			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
