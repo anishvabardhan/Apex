@@ -16,7 +16,8 @@ namespace Apex {
 
 	void Ship::Render()
 	{
-		glColor3f(   0.2f,   0.3f, 0.8f);
+		glColor3f(   1.0f,   0.8f, 0.0f);
+
 		glVertex3f(  0.0f,  15.0f, 0.0f);
 		glVertex3f( 10.0f, -10.0f, 0.0f);
 		glVertex3f(-10.0f, -10.0f, 0.0f);
