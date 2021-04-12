@@ -24,7 +24,20 @@ namespace Apex {
 
 	void Ship::Translation(float x, float y)
 	{
-		glTranslatef(m_Position.m_X + x, m_Position.m_Y + y, 0.0f);
+		if (m_Position.m_X + x > 0 && m_Position.m_Y + y > 0)
+		{
+			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
+		}
+
+		if(m_Position.m_X + x <= 0)
+		{
+			glTranslatef((GLfloat)(1024 + ((int)(m_Position.m_X + x) % 1024)), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
+		}
+
+		if(m_Position.m_Y + y <= 0)
+		{
+			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)(768 + ((int)(m_Position.m_Y + y) % 768)), 0.0f);
+		}
 	}
 
 	void Ship::Rotation(float angle)
