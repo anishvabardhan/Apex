@@ -12,7 +12,8 @@ namespace Apex {
 		*/
 		void InitRender();
 
-		void Begin();
+		void BeginLine();
+		void BeginQuads();
 		void End();
 	};
 

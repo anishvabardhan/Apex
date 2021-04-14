@@ -28,11 +28,24 @@ namespace Apex {
 		glPopMatrix();
 	}
 
-	void Astroid::Translation()
+	void Astroid::Translation(float x, float y)
 	{
 		glLoadIdentity();
 
-		glTranslatef(m_Position.m_X, m_Position.m_Y, 0.0f);
+		if (m_Position.m_X + x > 0 && m_Position.m_Y + y > 0)
+		{
+			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
+		}
+
+		if (m_Position.m_X + x < 0)
+		{
+			glTranslatef((GLfloat)(1024 + (int)(m_Position.m_X + x) % 1024), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
+		}
+
+		if (m_Position.m_Y + y < 0)
+		{
+			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)(768 + (int)(m_Position.m_Y + y) % 768), 0.0f);
+		}
 	}
 
 	void Astroid::Rotation(float angle)

@@ -2,6 +2,7 @@
 #include "Graphics/Renderer.h"
 #include "../tests/Astroids/Ship.h"
 #include "../tests/Astroids/Astroid.h"
+#include "../tests/Astroids/Bullet.h"
 #include "Input/Input.h"
 
 #include <gl/GL.h>
@@ -21,13 +22,14 @@ int main()
 	//------------------------------------------------------------------------------------------------------
     //Instatntiating a player 
 
-	Apex::Ship g_Player(Apex::Vec2(512.0f, 384.0f));
-	Apex::Astroid g_Object(Apex::Vec2(612.0f, 384.0f));
+	Apex::Ship g_Player(Apex::Vec3(512.0f, 384.0f, 0.0f));
+	Apex::Astroid g_Object(Apex::Vec2(312.0f, 384.0f));
+	Apex::Bullet g_Bullet(g_Player.GetPosition() + g_Player.GetNosePosition());
 	
 	//------------------------------------------------------------------------------------------------------
     //Variables
 
-	float p_Angle = 0.0f, o_Angle = 0.0f, x = 0.0f, y = 0.0f;
+	float p_Angle = 0.0f, o_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = 0.0f, o_Y = 0.0f;;
 
 	//------------------------------------------------------------------------------------------------------
     //Initializing the window
@@ -61,32 +63,46 @@ int main()
 
 			if (g_App.GetKey[D])
 			{
-				x += 0.1f;
+				p_X += 0.1f;
 			}
 			else if (g_App.GetKey[A])
 			{
-				x -= 0.1f;
+				p_X -= 0.1f;
 			}
 
 			if (g_App.GetKey[W])
 			{
-				y += 0.1f;
+				p_Y += 0.1f;
 			}
 			else if (g_App.GetKey[S])
 			{
-				y -= 0.1f;
+				p_Y -= 0.1f;
 			}
 			//----------------------------------------------------------------------------------------------
 
-			o_Angle += 0.075f;
+			o_Angle +=   0.025f;
+			o_X     -=   0.005f;
+			o_Y     -=   0.035f;
+
+			//----------------------------------------------------------------------------------------------
+			//Rendering the bullet
+			
+			g_Bullet.Translation(p_X, p_Y);
+			g_Bullet.Rotation(p_Angle);
+
+			g_Renderer->BeginQuads();
+
+			g_Bullet.Render();
+
+			g_Renderer->End();
 
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player
 
-			g_Player.Translation(x, y);
+			g_Player.Translation(p_X, p_Y);
 			g_Player.Rotation(p_Angle);
 
-			g_Renderer->Begin();
+			g_Renderer->BeginLine();
 
 			g_Player.Render();
 
@@ -95,16 +111,16 @@ int main()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the object
 
-			g_Object.Translation();
+			g_Object.Translation(o_X, o_Y);
 			g_Object.Rotation(o_Angle);
 
-			g_Renderer->Begin();
+			g_Renderer->BeginLine();
 
 			g_Object.Render();
 
 			g_Renderer->End();
 
-			glFlush();
+			//glFlush();
 
 			//----------------------------------------------------------------------------------------------
 			//Swapping front and back buffers each frame

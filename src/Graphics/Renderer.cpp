@@ -61,9 +61,14 @@ namespace Apex {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	void Renderer::Begin()
+	void Renderer::BeginLine()
 	{
 		glBegin(GL_LINE_LOOP);
+	}
+
+	void Renderer::BeginQuads()
+	{
+		glBegin(GL_QUADS);
 	}
 
 	void Renderer::End()
