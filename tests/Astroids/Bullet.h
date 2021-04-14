@@ -1,17 +1,19 @@
 #pragma once
 
-#include "Maths/Vec3.h"
+#include "Maths/Vec2.h"
 
 namespace Apex {
 
 	class Bullet
 	{
-		Vec3 m_Position;
+		Vec2 m_Position;
 	public:
-		explicit Bullet(Vec3 position);
+		explicit Bullet(Vec2 position);
 		~Bullet();
 
 		void Render();
+
+		void PivotAxis(float x, float y);
 
 		void Translation(float x, float y);
 		void Rotation(float angle);

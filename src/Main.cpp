@@ -22,14 +22,14 @@ int main()
 	//------------------------------------------------------------------------------------------------------
     //Instatntiating a player 
 
-	Apex::Ship g_Player(Apex::Vec3(512.0f, 384.0f, 0.0f));
+	Apex::Ship g_Player(Apex::Vec2(512.0f, 384.0f));
 	Apex::Astroid g_Object(Apex::Vec2(312.0f, 384.0f));
-	Apex::Bullet g_Bullet(g_Player.GetPosition() + g_Player.GetNosePosition());
+	Apex::Bullet g_Bullet(g_Player.GetPosition());
 	
 	//------------------------------------------------------------------------------------------------------
     //Variables
 
-	float p_Angle = 0.0f, o_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = 0.0f, o_Y = 0.0f;;
+	float p_Angle = 0.0f, o_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = 0.0f, o_Y = 0.0f, b_X = 0.0f, b_Y = 0.0f;
 
 	//------------------------------------------------------------------------------------------------------
     //Initializing the window
@@ -81,14 +81,15 @@ int main()
 			//----------------------------------------------------------------------------------------------
 
 			o_Angle +=   0.025f;
-			o_X     -=   0.005f;
-			o_Y     -=   0.035f;
+			o_X     +=   0.035f;
+			o_Y     +=   0.035f;
 
 			//----------------------------------------------------------------------------------------------
 			//Rendering the bullet
 			
 			g_Bullet.Translation(p_X, p_Y);
 			g_Bullet.Rotation(p_Angle);
+			g_Bullet.PivotAxis(g_Player.GetNosePosition().m_X, g_Player.GetNosePosition().m_Y);
 
 			g_Renderer->BeginQuads();
 
@@ -120,7 +121,8 @@ int main()
 
 			g_Renderer->End();
 
-			//glFlush();
+			g_Renderer->Flush();
+			//----------------------------------------------------------------------------------------------
 
 			//----------------------------------------------------------------------------------------------
 			//Swapping front and back buffers each frame

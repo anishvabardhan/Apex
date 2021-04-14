@@ -76,4 +76,9 @@ namespace Apex {
 		glEnd();
 	}
 
+	void Renderer::Flush()
+	{
+		glFlush();
+	}
+
 }

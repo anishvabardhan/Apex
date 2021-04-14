@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Maths/Vec3.h";
+#include "Maths/Vec2.h";
 
 namespace Apex {
 
 	class Ship
 	{
-		Vec3 m_Position;
+		Vec2 m_Position;
 	public:
-		explicit Ship(Vec3 position);
+		explicit Ship(Vec2 position);
 		~Ship();
 
 		void Render();
@@ -16,10 +16,10 @@ namespace Apex {
 		void Translation(float x = 0, float y = 0);
 		void Rotation(float angle);
 
-		inline Vec3 GetPosition() const { return m_Position; }
-		static inline Vec3 GetNosePosition() { return Vec3(0.0f, 15.0f, 0.0f); }
+		inline Vec2 GetPosition() const { return m_Position; }
+		static inline Vec2 GetNosePosition() { return Vec2(0.0f, 15.0f); }
 
-		inline void SetPosition(Vec3 position) { m_Position = position; }
+		inline void SetPosition(Vec2 position) { m_Position = position; }
 	};
 
 }

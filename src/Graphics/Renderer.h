@@ -15,6 +15,7 @@ namespace Apex {
 		void BeginLine();
 		void BeginQuads();
 		void End();
+		void Flush();
 	};
 
 }
