@@ -138,6 +138,11 @@ namespace Apex {
 		return m_IsRun;
 	}
 
+	void Window::SwappingBuffers()
+	{
+		SwapBuffers(GetInstance()->GetDeviceContext());
+	}
+
 	BOOL Window::MakeContextCurrent(HDC hdc, HGLRC hglrc)
 	{
 		return wglMakeCurrent(hdc, hglrc);

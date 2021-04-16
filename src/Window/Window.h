@@ -16,6 +16,8 @@ namespace Apex {
 		bool Broadcast();
 		bool Release();
 		bool IsRun();
+
+		void SwappingBuffers();
 		
 		BOOL MakeContextCurrent(HDC hdc, HGLRC hglrc);
 		HGLRC CreateOldRenderContext(HDC hdc);

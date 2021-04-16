@@ -29,7 +29,7 @@ int main()
 	//------------------------------------------------------------------------------------------------------
     //Variables
 
-	float p_Angle = 0.0f, o_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = 0.0f, o_Y = 0.0f, b_X = 0.0f, b_Y = 0.0f;
+	float p_Angle = 0.0f, o_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = 0.0f, o_Y = 0.0f, b_X = 0.0f, b_Y = 0.0f, a_X = p_X, a_Y = p_Y;
 
 	//------------------------------------------------------------------------------------------------------
     //Initializing the window
@@ -64,20 +64,25 @@ int main()
 			if (g_App.GetKey[D])
 			{
 				p_X += 0.1f;
+				a_X = p_X;
 			}
 			else if (g_App.GetKey[A])
 			{
 				p_X -= 0.1f;
+				a_X = p_X;
 			}
 
 			if (g_App.GetKey[W])
 			{
 				p_Y += 0.1f;
+				a_Y = p_Y;
 			}
 			else if (g_App.GetKey[S])
 			{
 				p_Y -= 0.1f;
+				a_Y = p_Y;
 			}
+
 			//----------------------------------------------------------------------------------------------
 
 			o_Angle +=   0.025f;
@@ -87,7 +92,7 @@ int main()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the bullet
 			
-			g_Bullet.Translation(p_X, p_Y);
+			g_Bullet.Translation(a_X + b_X, a_Y + b_Y);
 			g_Bullet.Rotation(p_Angle);
 			g_Bullet.PivotAxis(g_Player.GetNosePosition().m_X, g_Player.GetNosePosition().m_Y);
 
@@ -121,13 +126,14 @@ int main()
 
 			g_Renderer->End();
 
-			g_Renderer->Flush();
 			//----------------------------------------------------------------------------------------------
+
+			g_Renderer->Flush();
 
 			//----------------------------------------------------------------------------------------------
 			//Swapping front and back buffers each frame
 
-			SwapBuffers(g_App.GetDeviceContext());
+			g_App.SwappingBuffers();
 		}
 	}
 
