@@ -92,7 +92,7 @@ int main()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the bullet
 			
-			g_Bullet.Translation(a_X + b_X, a_Y + b_Y);
+			g_Bullet.Translation(a_X, a_Y);
 			g_Bullet.Rotation(p_Angle);
 			g_Bullet.PivotAxis(g_Player.GetNosePosition().m_X, g_Player.GetNosePosition().m_Y);
 

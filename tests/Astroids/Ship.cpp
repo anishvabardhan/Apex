@@ -28,32 +28,30 @@ namespace Apex {
 	{
 		glLoadIdentity();
 
-		if ((m_Position.m_X + x > 0.0f && m_Position.m_X + x < 1024.0f) && (m_Position.m_Y + y > 0.0f && m_Position.m_Y + y < 768.0f))
+		if ((m_Position.m_X + x > 20.0f && m_Position.m_X + x < 984.0f) && (m_Position.m_Y + y > 20.0f && m_Position.m_Y + y < 698.0f))
 		{
 			glTranslatef(m_Position.m_X + x, m_Position.m_Y + y, 0.0f);
 		}
 
-		if(m_Position.m_X + x < 0.0f)
+		if(m_Position.m_X + x < 20.0f)
 		{
-			glTranslatef(0.0f, m_Position.m_Y, 0.0f);
+			glTranslatef(20.0f, m_Position.m_Y + y, 0.0f);
 		}
 		
-		if (m_Position.m_Y + y < 0.0f)
+		if (m_Position.m_Y + y < 20.0f)
 		{
-			glTranslatef(m_Position.m_X, 0.0f, 0.0f);
+			glTranslatef(m_Position.m_X + x, 20.0f, 0.0f);
 		}
 		
-		//if (m_Position.m_X + x > 1024.0f)
-		//{
-		//	SetPosition(Vec2(1024.0f, 0.0f));
-		//	glTranslatef(1024.0f, m_Position.m_Y, 0.0f);
-		//}
-		//
-		//if (m_Position.m_Y + y >768.0f)
-		//{
-		//	SetPosition(Vec2(0.0f, 768.0f));
-		//	glTranslatef(m_Position.m_Y, 768.0f, 0.0f);
-		//}
+		if (m_Position.m_X + x > 984.0f)
+		{
+			glTranslatef(984.0f, m_Position.m_Y + y, 0.0f);
+		}
+		
+		if (m_Position.m_Y + y >698.0f)
+		{
+			glTranslatef(m_Position.m_X + x, 698.0f, 0.0f);
+		}
 	}
 
 	void Ship::Rotation(float angle)
