@@ -16,21 +16,35 @@ namespace Apex {
 		return collisionX && collisionY;
 	}
 
-	bool Collision2D::CollisionWorld(Renderable2D& GameObj, const Window& window)
+	bool Collision2D::CollisionObjects(const Ship& GameObj1, const Astroid& GameObj2)
 	{
-		if (GameObj.GetPosition().m_X + GameObj.GetSize().m_X >= window.GetWidth() || GameObj.GetPosition().m_X <= 0)
-		{
-			increamentX = -increamentX;
-			return true;
-		}
+		// collision x-axis?
+		bool collisionX = GameObj1.GetPosition().m_X + 20.0f >= GameObj2.GetPostion().m_X &&
+			GameObj2.GetPostion().m_X + 60.0f >= GameObj1.GetPosition().m_X;
 
-		if (GameObj.GetPosition().m_Y + GameObj.GetSize().m_Y >= window.GetHeight() || GameObj.GetPosition().m_Y <= 0)
-		{
-			increamentY = -increamentY;
-			return true;
-		}
+		// collision y-axis?
+		bool collisionY = GameObj1.GetPosition().m_Y + 20.0f >= GameObj2.GetPostion().m_Y &&
+			GameObj2.GetPostion().m_Y + 60.0f >= GameObj1.GetPosition().m_Y;
 
-		return false;
+		// collision only if on both axes
+		return collisionX && collisionY;
 	}
+
+	//bool Collision2D::CollisionWorld(Renderable2D& GameObj, const Window& window)
+	//{
+	//	if (GameObj.GetPosition().m_X + GameObj.GetSize().m_X >= window.GetWidth() || GameObj.GetPosition().m_X <= 0)
+	//	{
+	//		increamentX = -increamentX;
+	//		return true;
+	//	}
+	//
+	//	if (GameObj.GetPosition().m_Y + GameObj.GetSize().m_Y >= window.GetHeight() || GameObj.GetPosition().m_Y <= 0)
+	//	{
+	//		increamentY = -increamentY;
+	//		return true;
+	//	}
+	//
+	//	return false;
+	//}
 
 }

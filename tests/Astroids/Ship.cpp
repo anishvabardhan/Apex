@@ -48,7 +48,7 @@ namespace Apex {
 			glTranslatef(984.0f, m_Position.m_Y + y, 0.0f);
 		}
 		
-		if (m_Position.m_Y + y >698.0f)
+		if (m_Position.m_Y + y > 698.0f)
 		{
 			glTranslatef(m_Position.m_X + x, 698.0f, 0.0f);
 		}
