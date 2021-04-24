@@ -37,16 +37,6 @@ namespace Apex {
 		{
 			glTranslatef(m_Position.m_X + x, m_Position.m_Y + y, 0.0f);
 		}
-
-		if (m_Position.m_X + x + 55.0f > 1024.0f)
-		{
-			x = -x;
-		}
-
-		if (m_Position.m_Y + y + 55.0f > 768.0f)
-		{
-			y = -y;
-		}
 	}
 
 	void Astroid::Rotation(float angle)

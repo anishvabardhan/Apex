@@ -87,8 +87,18 @@ void Game::BeginPlay()
 
 			//----------------------------------------------------------------------------------------------
 
-			o_X += 0.0f;
-			o_Y += 0.035f;
+			o_X += a_X;
+			o_Y += a_Y;
+
+			if (g_Object.GetPostion().m_Y + o_Y + 100.0f >= 768.0f || g_Object.GetPostion().m_Y + o_Y - 60.0f <= 0.0f)
+			{
+				a_Y = -a_Y;
+			}
+
+			if (g_Object.GetPostion().m_X + o_X + 67.5f >= 1024.0f || g_Object.GetPostion().m_X + o_X - 47.5f <= 0.0f)
+			{
+				a_X = -a_X;
+			}
 
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player
