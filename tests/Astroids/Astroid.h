@@ -17,9 +17,6 @@ namespace Apex {
 		void Translation(float x, float y);
 		void Rotation(float angle);
 
-		static Astroid* GetInstance();
-		
-
 		inline Vec2 GetPostion() const { return m_Position; }
 	};
 

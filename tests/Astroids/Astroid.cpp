@@ -5,8 +5,6 @@
 
 namespace Apex {
 
-	Astroid* g_Astroid = nullptr;
-
 	Astroid::Astroid(Vec2 position)
 		:m_Position(position)
 	{
@@ -42,11 +40,6 @@ namespace Apex {
 	void Astroid::Rotation(float angle)
 	{
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
-	}
-
-	Astroid* Astroid::GetInstance()
-	{
-		return g_Astroid;
 	}
 
 }

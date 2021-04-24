@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/Maths/Vec2.h";
+#include "../src/Maths/Vec2.h"
 
 namespace Apex {
 

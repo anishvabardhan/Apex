@@ -37,7 +37,7 @@ void Game::BeginPlay()
 	//------------------------------------------------------------------------------------------------------
 	//Variables
 
-	float p_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = (float)(rand() % 100), o_Y = (float)(rand() % 100), a_X = 0.035f, a_Y = 0.035f;
+	float p_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = (float)(rand() % 300), o_Y = (float)(rand() % 300), a_X = 0.035f, a_Y = 0.035f;
 
 	//------------------------------------------------------------------------------------------------------
 	//Initializing the window
@@ -92,16 +92,6 @@ void Game::BeginPlay()
 			o_X += a_X;
 			o_Y += a_Y;
 
-			if (g_Object.GetPostion().m_Y + o_Y + 100.0f >= 768.0f || g_Object.GetPostion().m_Y + o_Y - 60.0f <= 0.0f)
-			{
-				a_Y = -a_Y;
-			}
-
-			if (g_Object.GetPostion().m_X + o_X + 67.5f >= 1024.0f || g_Object.GetPostion().m_X + o_X - 47.5f <= 0.0f)
-			{
-				a_X = -a_X;
-			}
-
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player
 			{
@@ -124,6 +114,16 @@ void Game::BeginPlay()
 				g_Object.Render();
 
 				g_Renderer->End();
+
+				if (g_Object.GetPostion().m_Y + o_Y + 100.0f >= 768.0f || g_Object.GetPostion().m_Y + o_Y - 60.0f <= 0.0f)
+				{
+					a_Y = -a_Y;
+				}
+
+				if (g_Object.GetPostion().m_X + o_X + 67.5f >= 1024.0f || g_Object.GetPostion().m_X + o_X - 47.5f <= 0.0f)
+				{
+					a_X = -a_X;
+				}
 			}
 			//----------------------------------------------------------------------------------------------
 
