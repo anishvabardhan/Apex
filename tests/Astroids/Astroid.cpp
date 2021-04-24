@@ -5,6 +5,8 @@
 
 namespace Apex {
 
+	Astroid* g_Astroid = nullptr;
+
 	Astroid::Astroid(Vec2 position)
 		:m_Position(position)
 	{
@@ -31,25 +33,30 @@ namespace Apex {
 	{
 		glLoadIdentity();
 
-		if (m_Position.m_X + x > 0 && m_Position.m_Y + y > 0)
+		if ((m_Position.m_X + x > 0.0f && m_Position.m_X + x < 1024.0f) && (m_Position.m_Y + y > 0.0f && m_Position.m_Y + y < 768.0f))
 		{
-			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
+			glTranslatef(m_Position.m_X + x, m_Position.m_Y + y, 0.0f);
 		}
 
-		if (m_Position.m_X + x < 0)
+		if (m_Position.m_X + x + 55.0f > 1024.0f)
 		{
-			glTranslatef((GLfloat)(1024 + (int)(m_Position.m_X + x) % 1024), (GLfloat)((int)(m_Position.m_Y + y) % 768), 0.0f);
+			x = -x;
 		}
 
-		if (m_Position.m_Y + y < 0)
+		if (m_Position.m_Y + y + 55.0f > 768.0f)
 		{
-			glTranslatef((GLfloat)((int)(m_Position.m_X + x) % 1024), (GLfloat)(768 + (int)(m_Position.m_Y + y) % 768), 0.0f);
+			y = -y;
 		}
 	}
 
 	void Astroid::Rotation(float angle)
 	{
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
+	}
+
+	Astroid* Astroid::GetInstance()
+	{
+		return g_Astroid;
 	}
 
 }

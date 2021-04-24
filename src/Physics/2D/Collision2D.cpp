@@ -30,6 +30,19 @@ namespace Apex {
 		return collisionX && collisionY;
 	}
 
+	void Collision2D::CollisionWorld(const Astroid& GameObj)
+	{
+		if (GameObj.GetPostion().m_X + 52.0f >= 768.0f || GameObj.GetPostion().m_X - 52.0f <= 0.0f)
+		{
+			increamentX = -increamentX;
+		}
+
+		if (GameObj.GetPostion().m_Y + 52.0f >= 1024.0f || GameObj.GetPostion().m_Y - 52.0f <= 0.0f)
+		{
+			increamentY = -increamentY;
+		}
+	}
+
 	//bool Collision2D::CollisionWorld(Renderable2D& GameObj, const Window& window)
 	//{
 	//	if (GameObj.GetPosition().m_X + GameObj.GetSize().m_X >= window.GetWidth() || GameObj.GetPosition().m_X <= 0)

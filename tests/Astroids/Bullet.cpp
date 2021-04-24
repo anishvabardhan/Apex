@@ -1,7 +1,5 @@
 #include "Bullet.h"
 
-#include "Ship.h"
-
 #include <Windows.h>
 #include <gl/GL.h>
 
