@@ -141,6 +141,13 @@ void Game::BeginPlay()
 			}
 
 			//----------------------------------------------------------------------------------------------
+			/*Guarantee that all OpenGL commands 
+			made up to that point will complete 
+			executions in a finite amount time*/
+
+			g_Renderer->Flush();
+
+			//----------------------------------------------------------------------------------------------
 			//Swapping front and back buffers each frame
 
 			g_App.SwappingBuffers();
