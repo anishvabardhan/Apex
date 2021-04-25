@@ -6,6 +6,8 @@
 #include "../tests/Astroids/Astroid.h"
 #include "Input/Input.h"
 
+#include <vector>
+
 Game::Game()
 {
 }
@@ -32,8 +34,14 @@ void Game::BeginPlay()
 	//Instatntiating the characters 
 
 	Apex::Ship g_Player(Apex::Vec2(512.0f, 384.0f));
-	Apex::Astroid g_Object(Apex::Vec2(312.0f, 384.0f));
 
+	std::vector<Apex::Astroid> g_Astroid;
+	for (int i = 0; i < 4; i++)
+	{
+		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 600), (float)(rand() % 400)));
+
+		g_Astroid.push_back(g_Object);
+	}
 	//------------------------------------------------------------------------------------------------------
 	//Variables
 
@@ -106,21 +114,22 @@ void Game::BeginPlay()
 			}
 			//----------------------------------------------------------------------------------------------
 			//Rendering the object
+			for(auto i : g_Astroid)
 			{
-				g_Object.Translation(o_X, o_Y);
+				i.Translation(o_X, o_Y);
 
 				g_Renderer->BeginLine();
 
-				g_Object.Render();
+				i.Render();
 
 				g_Renderer->End();
 
-				if (g_Object.GetPostion().m_Y + o_Y + 100.0f >= 768.0f || g_Object.GetPostion().m_Y + o_Y - 60.0f <= 0.0f)
+				if (i.GetPostion().m_Y + o_Y + 100.0f >= 768.0f || i.GetPostion().m_Y + o_Y - 60.0f <= 0.0f)
 				{
 					a_Y = -a_Y;
 				}
 
-				if (g_Object.GetPostion().m_X + o_X + 67.5f >= 1024.0f || g_Object.GetPostion().m_X + o_X - 47.5f <= 0.0f)
+				if (i.GetPostion().m_X + o_X + 67.5f >= 1024.0f || i.GetPostion().m_X + o_X - 47.5f <= 0.0f)
 				{
 					a_X = -a_X;
 				}
