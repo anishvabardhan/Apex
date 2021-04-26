@@ -31,22 +31,26 @@ void Game::BeginPlay()
 	Apex::Renderer* g_Renderer = nullptr;
 
 	//------------------------------------------------------------------------------------------------------
+	//Variables
+
+	float p_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = (float)(rand() % 300), o_Y = (float)(rand() % 300), a_X = 0.0095f, a_Y = 0.0095f;
+
+	//------------------------------------------------------------------------------------------------------
 	//Instatntiating the characters 
 
 	Apex::Ship g_Player(Apex::Vec2(512.0f, 384.0f));
 
 	std::vector<Apex::Astroid> g_Astroid;
-	for (int i = 0; i < 4; i++)
+	std::vector<Apex::Vec2> g_Translate, g_Update;
+
+	for (int i = 0; i < 8; i++)
 	{
 		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 600), (float)(rand() % 400)));
 
 		g_Astroid.push_back(g_Object);
+		g_Translate.push_back(Apex::Vec2(o_X, o_Y));
+		g_Update.push_back(Apex::Vec2(a_X * (i + 1), a_Y * (i + 1)));
 	}
-
-	//------------------------------------------------------------------------------------------------------
-	//Variables
-
-	float p_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = (float)(rand() % 300), o_Y = (float)(rand() % 300), a_X = 0.035f, a_Y = 0.035f;
 
 	//------------------------------------------------------------------------------------------------------
 	//Initializing the window
@@ -98,9 +102,11 @@ void Game::BeginPlay()
 
 			//----------------------------------------------------------------------------------------------
 			//Updating the values every frame
-
-			o_X += a_X;
-			o_Y += a_Y;
+			for(int i = 0; i < g_Translate.size(); i++)
+			{
+				g_Translate[i].m_X += g_Update[i].m_X;
+				g_Translate[i].m_Y += g_Update[i].m_Y;
+			}
 
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player
@@ -117,26 +123,26 @@ void Game::BeginPlay()
 			}
 
 			//----------------------------------------------------------------------------------------------
-			//Rendering the object
+			//Rendering the astroids
 
-			for(auto i : g_Astroid)
+			for(int i = 0; i < 8; i++)
 			{
-				i.Translation(o_X, o_Y);
+				g_Astroid[i].Translation(g_Translate[i].m_X, g_Translate[i].m_Y);
 
 				g_Renderer->BeginLine();
 
-				i.Render();
+				g_Astroid[i].Render();
 
 				g_Renderer->End();
 
-				if (i.GetPostion().m_Y + o_Y + 100.0f >= 768.0f || i.GetPostion().m_Y + o_Y - 60.0f <= 0.0f)
+				if (g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y + 100.0f >= 768.0f || g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y - 60.0f <= 0.0f)
 				{
-					a_Y = -a_Y;
+					g_Update[i].m_Y = -g_Update[i].m_Y;
 				}
 
-				if (i.GetPostion().m_X + o_X + 67.5f >= 1024.0f || i.GetPostion().m_X + o_X - 47.5f <= 0.0f)
+				if (g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X + 67.5f >= 1024.0f || g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X - 47.5f <= 0.0f)
 				{
-					a_X = -a_X;
+					g_Update[i].m_X = -g_Update[i].m_X;
 				}
 			}
 
