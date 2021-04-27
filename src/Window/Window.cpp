@@ -184,7 +184,7 @@ namespace Apex {
 		
 		MakeContextCurrent(m_OurWindowHandleToDeviceContext, m_OurWindowHandleToRenderContext);
 
-		glLineWidth(1.5f);
+		glLineWidth(1.0f);
 		glEnable(GL_BLEND);
 		glEnable(GL_LINE_SMOOTH);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

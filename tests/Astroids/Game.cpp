@@ -33,12 +33,14 @@ void Game::BeginPlay()
 	//------------------------------------------------------------------------------------------------------
 	//Variables
 
-	float p_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = (float)(rand() % 300), o_Y = (float)(rand() % 300), a_X = 0.0095f, a_Y = 0.0095f;
+	int x = 0;
+	float p_Angle = 0.0f, o_Angle = 0.0f, p_X = 0.0f, p_Y = 0.0f, o_X = (float)(rand() % 300), o_Y = (float)(rand() % 300), a_X = 0.0095f, a_Y = 0.0095f;
+	bool c_X[8], c_Y[8];
 
 	//------------------------------------------------------------------------------------------------------
 	//Instatntiating the characters 
 
-	Apex::Ship g_Player(Apex::Vec2(512.0f, 384.0f));
+	Apex::Ship g_Player(Apex::Vec2(30.0f, 30.0f));
 
 	std::vector<Apex::Astroid> g_Astroid;
 	std::vector<Apex::Vec2> g_Translate, g_Update;
@@ -102,10 +104,36 @@ void Game::BeginPlay()
 
 			//----------------------------------------------------------------------------------------------
 			//Updating the values every frame
-			for(int i = 0; i < g_Translate.size(); i++)
+			
+			for(uint32_t i = 0; i < g_Translate.size(); i++)
 			{
 				g_Translate[i].m_X += g_Update[i].m_X;
 				g_Translate[i].m_Y += g_Update[i].m_Y;
+			}
+
+			o_Angle += 0.075f;
+			
+			//----------------------------------------------------------------------------------------------
+			//Collision Detection between player and astroids
+
+			for (int i = 0; i < 8; i++)
+			{
+				c_X[i] = ((g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X + 56.0f >= g_Player.GetPosition().m_X + p_X) && (g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X - 56.0f <= g_Player.GetPosition().m_X + p_X));
+
+				c_Y[i] = ((g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y + 56.0f >= g_Player.GetPosition().m_Y + p_Y) && (g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y - 56.0f <= g_Player.GetPosition().m_Y + p_Y));
+
+				if (c_X[i] && c_Y[i])
+				{
+					x++;
+				}
+			}
+
+			//----------------------------------------------------------------------------------------------
+			//Game Over if collision detected
+
+			if (x != 0)
+			{
+				g_App.Release();
 			}
 
 			//----------------------------------------------------------------------------------------------
@@ -128,6 +156,7 @@ void Game::BeginPlay()
 			for(int i = 0; i < 8; i++)
 			{
 				g_Astroid[i].Translation(g_Translate[i].m_X, g_Translate[i].m_Y);
+				g_Astroid[i].Rotation(o_Angle);
 
 				g_Renderer->BeginLine();
 
