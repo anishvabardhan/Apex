@@ -47,7 +47,7 @@ void Game::BeginPlay()
 
 	for (int i = 0; i < 8; i++)
 	{
-		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 600), (float)(rand() % 400)));
+		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 600) + 75.0f, (float)(rand() % 400) + 75.0f));
 
 		g_Astroid.push_back(g_Object);
 		g_Translate.push_back(Apex::Vec2(o_X, o_Y));
@@ -111,16 +111,16 @@ void Game::BeginPlay()
 				g_Translate[i].m_Y += g_Update[i].m_Y;
 			}
 
-			o_Angle += 0.075f;
+			o_Angle += 0.025f;
 			
 			//----------------------------------------------------------------------------------------------
 			//Collision Detection between player and astroids
 
 			for (int i = 0; i < 8; i++)
 			{
-				c_X[i] = ((g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X + 56.0f >= g_Player.GetPosition().m_X + p_X) && (g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X - 56.0f <= g_Player.GetPosition().m_X + p_X));
+				c_X[i] = ((g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X + 50.0f >= g_Player.GetPosition().m_X + p_X) && (g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X - 50.0f <= g_Player.GetPosition().m_X + p_X));
 
-				c_Y[i] = ((g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y + 56.0f >= g_Player.GetPosition().m_Y + p_Y) && (g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y - 56.0f <= g_Player.GetPosition().m_Y + p_Y));
+				c_Y[i] = ((g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y + 50.0f >= g_Player.GetPosition().m_Y + p_Y) && (g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y - 50.0f <= g_Player.GetPosition().m_Y + p_Y));
 
 				if (c_X[i] && c_Y[i])
 				{
