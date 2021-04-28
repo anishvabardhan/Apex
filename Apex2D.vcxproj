@@ -154,7 +154,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="tests\Astroids\Game.cpp" />
-    <ClCompile Include="tests\Astroids\Bullet.cpp" />
     <ClCompile Include="tests\Astroids\Astroid.cpp" />
     <ClCompile Include="tests\Astroids\Ship.cpp" />
     <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
@@ -169,7 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests\Astroids\Game.h" />
-    <ClInclude Include="tests\Astroids\Bullet.h" />
     <ClInclude Include="tests\Astroids\Astroid.h" />
     <ClInclude Include="tests\Astroids\Ship.h" />
     <ClInclude Include="src\Graphics\OrthoGraphic.h" />

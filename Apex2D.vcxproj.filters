@@ -48,9 +48,6 @@
     <ClCompile Include="tests\Astroids\Astroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Astroids\Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tests\Astroids\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -948,9 +945,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\Astroids\Astroid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tests\Astroids\Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\Astroids\Game.h">
