@@ -7,6 +7,7 @@
 #include "Input/Input.h"
 
 #include <vector>
+#include <tuple>
 
 Game::Game()
 {
@@ -42,16 +43,13 @@ void Game::BeginPlay()
 
 	Apex::Ship g_Player(Apex::Vec2(30.0f, 30.0f));
 
-	std::vector<Apex::Astroid> g_Astroid;
-	std::vector<Apex::Vec2> g_Translate, g_Update;
+	std::vector<std::tuple<Apex::Astroid, Apex::Vec2, Apex::Vec2>> g_Char;
 
 	for (int i = 0; i < 8; i++)
 	{
-		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 600) + 75.0f, (float)(rand() % 400) + 75.0f));
+		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 400) + 75.0f, (float)(rand() % 400) + 75.0f));
 
-		g_Astroid.push_back(g_Object);
-		g_Translate.push_back(Apex::Vec2(o_X, o_Y));
-		g_Update.push_back(Apex::Vec2(a_X * (i + 1), a_Y * (i + 1)));
+		g_Char.push_back({ g_Object , Apex::Vec2(o_X, o_Y), Apex::Vec2(a_X * (i + 1), a_Y * (i + 1)) });
 	}
 
 	//------------------------------------------------------------------------------------------------------
@@ -104,11 +102,11 @@ void Game::BeginPlay()
 
 			//----------------------------------------------------------------------------------------------
 			//Updating the values every frame
-			
-			for(uint32_t i = 0; i < g_Translate.size(); i++)
+
+			for (int i = 0; i < 8; i++)
 			{
-				g_Translate[i].m_X += g_Update[i].m_X;
-				g_Translate[i].m_Y += g_Update[i].m_Y;
+				std::get<1>(g_Char[i]).m_X += std::get<2>(g_Char[i]).m_X;
+				std::get<1>(g_Char[i]).m_Y += std::get<2>(g_Char[i]).m_Y;
 			}
 
 			o_Angle += 0.025f;
@@ -118,9 +116,9 @@ void Game::BeginPlay()
 
 			for (int i = 0; i < 8; i++)
 			{
-				c_X[i] = ((g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X + 50.0f >= g_Player.GetPosition().m_X + p_X) && (g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X - 50.0f <= g_Player.GetPosition().m_X + p_X));
+				c_X[i] = ((std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X + 50.0f >= g_Player.GetPosition().m_X + p_X) && (std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X - 50.0f <= g_Player.GetPosition().m_X + p_X));
 
-				c_Y[i] = ((g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y + 50.0f >= g_Player.GetPosition().m_Y + p_Y) && (g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y - 50.0f <= g_Player.GetPosition().m_Y + p_Y));
+				c_Y[i] = ((std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y + 50.0f >= g_Player.GetPosition().m_Y + p_Y) && (std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y - 50.0f <= g_Player.GetPosition().m_Y + p_Y));
 
 				if (c_X[i] && c_Y[i])
 				{
@@ -153,25 +151,25 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the astroids
 
-			for(int i = 0; i < 8; i++)
+			for (int i = 0; i < 8; i++)
 			{
-				g_Astroid[i].Translation(g_Translate[i].m_X, g_Translate[i].m_Y);
-				g_Astroid[i].Rotation(o_Angle);
+				std::get<0>(g_Char[i]).Translation(std::get<1>(g_Char[i]).m_X, std::get<1>(g_Char[i]).m_Y);
+				std::get<0>(g_Char[i]).Rotation(o_Angle);
 
 				g_Renderer->BeginLine();
 
-				g_Astroid[i].Render();
+				std::get<0>(g_Char[i]).Render();
 
 				g_Renderer->End();
 
-				if (g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y + 100.0f >= 768.0f || g_Astroid[i].GetPostion().m_Y + g_Translate[i].m_Y - 60.0f <= 0.0f)
+				if (std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y + 100.0f >= 768.0f || std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y - 60.0f <= 0.0f)
 				{
-					g_Update[i].m_Y = -g_Update[i].m_Y;
+					std::get<2>(g_Char[i]).m_Y = -std::get<2>(g_Char[i]).m_Y;
 				}
 
-				if (g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X + 67.5f >= 1024.0f || g_Astroid[i].GetPostion().m_X + g_Translate[i].m_X - 47.5f <= 0.0f)
+				if (std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X + 67.5f >= 1024.0f || std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X - 47.5f <= 0.0f)
 				{
-					g_Update[i].m_X = -g_Update[i].m_X;
+					std::get<2>(g_Char[i]).m_X = -std::get<2>(g_Char[i]).m_X;
 				}
 			}
 
