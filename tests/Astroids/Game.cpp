@@ -103,10 +103,10 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Updating the values every frame
 
-			for (int i = 0; i < 8; i++)
+			for (auto& i : g_Char)
 			{
-				std::get<1>(g_Char[i]).m_X += std::get<2>(g_Char[i]).m_X;
-				std::get<1>(g_Char[i]).m_Y += std::get<2>(g_Char[i]).m_Y;
+				std::get<1>(i).m_X += std::get<2>(i).m_X;
+				std::get<1>(i).m_Y += std::get<2>(i).m_Y;
 			}
 
 			o_Angle += 0.025f;
@@ -151,25 +151,25 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the astroids
 
-			for (int i = 0; i < 8; i++)
+			for (auto& i : g_Char)
 			{
-				std::get<0>(g_Char[i]).Translation(std::get<1>(g_Char[i]).m_X, std::get<1>(g_Char[i]).m_Y);
-				std::get<0>(g_Char[i]).Rotation(o_Angle);
+				std::get<0>(i).Translation(std::get<1>(i).m_X, std::get<1>(i).m_Y);
+				std::get<0>(i).Rotation(o_Angle);
 
 				g_Renderer->BeginLine();
 
-				std::get<0>(g_Char[i]).Render();
+				std::get<0>(i).Render();
 
 				g_Renderer->End();
 
-				if (std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y + 100.0f >= 768.0f || std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y - 60.0f <= 0.0f)
+				if (std::get<0>(i).GetPostion().m_Y + std::get<1>(i).m_Y + 100.0f >= 768.0f || std::get<0>(i).GetPostion().m_Y + std::get<1>(i).m_Y - 60.0f <= 0.0f)
 				{
-					std::get<2>(g_Char[i]).m_Y = -std::get<2>(g_Char[i]).m_Y;
+					std::get<2>(i).m_Y = -std::get<2>(i).m_Y;
 				}
 
-				if (std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X + 67.5f >= 1024.0f || std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X - 47.5f <= 0.0f)
+				if (std::get<0>(i).GetPostion().m_X + std::get<1>(i).m_X + 67.5f >= 1024.0f || std::get<0>(i).GetPostion().m_X + std::get<1>(i).m_X - 47.5f <= 0.0f)
 				{
-					std::get<2>(g_Char[i]).m_X = -std::get<2>(g_Char[i]).m_X;
+					std::get<2>(i).m_X = -std::get<2>(i).m_X;
 				}
 			}
 
