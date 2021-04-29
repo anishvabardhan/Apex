@@ -16,6 +16,8 @@ namespace Apex {
 		void BeginQuads();
 		void End();
 		void Flush();
+		void Push();
+		void Pop();
 	};
 
 }

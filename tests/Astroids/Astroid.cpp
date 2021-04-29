@@ -16,7 +16,6 @@ namespace Apex {
 
 	void Astroid::Render()
 	{
-		glPushMatrix();
 		glColor3f(    0.5f,   0.5f, 0.5f);
 		glVertex3f(   0.0f,  55.0f, 0.0f);
 		glVertex3f(  47.5f,  27.5f, 0.0f);
@@ -24,7 +23,6 @@ namespace Apex {
 		glVertex3f(   0.0f, -55.0f, 0.0f);
 		glVertex3f( -47.5f, -27.5f, 0.0f);
 		glVertex3f( -47.5f,  27.5f, 0.0f);
-		glPopMatrix();
 	}
 
 	void Astroid::Translation(float x, float y)

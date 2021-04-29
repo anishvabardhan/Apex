@@ -47,7 +47,7 @@ void Game::BeginPlay()
 
 	for (int i = 0; i < 8; i++)
 	{
-		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 400) + 75.0f, (float)(rand() % 400) + 75.0f));
+		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 200) + 75.0f, (float)(rand() % 200) + 75.0f));
 
 		g_Char.push_back({ g_Object , Apex::Vec2(o_X, o_Y), Apex::Vec2(a_X * (i + 1), a_Y * (i + 1)) });
 	}
@@ -116,9 +116,11 @@ void Game::BeginPlay()
 
 			for (int i = 0; i < 8; i++)
 			{
-				c_X[i] = ((std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X + 50.0f >= g_Player.GetPosition().m_X + p_X) && (std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X - 50.0f <= g_Player.GetPosition().m_X + p_X));
+				c_X[i] = ((std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X + 50.0f >= g_Player.GetPosition().m_X + p_X) 
+					&& (std::get<0>(g_Char[i]).GetPostion().m_X + std::get<1>(g_Char[i]).m_X - 50.0f <= g_Player.GetPosition().m_X + p_X));
 
-				c_Y[i] = ((std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y + 50.0f >= g_Player.GetPosition().m_Y + p_Y) && (std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y - 50.0f <= g_Player.GetPosition().m_Y + p_Y));
+				c_Y[i] = ((std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y + 50.0f >= g_Player.GetPosition().m_Y + p_Y) 
+					&& (std::get<0>(g_Char[i]).GetPostion().m_Y + std::get<1>(g_Char[i]).m_Y - 50.0f <= g_Player.GetPosition().m_Y + p_Y));
 
 				if (c_X[i] && c_Y[i])
 				{
@@ -138,6 +140,8 @@ void Game::BeginPlay()
 			//Rendering the player
 
 			{
+				g_Renderer->Push();
+
 				g_Player.Translation(p_X, p_Y);
 				g_Player.Rotation(p_Angle);
 
@@ -146,6 +150,8 @@ void Game::BeginPlay()
 				g_Player.Render();
 
 				g_Renderer->End();
+
+				g_Renderer->Pop();
 			}
 
 			//----------------------------------------------------------------------------------------------
@@ -153,6 +159,8 @@ void Game::BeginPlay()
 
 			for (auto& i : g_Char)
 			{
+				g_Renderer->Push();
+
 				std::get<0>(i).Translation(std::get<1>(i).m_X, std::get<1>(i).m_Y);
 				std::get<0>(i).Rotation(o_Angle);
 
@@ -162,12 +170,16 @@ void Game::BeginPlay()
 
 				g_Renderer->End();
 
-				if (std::get<0>(i).GetPostion().m_Y + std::get<1>(i).m_Y + 100.0f >= 768.0f || std::get<0>(i).GetPostion().m_Y + std::get<1>(i).m_Y - 60.0f <= 0.0f)
+				g_Renderer->Pop();
+
+				if (std::get<0>(i).GetPostion().m_Y + std::get<1>(i).m_Y + 100.0f >= 768.0f 
+					|| std::get<0>(i).GetPostion().m_Y + std::get<1>(i).m_Y - 60.0f <= 0.0f)
 				{
 					std::get<2>(i).m_Y = -std::get<2>(i).m_Y;
 				}
 
-				if (std::get<0>(i).GetPostion().m_X + std::get<1>(i).m_X + 67.5f >= 1024.0f || std::get<0>(i).GetPostion().m_X + std::get<1>(i).m_X - 47.5f <= 0.0f)
+				if (std::get<0>(i).GetPostion().m_X + std::get<1>(i).m_X + 67.5f >= 1024.0f 
+					|| std::get<0>(i).GetPostion().m_X + std::get<1>(i).m_X - 47.5f <= 0.0f)
 				{
 					std::get<2>(i).m_X = -std::get<2>(i).m_X;
 				}
