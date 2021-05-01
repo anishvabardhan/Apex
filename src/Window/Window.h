@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Windows.h>
-
 #include <iostream>
+
+#include "Input/Input.h"
 
 namespace Apex {
 

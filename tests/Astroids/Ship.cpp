@@ -1,17 +1,54 @@
 #include "Ship.h"
+#include "../src/Window/Window.h"
 
-#include <Windows.h>
 #include <gl/GL.h>
 
 namespace Apex {
 
 	Ship::Ship(Vec2 position)
-		:m_Position(position)
+		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0), m_Velocity(0.0f), m_Accelaration(500.0f)
 	{
 	}
 
 	Ship::~Ship()
 	{
+	}
+
+	void Ship::OnUpdate(float dt)
+	{
+		m_Velocity = m_Accelaration * dt;
+
+		if (Window::GetInstance()->GetKey[RIGHT_ARROW])
+		{
+			m_Angle -= m_Velocity * dt;
+		}
+
+		if (Window::GetInstance()->GetKey[LEFT_ARROW])
+		{
+			m_Angle += m_Velocity * dt;
+		}
+
+		if (Window::GetInstance()->GetKey[D] && m_Position.m_X + m_Translate.m_X < 984.0f)
+		{
+			m_Translate.m_X += m_Velocity * dt;
+		}
+		else if (Window::GetInstance()->GetKey[A] && m_Position.m_X + m_Translate.m_X > 20.0f)
+		{
+			m_Translate.m_X -= m_Velocity * dt;
+		}
+
+		if (Window::GetInstance()->GetKey[W] && m_Position.m_Y + m_Translate.m_Y < 698.0f)
+		{
+			m_Translate.m_Y += m_Velocity * dt;
+		}
+		else if (Window::GetInstance()->GetKey[S] && m_Position.m_Y + m_Translate.m_Y > 20.0f)
+		{
+			m_Translate.m_Y -= m_Velocity * dt;
+		}
+
+		Translation();
+
+		Rotation();
 	}
 
 	void Ship::Render()
@@ -22,39 +59,39 @@ namespace Apex {
 		glVertex3f(-10.0f, -10.0f, 0.0f);
 	}
 
-	void Ship::Translation(float x, float y)
+	void Ship::Translation()
 	{
 		glLoadIdentity();
 
-		if ((m_Position.m_X + x > 20.0f && m_Position.m_X + x < 984.0f) && (m_Position.m_Y + y > 20.0f && m_Position.m_Y + y < 698.0f))
+		if ((m_Position.m_X + m_Translate.m_X > 20.0f && m_Position.m_X + m_Translate.m_X < 984.0f) && (m_Position.m_Y + m_Translate.m_Y > 20.0f && m_Position.m_Y + m_Translate.m_Y < 698.0f))
 		{
-			glTranslatef(m_Position.m_X + x, m_Position.m_Y + y, 0.0f);
+			glTranslatef(m_Position.m_X + m_Translate.m_X, m_Position.m_Y + m_Translate.m_Y, 0.0f);
 		}
 
-		if(m_Position.m_X + x < 20.0f)
+		if(m_Position.m_X + m_Translate.m_X < 20.0f)
 		{
-			glTranslatef(20.0f, m_Position.m_Y + y, 0.0f);
+			glTranslatef(20.0f, m_Position.m_Y + m_Translate.m_Y, 0.0f);
 		}
 		
-		if (m_Position.m_Y + y < 20.0f)
+		if (m_Position.m_Y + m_Translate.m_Y < 20.0f)
 		{
-			glTranslatef(m_Position.m_X + x, 20.0f, 0.0f);
+			glTranslatef(m_Position.m_X + m_Translate.m_X, 20.0f, 0.0f);
 		}
 		
-		if (m_Position.m_X + x > 984.0f)
+		if (m_Position.m_X + m_Translate.m_X > 984.0f)
 		{
-			glTranslatef(984.0f, m_Position.m_Y + y, 0.0f);
+			glTranslatef(984.0f, m_Position.m_Y + m_Translate.m_Y, 0.0f);
 		}
 		
-		if (m_Position.m_Y + y > 698.0f)
+		if (m_Position.m_Y + m_Translate.m_Y > 698.0f)
 		{
-			glTranslatef(m_Position.m_X + x, 698.0f, 0.0f);
+			glTranslatef(m_Position.m_X + m_Translate.m_X, 698.0f, 0.0f);
 		}
 	}
 
-	void Ship::Rotation(float angle)
+	void Ship::Rotation()
 	{
-		glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		glRotatef(m_Angle, 0.0f, 0.0f, 1.0f);
 	}
 
 }

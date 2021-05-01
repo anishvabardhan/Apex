@@ -51,7 +51,10 @@
     <ClCompile Include="tests\Astroids\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Astroids\Bullet.cpp">
+    <ClCompile Include="src\Core\Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Maths\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -953,7 +956,10 @@
     <ClInclude Include="tests\Astroids\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Astroids\Bullet.h">
+    <ClInclude Include="src\Core\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Maths\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

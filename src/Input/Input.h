@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Window/Window.h"
-
-namespace Apex {
-
 #define LEFT_BUTTON    0x01
 #define RIGHT_BUTTON   0x02
 #define MIDDLE_BUTTON  0x04
@@ -123,5 +119,3 @@ namespace Apex {
 #define X			   0x58
 #define Y			   0x59
 #define Z			   0x5A
-
-}
