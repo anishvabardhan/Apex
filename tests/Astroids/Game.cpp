@@ -3,6 +3,7 @@
 #include "../src/Window/Window.h"
 #include "../src/Graphics/Renderer.h"
 #include "../src/Core/Time.h"
+#include "../src/Maths/Random.h"
 #include "../src/Input/Input.h"
 #include "../src/Physics/2D/Disc2D.h"
 
@@ -50,7 +51,7 @@ void Game::BeginPlay()
 
 	for (int i = 0; i < 8; i++)
 	{
-		Apex::Astroid g_Object(Apex::Vec2((float)(rand() % 200) + 75.0f, (float)(rand() % 200) + 75.0f), i);
+		Apex::Astroid g_Object(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), i);
 
 		g_Astroids.push_back(g_Object);
 	}
@@ -85,15 +86,30 @@ void Game::BeginPlay()
 
 				g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
 
+				//------------------------------------------------------------------------------------------
+				//Push into Stack
+
 				g_Renderer->Push();
 
+				//------------------------------------------------------------------------------------------
+				//Updates every Frame
+
 				g_Player.OnUpdate(g_TS.GetDeltaTime());
+
+				//------------------------------------------------------------------------------------------
+				//Begin Rendering
 
 				g_Renderer->BeginLine();
 
 				g_Player.Render();
 
 				g_Renderer->End();
+
+				//End rendering
+				//------------------------------------------------------------------------------------------
+
+				//------------------------------------------------------------------------------------------
+				//Pop from Stack
 
 				g_Renderer->Pop();
 			}
@@ -108,15 +124,30 @@ void Game::BeginPlay()
 
 				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), 50.0f);
 
+				//------------------------------------------------------------------------------------------
+				//Push into Stack
+
 				g_Renderer->Push();
 
+				//------------------------------------------------------------------------------------------
+				//Updates every Frame
+
 				g_Astroids[i].OnUpdate(g_TS.GetDeltaTime());
+
+				//------------------------------------------------------------------------------------------
+				//Begin Rendering
 
 				g_Renderer->BeginLine();
 
 				g_Astroids[i].Render();
 
 				g_Renderer->End();
+
+				//End rendering
+				//------------------------------------------------------------------------------------------
+
+				//------------------------------------------------------------------------------------------
+				//Pop from Stack
 
 				g_Renderer->Pop();
 
@@ -153,6 +184,7 @@ void Game::BeginPlay()
 
 			//----------------------------------------------------------------------------------------------
 			//End the Timer
+
 			g_TS.End();
 		}
 	}
