@@ -1,5 +1,7 @@
 #include "Time.h"
 
+#include <time.h>
+
 namespace Apex {
 
 	Time::Time(int fps)
@@ -37,6 +39,11 @@ namespace Apex {
 	float Time::GetDeltaTime()
 	{
 		return 1.0f / (float)m_DeltaTime.QuadPart;
+	}
+
+	void Time::SetSeed() const
+	{
+		srand((unsigned int)time(0));
 	}
 
 }

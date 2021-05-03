@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
     <ClCompile Include="src\Maths\Random.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="tests\Astroids\Game.cpp" />
@@ -169,7 +170,9 @@
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Physics\2D\Disc2D.h" />
     <ClInclude Include="src\Maths\Random.h" />
+    <ClInclude Include="tests\Astroids\Entity.h" />
     <ClInclude Include="tests\Astroids\Game.h" />
     <ClInclude Include="tests\Astroids\Astroid.h" />
     <ClInclude Include="tests\Astroids\Ship.h" />

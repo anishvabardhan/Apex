@@ -12,9 +12,9 @@ namespace Apex {
 		explicit Random(float rangeMinMax);
 
 		float GetRandomInRange();
-	private:
-		int GetRandomIntLessThan(int maxNotInclusive);
-		float GetRandomFloatInRange(float minInclusive, float maxInclusive);
+		
+		static int GetRandomIntLessThan(int maxNotInclusive);
+		static float GetRandomFloatInRange(float minInclusive, float maxInclusive);
 
 		float Interpolate(float start, float end, float fractionTowardEnd);
 	public:

@@ -57,6 +57,9 @@
     <ClCompile Include="src\Maths\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\2D\Disc2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\Renderer.h">
@@ -960,6 +963,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Maths\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\Astroids\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\2D\Disc2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
