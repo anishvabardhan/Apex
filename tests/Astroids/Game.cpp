@@ -35,15 +35,16 @@ void Game::BeginPlay()
 	//Instantiating a renderer
 
 	Apex::Renderer* g_Renderer = nullptr;
+
+	//------------------------------------------------------------------------------------------------------
+	//Instantiating Collision Discs
+
 	Apex::Disc2D *g_PlayerDisc, *g_AstroidDisc;
 
 	//------------------------------------------------------------------------------------------------------
 	//Instatntiating the characters 
 
 	Apex::Ship g_Player(Apex::Vec2(30.0f, 30.0f));
-
-	float g_Dist1 = 65.0f;
-	int x = 0;
 
 	std::vector<Apex::Astroid> g_Astroids;
 
@@ -53,6 +54,7 @@ void Game::BeginPlay()
 
 		g_Astroids.push_back(g_Object);
 	}
+	
 	//------------------------------------------------------------------------------------------------------
 	//Initializing the window
 
@@ -65,6 +67,8 @@ void Game::BeginPlay()
 		{
 			g_App.Broadcast();			
 
+			//----------------------------------------------------------------------------------------------
+			//Start the Timer
 			g_TS.Start();
 
 			//----------------------------------------------------------------------------------------------
@@ -76,6 +80,9 @@ void Game::BeginPlay()
 			//Rendering the player
 
 			{
+				//------------------------------------------------------------------------------------------
+				//Applying the collision discs on the entity
+
 				g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
 
 				g_Renderer->Push();
@@ -96,6 +103,9 @@ void Game::BeginPlay()
 
 			for (uint32_t i = 0; i < g_Astroids.size(); i++)
 			{
+				//------------------------------------------------------------------------------------------
+				//Applying the collision discs on the entity
+
 				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), 50.0f);
 
 				g_Renderer->Push();
@@ -110,17 +120,18 @@ void Game::BeginPlay()
 
 				g_Renderer->Pop();
 
+				//------------------------------------------------------------------------------------------
+				//Collision Detection
+
 				if (Apex::Disc2D::CheckCollision(g_AstroidDisc, g_PlayerDisc))
 				{
-					x++;
+					g_App.Release();
 				}
 
+				//------------------------------------------------------------------------------------------
+				//Deleting Heap Allocated Memory
+
 				delete g_AstroidDisc;
-			}
-			
-			if (x > 0)
-			{
-				g_App.Release();
 			}
 
 			//----------------------------------------------------------------------------------------------
@@ -130,6 +141,9 @@ void Game::BeginPlay()
 
 			g_Renderer->Flush();
 
+			//----------------------------------------------------------------------------------------------
+			//Deleting Heap Allocated Memory
+
 			delete g_PlayerDisc;
 
 			//----------------------------------------------------------------------------------------------
@@ -137,6 +151,8 @@ void Game::BeginPlay()
 
 			g_App.SwappingBuffers();
 
+			//----------------------------------------------------------------------------------------------
+			//End the Timer
 			g_TS.End();
 		}
 	}
