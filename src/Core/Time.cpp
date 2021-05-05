@@ -30,7 +30,7 @@ namespace Apex {
 		QueryPerformanceCounter(&m_End);
 
 		m_DeltaTime.QuadPart = (m_End.QuadPart - m_Start.QuadPart) * 1000000;
-		m_DeltaTime.QuadPart /= m_Freq.QuadPart;
+		m_DeltaTime.QuadPart /= m_Freq.QuadPart; // Ticks Per Second
 
 		if (m_DeltaTime.QuadPart > m_FPS)
 			m_DeltaTime.QuadPart = (LONGLONG)m_FPS;
@@ -41,7 +41,7 @@ namespace Apex {
 		return 1.0f / (float)m_DeltaTime.QuadPart;
 	}
 
-	void Time::SetSeed() const
+	void Time::SetSeed()
 	{
 		srand((unsigned int)time(0));
 	}

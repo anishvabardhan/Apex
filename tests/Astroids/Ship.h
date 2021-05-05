@@ -11,7 +11,7 @@ namespace Apex {
 		Vec2 m_Position;
 		Vec2 m_Translate;
 
-		float m_Velocity, m_Accelaration;
+		float m_Velocity[2], m_Accelaration[2];
 		float m_Angle;
 	public:
 		explicit Ship(Vec2 position);

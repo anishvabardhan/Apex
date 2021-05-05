@@ -6,7 +6,7 @@
 namespace Apex {
 
 	Ship::Ship(Vec2 position)
-		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0), m_Velocity(0.0f), m_Accelaration(500.0f)
+		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }
 	{
 	}
 
@@ -16,35 +16,49 @@ namespace Apex {
 
 	void Ship::OnUpdate(float dt)
 	{
-		m_Velocity = m_Accelaration * dt;
+		//m_Velocity = m_Accelaration * dt;
 
 		if (Window::GetInstance()->GetKey[RIGHT_ARROW])
 		{
-			m_Angle -= m_Velocity * dt;
+			m_Angle -= 10 * dt;
 		}
-
+		
 		if (Window::GetInstance()->GetKey[LEFT_ARROW])
 		{
-			m_Angle += m_Velocity * dt;
+			m_Angle += 10 * dt;
 		}
 
 		if (Window::GetInstance()->GetKey[D] && m_Position.m_X + m_Translate.m_X < 984.0f)
 		{
-			m_Translate.m_X += m_Velocity * dt;
+			m_Accelaration[0] = 500.0f;
 		}
 		else if (Window::GetInstance()->GetKey[A] && m_Position.m_X + m_Translate.m_X > 20.0f)
 		{
-			m_Translate.m_X -= m_Velocity * dt;
+			m_Accelaration[0] = -500.0f;
+		}
+		else
+		{
+			m_Accelaration[0] = 0.0f;
 		}
 
 		if (Window::GetInstance()->GetKey[W] && m_Position.m_Y + m_Translate.m_Y < 698.0f)
 		{
-			m_Translate.m_Y += m_Velocity * dt;
+			m_Accelaration[1] = 500.0f;
 		}
 		else if (Window::GetInstance()->GetKey[S] && m_Position.m_Y + m_Translate.m_Y > 20.0f)
 		{
-			m_Translate.m_Y -= m_Velocity * dt;
+			m_Accelaration[1] = -500.0f;
 		}
+		else
+		{
+			m_Accelaration[1] = 0.0f;
+		}
+
+		m_Velocity[0] = m_Accelaration[0] * dt;
+		m_Velocity[1] = m_Accelaration[1] * dt;
+
+		m_Translate.m_X += m_Velocity[0] * dt;
+		m_Translate.m_Y += m_Velocity[1] * dt;
 
 		Translation();
 

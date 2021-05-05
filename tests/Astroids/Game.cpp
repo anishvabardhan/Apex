@@ -11,6 +11,7 @@
 #include "Astroid.h"
 
 #include <vector>
+#include <memory>
 
 Game::Game()
 {
@@ -29,13 +30,14 @@ void Game::BeginPlay()
 
 	//------------------------------------------------------------------------------------------------------
 	//Locking FPS
+
 	Apex::Time g_TS(60);
 	g_TS.SetSeed();
 
 	//------------------------------------------------------------------------------------------------------
 	//Instantiating a renderer
 
-	Apex::Renderer* g_Renderer = nullptr;
+	std::unique_ptr<Apex::Renderer> g_Renderer = std::make_unique<Apex::Renderer>();
 
 	//------------------------------------------------------------------------------------------------------
 	//Instantiating Collision Discs
@@ -70,6 +72,7 @@ void Game::BeginPlay()
 
 			//----------------------------------------------------------------------------------------------
 			//Start the Timer
+
 			g_TS.Start();
 
 			//----------------------------------------------------------------------------------------------
@@ -80,39 +83,25 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player
 
-			{
-				//------------------------------------------------------------------------------------------
-				//Applying the collision discs on the entity
-
-				g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
-
-				//------------------------------------------------------------------------------------------
-				//Push into Stack
-
-				g_Renderer->Push();
-
-				//------------------------------------------------------------------------------------------
-				//Updates every Frame
-
-				g_Player.OnUpdate(g_TS.GetDeltaTime());
-
-				//------------------------------------------------------------------------------------------
-				//Begin Rendering
-
-				g_Renderer->BeginLine();
-
-				g_Player.Render();
-
-				g_Renderer->End();
-
-				//End rendering
-				//------------------------------------------------------------------------------------------
-
-				//------------------------------------------------------------------------------------------
-				//Pop from Stack
-
-				g_Renderer->Pop();
-			}
+			//----------------------------------------------------------------------------------------------
+			//Applying the collision discs on the entity
+			
+			g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
+			
+			g_Renderer->Push();
+			
+			//----------------------------------------------------------------------------------------------
+			//Updates every Frame
+			
+			g_Player.OnUpdate(g_TS.GetDeltaTime());
+			
+			g_Renderer->BeginLine();
+			
+			g_Player.Render();
+			
+			g_Renderer->End();
+			
+			g_Renderer->Pop();
 
 			//----------------------------------------------------------------------------------------------
 			//Rendering the astroids
@@ -121,47 +110,35 @@ void Game::BeginPlay()
 			{
 				//------------------------------------------------------------------------------------------
 				//Applying the collision discs on the entity
-
+			
 				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), 50.0f);
-
-				//------------------------------------------------------------------------------------------
-				//Push into Stack
-
+			
 				g_Renderer->Push();
-
+			
 				//------------------------------------------------------------------------------------------
 				//Updates every Frame
-
+			
 				g_Astroids[i].OnUpdate(g_TS.GetDeltaTime());
-
-				//------------------------------------------------------------------------------------------
-				//Begin Rendering
-
+			
 				g_Renderer->BeginLine();
-
+			
 				g_Astroids[i].Render();
-
+			
 				g_Renderer->End();
-
-				//End rendering
-				//------------------------------------------------------------------------------------------
-
-				//------------------------------------------------------------------------------------------
-				//Pop from Stack
-
+			
 				g_Renderer->Pop();
-
+			
 				//------------------------------------------------------------------------------------------
 				//Collision Detection
-
+			
 				if (Apex::Disc2D::CheckCollision(g_AstroidDisc, g_PlayerDisc))
 				{
 					g_App.Release();
 				}
-
+			
 				//------------------------------------------------------------------------------------------
 				//Deleting Heap Allocated Memory
-
+			
 				delete g_AstroidDisc;
 			}
 

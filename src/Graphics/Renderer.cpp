@@ -23,6 +23,15 @@ namespace Apex {
 		glDrawElements(GL_LINE_STRIP, renderable.GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}*/
 
+	Renderer::Renderer()
+	{
+		InitRender();
+	}
+
+	Renderer::~Renderer()
+	{
+	}
+
 	void Renderer::InitRender()
 	{
 		//--------------------------------------------------------------------------------------------------

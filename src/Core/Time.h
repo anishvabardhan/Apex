@@ -17,7 +17,7 @@ namespace Apex {
 		void End();
 		float GetDeltaTime();
 
-		void SetSeed() const;
+		void SetSeed();
 	};
 
 }
