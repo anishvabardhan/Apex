@@ -4,41 +4,49 @@
 
 namespace Apex {
 
-	Time::Time(int fps)
+	Time::Time(float fps)
 		:m_FPS(fps)
 	{
-		InitGameTime(m_FPS);
+		LARGE_INTEGER t;
+		QueryPerformanceFrequency(&t);
+		m_Frequency = t.QuadPart;
+
+		Reset();
 	}
 
 	Time::~Time()
 	{
 	}
 
-	void Time::InitGameTime(int fps)
+	void Time::Reset()
 	{
-		QueryPerformanceFrequency(&m_Freq);
-		m_DeltaTime.QuadPart = fps;
+		// Set the Current Time
+		LARGE_INTEGER t;
+		QueryPerformanceCounter(&t);
+		m_StartTime = t.QuadPart;
+		m_CurrentCallToUpdate = t.QuadPart;
+		m_LastCallToUpdate = t.QuadPart;
 	}
 
-	void Time::Start()
+	void Time::Update()
 	{
-		QueryPerformanceCounter(&m_Start);
+		m_LastCallToUpdate = m_CurrentCallToUpdate;
+		LARGE_INTEGER t;
+		QueryPerformanceCounter(&t);
+		m_CurrentCallToUpdate = t.QuadPart;
 	}
 
-	void Time::End()
+	float Time::GetTimeDelta()
 	{
-		QueryPerformanceCounter(&m_End);
+		float d = (float)(m_CurrentCallToUpdate - m_LastCallToUpdate);
+		
+		d *= 1000000;
+		d /= m_Frequency;
 
-		m_DeltaTime.QuadPart = (m_End.QuadPart - m_Start.QuadPart) * 1000000;
-		m_DeltaTime.QuadPart /= m_Freq.QuadPart; // Ticks Per Second
+		if (d > m_FPS)
+			d = m_FPS;
 
-		if (m_DeltaTime.QuadPart > m_FPS)
-			m_DeltaTime.QuadPart = (LONGLONG)m_FPS;
-	}
-
-	float Time::GetDeltaTime()
-	{
-		return 1.0f / (float)m_DeltaTime.QuadPart;
+		return 1.0f / d;
 	}
 
 	void Time::SetSeed()

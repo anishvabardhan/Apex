@@ -68,12 +68,9 @@ void Game::BeginPlay()
 
 		while (g_App.IsRun())
 		{
-			g_App.Broadcast();			
+			g_App.Broadcast();		
 
-			//----------------------------------------------------------------------------------------------
-			//Start the Timer
-
-			g_TS.Start();
+			g_TS.Update();
 
 			//----------------------------------------------------------------------------------------------
 			//Initializing the renderer
@@ -93,7 +90,7 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Updates every Frame
 			
-			g_Player.OnUpdate(g_TS.GetDeltaTime());
+			g_Player.OnUpdate(g_TS.GetTimeDelta());
 			
 			g_Renderer->BeginLine();
 			
@@ -118,7 +115,7 @@ void Game::BeginPlay()
 				//------------------------------------------------------------------------------------------
 				//Updates every Frame
 			
-				g_Astroids[i].OnUpdate(g_TS.GetDeltaTime());
+				g_Astroids[i].OnUpdate(g_TS.GetTimeDelta());
 			
 				g_Renderer->BeginLine();
 			
@@ -158,11 +155,6 @@ void Game::BeginPlay()
 			//Swapping front and back buffers each frame
 
 			g_App.SwappingBuffers();
-
-			//----------------------------------------------------------------------------------------------
-			//End the Timer
-
-			g_TS.End();
 		}
 	}
 }

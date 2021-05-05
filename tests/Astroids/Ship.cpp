@@ -16,8 +16,6 @@ namespace Apex {
 
 	void Ship::OnUpdate(float dt)
 	{
-		//m_Velocity = m_Accelaration * dt;
-
 		if (Window::GetInstance()->GetKey[RIGHT_ARROW])
 		{
 			m_Angle -= 10 * dt;

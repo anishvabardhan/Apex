@@ -6,16 +6,15 @@ namespace Apex {
 
 	class Time
 	{
-		int m_FPS;
-		LARGE_INTEGER m_Freq, m_DeltaTime, m_Start, m_End;
+		float m_FPS;
+		long long m_StartTime, m_LastCallToUpdate, m_CurrentCallToUpdate, m_Frequency;
 	public:
-		Time(int fps);
+		Time(float fps);
 		~Time();
 
-		void InitGameTime(int fps);
-		void Start();
-		void End();
-		float GetDeltaTime();
+		void Reset();
+		void Update();
+		float GetTimeDelta();
 
 		void SetSeed();
 	};
