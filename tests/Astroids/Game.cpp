@@ -37,7 +37,7 @@ void Game::BeginPlay()
 	//------------------------------------------------------------------------------------------------------
 	//Instantiating a renderer
 
-	std::unique_ptr<Apex::Renderer> g_Renderer = std::make_unique<Apex::Renderer>();
+	std::unique_ptr<Apex::Renderer> g_Renderer;
 
 	//------------------------------------------------------------------------------------------------------
 	//Instantiating Collision Discs

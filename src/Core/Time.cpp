@@ -39,9 +39,6 @@ namespace Apex {
 	float Time::GetTimeDelta()
 	{
 		float d = (float)(m_CurrentCallToUpdate - m_LastCallToUpdate);
-		
-		d *= 1000000;
-		d /= m_Frequency;
 
 		if (d > m_FPS)
 			d = m_FPS;
