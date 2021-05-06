@@ -6,6 +6,7 @@
 #include "../src/Maths/Random.h"
 #include "../src/Input/Input.h"
 #include "../src/Physics/2D/Disc2D.h"
+#include "../src/Core/DebugSystem.h"
 
 #include "Ship.h"
 #include "Astroid.h"
@@ -89,6 +90,9 @@ void Game::BeginPlay()
 			g_Player.OnUpdate(g_TS.GetTimeDelta());
 						
 			g_Player.Render();
+			
+			Apex::DebugSystem::DebugCircle(g_PlayerDisc->GetRadius());
+            Apex::DebugSystem::DebugLine();
 						
 			g_Renderer->Pop();
 			
@@ -100,13 +104,15 @@ void Game::BeginPlay()
 				//------------------------------------------------------------------------------------------
 				//Applying the collision discs on the entity
 			
-				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), 50.0f);
+				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), 55.0f);
 			
 				g_Renderer->Push();
 			
 				g_Astroids[i].OnUpdate(g_TS.GetTimeDelta());
 						
 				g_Astroids[i].Render();
+
+				Apex::DebugSystem::DebugCircle(g_AstroidDisc->GetRadius());
 						
 				g_Renderer->Pop();
 			
