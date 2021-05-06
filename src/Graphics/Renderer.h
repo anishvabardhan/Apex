@@ -15,12 +15,13 @@ namespace Apex {
 		*/
 		void InitRender();
 
-		void BeginLine();
-		void BeginQuads();
-		void End();
-		void Flush();
 		void Push();
 		void Pop();
+
+		static void BeginLine();
+		static void BeginQuads();
+		static void End();
+		static void Flush();
 	};
 
 }

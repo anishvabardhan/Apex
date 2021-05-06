@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include "../src/Window/Window.h"
+#include "../src/Graphics/Renderer.h"
 
 #include <gl/GL.h>
 
@@ -26,11 +27,11 @@ namespace Apex {
 			m_Angle += 10 * dt;
 		}
 
-		if (Window::GetInstance()->GetKey[D] && m_Position.m_X + m_Translate.m_X < 984.0f)
+		if (Window::GetInstance()->GetKey[D])
 		{
 			m_Accelaration[0] = 500.0f;
 		}
-		else if (Window::GetInstance()->GetKey[A] && m_Position.m_X + m_Translate.m_X > 20.0f)
+		else if (Window::GetInstance()->GetKey[A])
 		{
 			m_Accelaration[0] = -500.0f;
 		}
@@ -39,11 +40,11 @@ namespace Apex {
 			m_Accelaration[0] = 0.0f;
 		}
 
-		if (Window::GetInstance()->GetKey[W] && m_Position.m_Y + m_Translate.m_Y < 698.0f)
+		if (Window::GetInstance()->GetKey[W])
 		{
 			m_Accelaration[1] = 500.0f;
 		}
-		else if (Window::GetInstance()->GetKey[S] && m_Position.m_Y + m_Translate.m_Y > 20.0f)
+		else if (Window::GetInstance()->GetKey[S])
 		{
 			m_Accelaration[1] = -500.0f;
 		}
@@ -65,39 +66,53 @@ namespace Apex {
 
 	void Ship::Render()
 	{
+
+		float vertices[9] = {
+			  0.0f,  15.0f, 0.0f,
+			 10.0f, -10.0f, 0.0f,
+			-10.0f, -10.0f, 0.0f
+		};
+
+		Renderer::BeginLine();
+
 		glColor3f(1.0f, 0.8f, 0.0f);
-		glVertex3f(  0.0f,  15.0f, 0.0f);
-		glVertex3f( 10.0f, -10.0f, 0.0f);
-		glVertex3f(-10.0f, -10.0f, 0.0f);
+		
+		for (int i = 0; i < 9; i += 3)
+		{
+			glVertex3fv(&vertices[i]);
+		}
+
+		Renderer::End();
 	}
 
 	void Ship::Translation()
 	{
 		glLoadIdentity();
 
-		if ((m_Position.m_X + m_Translate.m_X > 20.0f && m_Position.m_X + m_Translate.m_X < 984.0f) && (m_Position.m_Y + m_Translate.m_Y > 20.0f && m_Position.m_Y + m_Translate.m_Y < 698.0f))
+		if ((m_Position.m_X + m_Translate.m_X > 0.0f && m_Position.m_X + m_Translate.m_X < 1024.0f) 
+			&& (m_Position.m_Y + m_Translate.m_Y > 0.0f && m_Position.m_Y + m_Translate.m_Y < 768.0f))
 		{
 			glTranslatef(m_Position.m_X + m_Translate.m_X, m_Position.m_Y + m_Translate.m_Y, 0.0f);
 		}
 
-		if(m_Position.m_X + m_Translate.m_X < 20.0f)
+		if (m_Position.m_X + m_Translate.m_X < 0.0f)
 		{
-			glTranslatef(20.0f, m_Position.m_Y + m_Translate.m_Y, 0.0f);
+			m_Translate.m_X = 1024.0f + (float)((int)(m_Translate.m_X) % 1024);
 		}
-		
-		if (m_Position.m_Y + m_Translate.m_Y < 20.0f)
+
+		if (m_Position.m_Y + m_Translate.m_Y < 0.0f)
 		{
-			glTranslatef(m_Position.m_X + m_Translate.m_X, 20.0f, 0.0f);
+			m_Translate.m_Y = 768.0f + (float)((int)(m_Translate.m_Y) % 768);
 		}
-		
-		if (m_Position.m_X + m_Translate.m_X > 984.0f)
+
+		if (m_Position.m_X + m_Translate.m_X > 1024.0f)
 		{
-			glTranslatef(984.0f, m_Position.m_Y + m_Translate.m_Y, 0.0f);
+			m_Translate.m_X = (float)((int)(m_Position.m_X + m_Translate.m_X) % 1024) - m_Position.m_X;
 		}
-		
-		if (m_Position.m_Y + m_Translate.m_Y > 698.0f)
+
+		if (m_Position.m_Y + m_Translate.m_Y > 768.0f)
 		{
-			glTranslatef(m_Position.m_X + m_Translate.m_X, 698.0f, 0.0f);
+			m_Translate.m_Y = (float)((int)(m_Position.m_Y + m_Translate.m_Y) % 768) - m_Position.m_Y;
 		}
 	}
 

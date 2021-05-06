@@ -1,6 +1,7 @@
 #include "Astroid.h"
 
 #include "../src/Maths/Random.h"
+#include "../src/Graphics/Renderer.h"
 
 #include <Windows.h>
 #include <gl/GL.h>
@@ -31,13 +32,25 @@ namespace Apex {
 
 	void Astroid::Render()
 	{
-		glColor3f(    0.5f,   0.5f, 0.5f);
-		glVertex3f(   0.0f,  55.0f, 0.0f);
-		glVertex3f(  47.5f,  27.5f, 0.0f);
-		glVertex3f(  47.5f, -27.5f, 0.0f);
-		glVertex3f(   0.0f, -55.0f, 0.0f);
-		glVertex3f( -47.5f, -27.5f, 0.0f);
-		glVertex3f( -47.5f,  27.5f, 0.0f);
+		float vertices[18] = {
+			   0.0f,  55.0f, 0.0f,
+			  47.5f,  27.5f, 0.0f,
+			  47.5f, -27.5f, 0.0f,
+			   0.0f, -55.0f, 0.0f,
+			 -47.5f, -27.5f, 0.0f,
+			 -47.5f,  27.5f, 0.0f
+		};
+
+		Renderer::BeginLine();
+
+		glColor3f(0.5f, 0.5f, 0.5f);
+		
+		for(int i = 0; i < 18; i += 3)
+		{
+			glVertex3fv(&vertices[i]);
+		}
+
+		Renderer::End();
 	}
 
 	void Astroid::Translation()

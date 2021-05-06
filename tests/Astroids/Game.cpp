@@ -11,7 +11,6 @@
 #include "Astroid.h"
 
 #include <vector>
-#include <memory>
 
 Game::Game()
 {
@@ -37,24 +36,24 @@ void Game::BeginPlay()
 	//------------------------------------------------------------------------------------------------------
 	//Instantiating a renderer
 
-	std::unique_ptr<Apex::Renderer> g_Renderer;
+	Apex::Renderer* g_Renderer = nullptr;
 
 	//------------------------------------------------------------------------------------------------------
 	//Instantiating Collision Discs
 
 	Apex::Disc2D *g_PlayerDisc, *g_AstroidDisc;
-
+	
 	//------------------------------------------------------------------------------------------------------
 	//Instatntiating the characters 
-
+	
 	Apex::Ship g_Player(Apex::Vec2(30.0f, 30.0f));
-
+	
 	std::vector<Apex::Astroid> g_Astroids;
-
+	
 	for (int i = 0; i < 8; i++)
 	{
 		Apex::Astroid g_Object(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), i);
-
+	
 		g_Astroids.push_back(g_Object);
 	}
 	
@@ -80,29 +79,22 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player
 
-			//----------------------------------------------------------------------------------------------
-			//Applying the collision discs on the entity
+			    //------------------------------------------------------------------------------------------
+			    //Applying the collision discs on the entity
 			
 			g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
 			
 			g_Renderer->Push();
 			
-			//----------------------------------------------------------------------------------------------
-			//Updates every Frame
-			
 			g_Player.OnUpdate(g_TS.GetTimeDelta());
-			
-			g_Renderer->BeginLine();
-			
+						
 			g_Player.Render();
-			
-			g_Renderer->End();
-			
+						
 			g_Renderer->Pop();
-
+			
 			//----------------------------------------------------------------------------------------------
 			//Rendering the astroids
-
+			
 			for (uint32_t i = 0; i < g_Astroids.size(); i++)
 			{
 				//------------------------------------------------------------------------------------------
@@ -112,17 +104,10 @@ void Game::BeginPlay()
 			
 				g_Renderer->Push();
 			
-				//------------------------------------------------------------------------------------------
-				//Updates every Frame
-			
 				g_Astroids[i].OnUpdate(g_TS.GetTimeDelta());
-			
-				g_Renderer->BeginLine();
-			
+						
 				g_Astroids[i].Render();
-			
-				g_Renderer->End();
-			
+						
 				g_Renderer->Pop();
 			
 				//------------------------------------------------------------------------------------------
@@ -149,7 +134,7 @@ void Game::BeginPlay()
 			//----------------------------------------------------------------------------------------------
 			//Deleting Heap Allocated Memory
 
-			delete g_PlayerDisc;
+			//delete g_PlayerDisc;
 
 			//----------------------------------------------------------------------------------------------
 			//Swapping front and back buffers each frame
