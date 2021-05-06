@@ -35,7 +35,7 @@ namespace Apex {
 		{
 			glScalef(scale, scale, 0.0f);
 
-			Renderer::BeginLine();
+			Renderer::BeginLineLoop();
 
 			glColor3f(0.0f, 1.0f, 0.0f);
 
@@ -58,7 +58,7 @@ namespace Apex {
 
 		if (Window::GetInstance()->GetKey[F2])
 		{
-			glBegin(GL_LINE_STRIP);
+			Renderer::BeginLineStrip();
 
 			glColor3f(1.0f, 0.0f, 0.0f);
 
@@ -67,7 +67,7 @@ namespace Apex {
 				glVertex3fv(&vertices[i]);
 			}
 
-			glEnd();
+			Renderer::End();
 		}
 	}
 

@@ -18,7 +18,8 @@ namespace Apex {
 		void Push();
 		void Pop();
 
-		static void BeginLine();
+		static void BeginLineLoop();
+		static void BeginLineStrip();
 		static void BeginQuads();
 		static void End();
 		static void Flush();

@@ -41,7 +41,7 @@ namespace Apex {
 			 -47.5f,  27.5f, 0.0f
 		};
 
-		Renderer::BeginLine();
+		Renderer::BeginLineLoop();
 
 		glColor3f(0.5f, 0.5f, 0.5f);
 		
