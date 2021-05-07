@@ -2,6 +2,8 @@
 #include "../src/Window/Window.h"
 #include "../src/Graphics/Renderer.h"
 
+#include "Bullet.h"
+
 #include <gl/GL.h>
 
 namespace Apex {
@@ -67,9 +69,10 @@ namespace Apex {
 	void Ship::Render()
 	{
 
-		float vertices[9] = {
+		float vertices[12] = {
 			  0.0f,  15.0f, 0.0f,
 			 10.0f, -10.0f, 0.0f,
+			  0.0f,   0.0f, 0.0f,
 			-10.0f, -10.0f, 0.0f
 		};
 
@@ -77,7 +80,7 @@ namespace Apex {
 
 		glColor3f(1.0f, 0.8f, 0.0f);
 		
-		for (int i = 0; i < 9; i += 3)
+		for (int i = 0; i < 12; i += 3)
 		{
 			glVertex3fv(&vertices[i]);
 		}

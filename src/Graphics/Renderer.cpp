@@ -85,9 +85,9 @@ namespace Apex {
 		glBegin(GL_LINE_STRIP);
 	}
 
-	void Renderer::BeginQuads()
+	void Renderer::BeginPolygon()
 	{
-		glBegin(GL_QUADS);
+		glBegin(GL_POLYGON);
 	}
 
 	void Renderer::End()

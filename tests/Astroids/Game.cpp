@@ -10,6 +10,7 @@
 
 #include "Ship.h"
 #include "Astroid.h"
+#include "Bullet.h"
 
 #include <vector>
 
@@ -83,18 +84,18 @@ void Game::BeginPlay()
 			    //------------------------------------------------------------------------------------------
 			    //Applying the collision discs on the entity
 			
-			g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
-			
-			g_Renderer->Push();
-			
-			g_Player.OnUpdate(g_TS.GetTimeDelta());
-						
-			g_Player.Render();
-			
-			Apex::DebugSystem::DebugCircle(g_PlayerDisc->GetRadius());
-            Apex::DebugSystem::DebugLine();
-						
-			g_Renderer->Pop();
+			//g_PlayerDisc = new Apex::Disc2D(g_Player.GetPosition() + g_Player.GetTranslate(), 15.0f);
+			//
+			//g_Renderer->Push();
+			//
+			//g_Player.OnUpdate(g_TS.GetTimeDelta());
+			//
+			//g_Player.Render();
+			//
+			//Apex::DebugSystem::DebugCircle(g_PlayerDisc->GetRadius());
+            //Apex::DebugSystem::DebugLine();
+			//			
+			//g_Renderer->Pop();
 			
 			//----------------------------------------------------------------------------------------------
 			//Rendering the astroids
@@ -119,10 +120,10 @@ void Game::BeginPlay()
 				//------------------------------------------------------------------------------------------
 				//Collision Detection
 			
-				if (Apex::Disc2D::CheckCollision(g_AstroidDisc, g_PlayerDisc))
-				{
-					g_App.Release();
-				}
+				//if (Apex::Disc2D::CheckCollision(g_AstroidDisc, g_PlayerDisc))
+				//{
+				//	g_App.Release();
+				//}
 			
 				//------------------------------------------------------------------------------------------
 				//Deleting Heap Allocated Memory

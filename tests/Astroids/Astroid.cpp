@@ -3,6 +3,9 @@
 #include "../src/Maths/Random.h"
 #include "../src/Graphics/Renderer.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include <Windows.h>
 #include <gl/GL.h>
 
@@ -32,22 +35,15 @@ namespace Apex {
 
 	void Astroid::Render()
 	{
-		float vertices[18] = {
-			   0.0f,  55.0f, 0.0f,
-			  47.5f,  27.5f, 0.0f,
-			  47.5f, -27.5f, 0.0f,
-			   0.0f, -55.0f, 0.0f,
-			 -47.5f, -27.5f, 0.0f,
-			 -47.5f,  27.5f, 0.0f
-		};
+		GLfloat twicePi = 2.0f * (GLfloat)M_PI;
 
 		Renderer::BeginLineLoop();
 
 		glColor3f(0.5f, 0.5f, 0.5f);
-		
-		for(int i = 0; i < 18; i += 3)
+
+		for (int i = 0; i < 6; i++)
 		{
-			glVertex3fv(&vertices[i]);
+			glVertex3f((55.0f * cos(i * twicePi / 6)), (55.0f * sin(i * twicePi / 6)), 0.0f);
 		}
 
 		Renderer::End();

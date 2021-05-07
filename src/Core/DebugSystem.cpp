@@ -2,6 +2,9 @@
 #include "Graphics/Renderer.h"
 #include "Window/Window.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include <GL/GL.h>
 
 namespace Apex {
@@ -16,32 +19,18 @@ namespace Apex {
 
 	void DebugSystem::DebugCircle(float scale)
 	{
-		float vertices[36] = {
-			  0.0f, 1.0f, 0.0f,
-			 0.5f, 0.86f, 0.0f,
-			 0.86f, 0.5f, 0.0f,
-			  1.0f, 0.0f, 0.0f,
-			0.86f, -0.5f, 0.0f,
-			0.5f, -0.86f, 0.0f,
-			 0.0f, -1.0f, 0.0f,
-			-0.5f,-0.86f, 0.0f,
-			-0.86f,-0.5f, 0.0f,
-			 -1.0f, 0.0f, 0.0f,
-			-0.86f, 0.5f, 0.0f,
-			-0.5f, 0.86f, 0.0f
-		};
 
 		if (Window::GetInstance()->GetKey[F1])
 		{
-			glScalef(scale, scale, 0.0f);
+			GLfloat twicePi = 2.0f * M_PI;
 
 			Renderer::BeginLineLoop();
 
 			glColor3f(0.0f, 1.0f, 0.0f);
 
-			for (int i = 0; i < 36; i += 3)
+			for (int i = 0; i < 100; i ++)
 			{
-				glVertex3fv(&vertices[i]);
+				glVertex3f((scale * cos(i * twicePi / 100)), (scale * sin(i * twicePi / 100)), 0.0f);
 			}
 
 			Renderer::End();
