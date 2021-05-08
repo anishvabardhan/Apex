@@ -21,7 +21,7 @@ void Game::BeginPlay()
 	
 	g_Player = new Apex::Ship((Apex::Vec2(30.0f, 30.0f)));
 		
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		Apex::Astroid g_Object(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), i);
 	

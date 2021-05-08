@@ -30,11 +30,11 @@ namespace Apex {
 
 		if (Window::GetInstance()->GetKey[D] && m_Accelaration[0] <= 350.0f)
 		{
-			m_Accelaration[0] += dt;
+			m_Accelaration[0] +=  2 * dt;
 		}
 		else if (Window::GetInstance()->GetKey[A] && m_Accelaration[0] >= -350.0f)
 		{
-			m_Accelaration[0] -= dt;
+			m_Accelaration[0] -= 2 * dt;
 		}
 		else if(m_Accelaration[0] > 0.0f)
 		{
@@ -47,11 +47,11 @@ namespace Apex {
 
 		if (Window::GetInstance()->GetKey[W] && m_Accelaration[1] <= 350.0f)
 		{
-			m_Accelaration[1] += dt;
+			m_Accelaration[1] += 2 * dt;
 		}
 		else if (Window::GetInstance()->GetKey[S] && m_Accelaration[1] >= -350.0f)
 		{
-			m_Accelaration[1] -= dt;
+			m_Accelaration[1] -= 2 * dt;
 		}
 		else if (m_Accelaration[1] > 0.0f)
 		{
