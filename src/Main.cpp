@@ -2,8 +2,13 @@
 
 int main()
 {
-	Game Astroids;
-	Astroids.BeginPlay();
+	Game* Astroids = new Game();
+
+	Astroids->BeginPlay();
+
+	Astroids->Tick();
+
+	delete Astroids;
 
 	return 0;
 }

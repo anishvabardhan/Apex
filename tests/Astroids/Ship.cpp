@@ -1,8 +1,7 @@
 #include "Ship.h"
+
 #include "../src/Window/Window.h"
 #include "../src/Graphics/Renderer.h"
-
-#include "Bullet.h"
 
 #include <gl/GL.h>
 
@@ -21,38 +20,46 @@ namespace Apex {
 	{
 		if (Window::GetInstance()->GetKey[RIGHT_ARROW])
 		{
-			m_Angle -= 10 * dt;
+			m_Angle -= 5 * dt;
 		}
 		
 		if (Window::GetInstance()->GetKey[LEFT_ARROW])
 		{
-			m_Angle += 10 * dt;
+			m_Angle += 5 * dt;
 		}
 
-		if (Window::GetInstance()->GetKey[D])
+		if (Window::GetInstance()->GetKey[D] && m_Accelaration[0] <= 350.0f)
 		{
-			m_Accelaration[0] = 500.0f;
+			m_Accelaration[0] += dt;
 		}
-		else if (Window::GetInstance()->GetKey[A])
+		else if (Window::GetInstance()->GetKey[A] && m_Accelaration[0] >= -350.0f)
 		{
-			m_Accelaration[0] = -500.0f;
+			m_Accelaration[0] -= dt;
 		}
-		else
+		else if(m_Accelaration[0] > 0.0f)
 		{
-			m_Accelaration[0] = 0.0f;
+			m_Accelaration[0] -= dt;
+		}
+		else if (m_Accelaration[0] < 0.0f)
+		{
+			m_Accelaration[0] += dt;
 		}
 
-		if (Window::GetInstance()->GetKey[W])
+		if (Window::GetInstance()->GetKey[W] && m_Accelaration[1] <= 350.0f)
 		{
-			m_Accelaration[1] = 500.0f;
+			m_Accelaration[1] += dt;
 		}
-		else if (Window::GetInstance()->GetKey[S])
+		else if (Window::GetInstance()->GetKey[S] && m_Accelaration[1] >= -350.0f)
 		{
-			m_Accelaration[1] = -500.0f;
+			m_Accelaration[1] -= dt;
 		}
-		else
+		else if (m_Accelaration[1] > 0.0f)
 		{
-			m_Accelaration[1] = 0.0f;
+			m_Accelaration[1] -= dt;
+		}
+		else if (m_Accelaration[1] < 0.0f)
+		{
+			m_Accelaration[1] += dt;
 		}
 
 		m_Velocity[0] = m_Accelaration[0] * dt;

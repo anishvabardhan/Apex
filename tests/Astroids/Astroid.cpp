@@ -11,7 +11,7 @@
 
 namespace Apex {
 
-	Random random1(100, 500), random2(-400, 400);
+	Random random1(100, 500), random2(-100, 100);
 
 	Astroid::Astroid(Vec2 position, int i)
 		:m_Position(position), m_Translate(Vec2(random1.GetRandomInRange(), random1.GetRandomInRange())), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ random2.GetRandomInRange(), random2.GetRandomInRange() }

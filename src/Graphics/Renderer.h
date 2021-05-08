@@ -21,6 +21,8 @@ namespace Apex {
 		static void BeginLineLoop();
 		static void BeginLineStrip();
 		static void BeginPolygon();
+		static void BeginQuads();
+
 		static void End();
 		static void Flush();
 	};
