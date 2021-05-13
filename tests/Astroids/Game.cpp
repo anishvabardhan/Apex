@@ -3,6 +3,8 @@
 #include "../src/Maths/Random.h"
 #include "../src/Core/DebugSystem.h"
 
+#define MAX_ASTROIDS 6
+
 Game::Game()
 	:g_TS(60), g_Renderer(nullptr), g_Player(nullptr), g_PlayerDisc(nullptr), g_AstroidDisc(nullptr)
 {
@@ -21,7 +23,7 @@ void Game::BeginPlay()
 	
 	g_Player = new Apex::Ship((Apex::Vec2(30.0f, 30.0f)));
 		
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < MAX_ASTROIDS; i++)
 	{
 		Apex::Astroid g_Object(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), i);
 	
@@ -60,10 +62,6 @@ void Game::Tick()
 			g_Player->OnUpdate(g_TS.GetTimeDelta());
 
 			g_Player->Render();
-
-			Apex::ShipFlames::RenderRight();
-			Apex::ShipFlames::RenderLeft();
-			Apex::ShipFlames::Render();
 
 			Apex::DebugSystem::DebugCircle(g_PlayerDisc->GetRadius());
 			Apex::DebugSystem::DebugLine();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../src/Maths/Vec2.h"
+#include "../src/Maths/Vec3.h"
 #include "../src/Physics/2D/Disc2D.h"
 #include "Entity.h"
 
@@ -10,8 +11,12 @@ namespace Apex {
 	{
 		Vec2 m_Position;
 		Vec2 m_Translate;
+		Vec2 m_Velocity;
+		Vec2 m_Accelaration;
 
-		float m_Velocity[2], m_Accelaration[2];
+		Vec3 m_BodyVertices[4];
+		Vec3 m_ThrusterVertices[8];
+
 		float m_Angle;
 	public:
 		explicit Ship(Vec2 position);
@@ -24,12 +29,9 @@ namespace Apex {
 		void Rotation();
 
 		inline Vec2 GetPosition() const { return m_Position; }
-		static inline Vec2 GetNosePosition() { return Vec2(0.0f, 15.0f); }
-
 		inline Vec2 GetTranslate() const { return m_Translate; }
-		inline void SetTranslate(Vec2 vector) { m_Translate = vector; }
 
-		inline void SetPosition(Vec2 position) { m_Position = position; }
+		Vec2 GetNosePosition();
 	};
 
 }

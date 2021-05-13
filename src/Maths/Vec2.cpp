@@ -94,6 +94,11 @@ namespace Apex {
 		return !(*this == other);
 	}
 
+	const Vec2 Vec2::operator/(float inverseScale) const
+	{
+		return Vec2(m_X / inverseScale, m_Y / inverseScale);
+	}
+
 	std::ostream& operator<<(std::ostream& stream, const Vec2& vector)
 	{
 		stream << "(" << vector.m_X << ", " << vector.m_Y << ")";

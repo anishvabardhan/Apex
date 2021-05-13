@@ -10,8 +10,10 @@ namespace Apex {
 	{
 		Vec2 m_Position;
 		Vec2 m_Translate;
-
-		float m_Velocity[2], m_Accelaration[2];
+        Vec2 m_Velocity, m_Accelaration;
+		
+		int m_NumOfVertices;
+		
 		float m_Angle;
 	public:
 		explicit Astroid(Vec2 position, int i);

@@ -14,7 +14,7 @@ namespace Apex {
 	Random random1(100, 500), random2(-100, 100);
 
 	Astroid::Astroid(Vec2 position, int i)
-		:m_Position(position), m_Translate(Vec2(random1.GetRandomInRange(), random1.GetRandomInRange())), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ random2.GetRandomInRange(), random2.GetRandomInRange() }
+		:m_Position(position), m_Translate(Vec2(random1.GetRandomInRange(), random1.GetRandomInRange())), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ random2.GetRandomInRange(), random2.GetRandomInRange() }, m_NumOfVertices(10)
 	{
 	}
 
@@ -24,11 +24,11 @@ namespace Apex {
 
 	void Astroid::OnUpdate(float dt)
 	{
-		m_Velocity[0] = m_Accelaration[0] * dt;
-		m_Velocity[1] = m_Accelaration[1] * dt;
+		m_Velocity.m_X = m_Accelaration.m_X * dt;
+		m_Velocity.m_Y = m_Accelaration.m_Y * dt;
 
-		m_Translate.m_X += m_Velocity[0] * dt;
-		m_Translate.m_Y += m_Velocity[1] * dt;
+		m_Translate.m_X += m_Velocity.m_X * dt;
+		m_Translate.m_Y += m_Velocity.m_Y * dt;
 
 		Translation();
 	} 
@@ -41,9 +41,9 @@ namespace Apex {
 
 		glColor3f(0.5f, 0.5f, 0.5f);
 
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < m_NumOfVertices; i++)
 		{
-			glVertex3f((55.0f * cos(i * twicePi / 6)), (55.0f * sin(i * twicePi / 6)), 0.0f);
+			glVertex3f((55.0f * cos(i * twicePi / m_NumOfVertices)), (55.0f * sin(i * twicePi / m_NumOfVertices)), 0.0f);
 		}
 
 		Renderer::End();

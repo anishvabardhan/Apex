@@ -30,6 +30,11 @@ namespace Apex {
 		bool operator==(const Vec2& other);
 		bool operator!=(const Vec2& other);
 
+		const Vec2 operator/(float inverseScale) const;
+
+		inline float GetLength() const { return sqrtf((m_X * m_X) + (m_Y * m_Y)); }
+		inline Vec2 GetNormalised() const { Vec2 temp = Vec2(m_X, m_Y) / GetLength(); return temp; }
+
 		friend std::ostream& operator<<(std::ostream& stream, const Vec2& vector);
 	};
 

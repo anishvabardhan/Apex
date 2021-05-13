@@ -22,7 +22,7 @@ namespace Apex {
 
 		if (Window::GetInstance()->GetKey[F1])
 		{
-			GLfloat twicePi = 2.0f * M_PI;
+			GLfloat twicePi = 2.0f * (GLfloat)M_PI;
 
 			Renderer::BeginLineLoop();
 

@@ -3,13 +3,22 @@
 #include "../src/Window/Window.h"
 #include "../src/Graphics/Renderer.h"
 
+#include "../src/Maths/Random.h"
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include <gl/GL.h>
 
 namespace Apex {
 
 	Ship::Ship(Vec2 position)
-		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }
+		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }
 	{
+		m_BodyVertices[0] = Vec3(  0.0f,  15.0f, 0.0f);
+		m_BodyVertices[1] = Vec3( 10.0f, -10.0f, 0.0f);
+		m_BodyVertices[2] = Vec3(  0.0f,   0.0f, 0.0f);
+		m_BodyVertices[3] = Vec3(-10.0f, -10.0f, 0.0f);
 	}
 
 	Ship::~Ship()
@@ -18,55 +27,32 @@ namespace Apex {
 
 	void Ship::OnUpdate(float dt)
 	{
-		if (Window::GetInstance()->GetKey[RIGHT_ARROW])
+		if (Window::GetInstance()->GetKey[D])
 		{
-			m_Angle -= 5 * dt;
+			m_Angle -= (5 * dt);
 		}
-		
-		if (Window::GetInstance()->GetKey[LEFT_ARROW])
+		else if (Window::GetInstance()->GetKey[A])
 		{
-			m_Angle += 5 * dt;
-		}
-
-		if (Window::GetInstance()->GetKey[D] && m_Accelaration[0] <= 350.0f)
-		{
-			m_Accelaration[0] +=  2 * dt;
-		}
-		else if (Window::GetInstance()->GetKey[A] && m_Accelaration[0] >= -350.0f)
-		{
-			m_Accelaration[0] -= 2 * dt;
-		}
-		else if(m_Accelaration[0] > 0.0f)
-		{
-			m_Accelaration[0] -= dt;
-		}
-		else if (m_Accelaration[0] < 0.0f)
-		{
-			m_Accelaration[0] += dt;
+			m_Angle += (5 * dt);
 		}
 
-		if (Window::GetInstance()->GetKey[W] && m_Accelaration[1] <= 350.0f)
+		if (Window::GetInstance()->GetKey[W])
 		{
-			m_Accelaration[1] += 2 * dt;
+
+			m_Accelaration.m_X = 350.0f;
+			m_Accelaration.m_Y = 350.0f;
 		}
-		else if (Window::GetInstance()->GetKey[S] && m_Accelaration[1] >= -350.0f)
+		else
 		{
-			m_Accelaration[1] -= 2 * dt;
-		}
-		else if (m_Accelaration[1] > 0.0f)
-		{
-			m_Accelaration[1] -= dt;
-		}
-		else if (m_Accelaration[1] < 0.0f)
-		{
-			m_Accelaration[1] += dt;
+			m_Accelaration = Vec2(0.0f, 0.0f);
 		}
 
-		m_Velocity[0] = m_Accelaration[0] * dt;
-		m_Velocity[1] = m_Accelaration[1] * dt;
+		Vec2 forwardDir = GetNosePosition().GetNormalised();
 
-		m_Translate.m_X += m_Velocity[0] * dt;
-		m_Translate.m_Y += m_Velocity[1] * dt;
+		m_Velocity = m_Accelaration * forwardDir;
+
+		m_Translate.m_X += m_Velocity.m_X * dt * dt;
+		m_Translate.m_Y += m_Velocity.m_Y * dt * dt;
 
 		Translation();
 
@@ -77,10 +63,10 @@ namespace Apex {
 	{
 
 		float vertices[12] = {
-			  0.0f,  15.0f, 0.0f,
-			 10.0f, -10.0f, 0.0f,
-			  0.0f,   0.0f, 0.0f,
-			-10.0f, -10.0f, 0.0f
+			m_BodyVertices[0].m_X, m_BodyVertices[0].m_Y, m_BodyVertices[0].m_Z,
+			m_BodyVertices[1].m_X, m_BodyVertices[1].m_Y, m_BodyVertices[1].m_Z,
+			m_BodyVertices[2].m_X, m_BodyVertices[2].m_Y, m_BodyVertices[2].m_Z,
+			m_BodyVertices[3].m_X, m_BodyVertices[3].m_Y, m_BodyVertices[3].m_Z
 		};
 
 		Renderer::BeginLineLoop();
@@ -93,6 +79,45 @@ namespace Apex {
 		}
 
 		Renderer::End();
+
+		float vertices1[12] = {
+			10.0f, -10.0f, 0.0f,
+			15.0f, -15.0f, 0.0f,
+			Random::GetRandomFloatInRange(7.5f, 12.5f), -27.5f, 0.0f,
+			 5.0f, -15.0f, 0.0f
+		};
+		
+		float vertices2[12] = {
+			-10.0f, -10.0f, 0.0f,
+			-15.0f, -15.0f, 0.0f,
+			Random::GetRandomFloatInRange(-12.5f, -7.5f), -27.5f, 0.0f,
+			 -5.0f, -15.0f, 0.0f
+		};
+		
+		if (Window::GetInstance()->GetKey[W])
+		{
+			Renderer::BeginQuads();
+		
+			glColor3f(1.0f, 0.27f, 0.0f);
+		
+			for (int i = 0; i < 12; i += 3)
+			{
+				glVertex3fv(&vertices1[i]);
+			}
+		
+			Renderer::End();
+		
+			Renderer::BeginQuads();
+		
+			glColor3f(1.0f, 0.27f, 0.0f);
+		
+			for (int i = 0; i < 12; i += 3)
+			{
+				glVertex3fv(&vertices2[i]);
+			}
+		
+			Renderer::End();
+		}
 	}
 
 	void Ship::Translation()
@@ -129,6 +154,14 @@ namespace Apex {
 	void Ship::Rotation()
 	{
 		glRotatef(m_Angle, 0.0f, 0.0f, 1.0f);
+	}
+
+	Vec2 Ship::GetNosePosition()
+	{
+		Vec2 temp;
+		temp.m_X = 15.0f * sinf(-m_Angle * ((float)M_PI / 180.0f));
+		temp.m_Y = 15.0f * cosf(-m_Angle * ((float)M_PI / 180.0f));
+		return temp;
 	}
 
 }

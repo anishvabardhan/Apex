@@ -7,7 +7,6 @@
 #include "../src/Graphics/Renderer.h"
 #include "../src/Core/Time.h"
 #include "../src/Physics/2D/Disc2D.h"
-#include "ShipFlames.h"
 
 #include <vector>
 
@@ -18,7 +17,6 @@ class Game
 	Apex::Renderer* g_Renderer;
 	Apex::Disc2D* g_PlayerDisc, * g_AstroidDisc;
 	Apex::Ship* g_Player;
-
 	std::vector<Apex::Astroid> g_Astroids;
 public:
 	Game();
