@@ -15,7 +15,7 @@ namespace Apex {
 		Vec2 m_Accelaration;
 
 		Vec3 m_BodyVertices[4];
-		Vec3 m_ThrusterVertices[8];
+		Vec3 m_ThrusterVertices[6];
 
 		float m_Angle;
 	public:

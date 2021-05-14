@@ -19,6 +19,13 @@ namespace Apex {
 		m_BodyVertices[1] = Vec3( 10.0f, -10.0f, 0.0f);
 		m_BodyVertices[2] = Vec3(  0.0f,   0.0f, 0.0f);
 		m_BodyVertices[3] = Vec3(-10.0f, -10.0f, 0.0f);
+
+		m_ThrusterVertices[0] = Vec3( 10.0f, -10.0f, 0.0f);
+		m_ThrusterVertices[1] = Vec3( 15.0f, -15.0f, 0.0f);
+		m_ThrusterVertices[2] = Vec3(  5.0f, -15.0f, 0.0f);
+		m_ThrusterVertices[3] = Vec3(-10.0f, -10.0f, 0.0f);
+		m_ThrusterVertices[4] = Vec3(-15.0f, -15.0f, 0.0f);
+		m_ThrusterVertices[5] = Vec3( -5.0f, -15.0f, 0.0f);
 	}
 
 	Ship::~Ship()
@@ -81,17 +88,17 @@ namespace Apex {
 		Renderer::End();
 
 		float vertices1[12] = {
-			10.0f, -10.0f, 0.0f,
-			15.0f, -15.0f, 0.0f,
+			m_ThrusterVertices[0].m_X, m_ThrusterVertices[0].m_Y, m_ThrusterVertices[0].m_Z,
+			m_ThrusterVertices[1].m_X, m_ThrusterVertices[1].m_Y, m_ThrusterVertices[1].m_Z,
 			Random::GetRandomFloatInRange(7.5f, 12.5f), -27.5f, 0.0f,
-			 5.0f, -15.0f, 0.0f
+			m_ThrusterVertices[2].m_X, m_ThrusterVertices[2].m_Y, m_ThrusterVertices[2].m_Z
 		};
 		
 		float vertices2[12] = {
-			-10.0f, -10.0f, 0.0f,
-			-15.0f, -15.0f, 0.0f,
+			m_ThrusterVertices[3].m_X, m_ThrusterVertices[3].m_Y, m_ThrusterVertices[3].m_Z,
+			m_ThrusterVertices[4].m_X, m_ThrusterVertices[4].m_Y, m_ThrusterVertices[4].m_Z,
 			Random::GetRandomFloatInRange(-12.5f, -7.5f), -27.5f, 0.0f,
-			 -5.0f, -15.0f, 0.0f
+			m_ThrusterVertices[5].m_X, m_ThrusterVertices[5].m_Y, m_ThrusterVertices[5].m_Z
 		};
 		
 		if (Window::GetInstance()->GetKey[W])

@@ -17,6 +17,8 @@ class Game
 	Apex::Renderer* g_Renderer;
 	Apex::Disc2D* g_PlayerDisc, * g_AstroidDisc;
 	Apex::Ship* g_Player;
+
+	std::vector<Apex::Bullet> g_Gun;
 	std::vector<Apex::Astroid> g_Astroids;
 public:
 	Game();

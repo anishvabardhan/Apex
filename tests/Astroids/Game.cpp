@@ -3,7 +3,8 @@
 #include "../src/Maths/Random.h"
 #include "../src/Core/DebugSystem.h"
 
-#define MAX_ASTROIDS 6
+#define MAX_ASTROIDS 0
+#define MAX_BULLETS 20
 
 Game::Game()
 	:g_TS(60), g_Renderer(nullptr), g_Player(nullptr), g_PlayerDisc(nullptr), g_AstroidDisc(nullptr)
@@ -29,6 +30,11 @@ void Game::BeginPlay()
 	
 		g_Astroids.push_back(g_Object);
 	}
+
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		Apex::Bullet g_Bullet(g_Player->GetNosePosition());
+	}
 }
 
 void Game::Tick()
@@ -48,6 +54,15 @@ void Game::Tick()
 			//Initializing the renderer
 
 			g_Renderer->InitRender();
+
+			g_Renderer->Push();
+
+			for (uint32_t i = 0; i < g_Gun.size(); i++)
+			{
+				g_Gun[i].Render(g_TS.GetTimeDelta());
+			}
+
+			g_Renderer->Pop();
 
 			//----------------------------------------------------------------------------------------------
 			//Rendering the player

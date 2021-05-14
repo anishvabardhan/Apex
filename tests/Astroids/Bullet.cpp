@@ -10,7 +10,7 @@
 namespace Apex {
 
 	Bullet::Bullet(Vec2 position)
-		:m_Position(position), m_Translate(Vec2((cos(m_Angle)), (sin(m_Angle)))), m_Velocity(0.0f), m_Accelaration(0.0f), m_Angle(0.0f)
+		:m_Position(position), m_Translate{ 0.0f, 0.0f }, m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }, m_Angle(0.0f)
 	{
 	}
 
@@ -18,46 +18,46 @@ namespace Apex {
 	{
 	}
 
-
-	void Bullet::OnUpdate(float dt)
+	void Bullet::Render(float dt)
 	{
-		GLfloat twicePi = 2.0f * (GLfloat)M_PI;
-		
-		if (Window::GetInstance()->GetKey[RIGHT_ARROW])
-		{
-			m_Angle -= 5 * dt;
-		}
-		
-		if (Window::GetInstance()->GetKey[LEFT_ARROW])
+		if (Window::GetInstance()->GetKey[A])
 		{
 			m_Angle += 5 * dt;
 		}
-		
+		else if (Window::GetInstance()->GetKey[D])
+		{
+			m_Angle -= 5 * dt;
+		}
+
 		if (Window::GetInstance()->GetKey[SPACEBAR])
 		{
-			m_Accelaration = 5.0f;
+			m_Accelaration = Vec2(50.0f, 50.0f);
 		}
-		
-		m_Velocity = m_Accelaration * dt;
-		
-		m_Translate += Vec2(m_Velocity, m_Velocity);
-		
-		glTranslatef(m_Position.m_X + (m_Translate.m_X * -cos(-m_Angle)), m_Position.m_Y + (m_Translate.m_Y * -sin(-m_Angle)), 0.0f);
-		glRotatef(m_Angle, 0.0f, 0.0f, 1.0f);
-		glTranslatef(0.0f, 15.0f, 0.0f);
-	}
+		else
+		{
+			m_Accelaration = Vec2(0.0f, 0.0f);
+		}
 
-	void Bullet::Render()
-	{
+		Vec2 forwardDir = m_Position.GetNormalised();
+
+		m_Velocity = m_Accelaration * forwardDir;
+
+		m_Translate.m_X += m_Velocity.m_X * dt * dt;
+		m_Translate.m_Y += m_Velocity.m_Y * dt * dt;
+
+		glTranslatef(m_Position.m_X + m_Translate.m_X, m_Position.m_Y + m_Translate.m_Y, 0.0f);
+
+		glRotatef(m_Angle, 0.0f, 0.0f, 1.0f);
+
 		GLfloat twicePi = 2.0f * (GLfloat)M_PI;
 
 		Renderer::BeginPolygon();
 
-		glColor3f(1.0f, 0.5f, 1.5f);
+		glColor3f(0.0f, 1.0f, 0.0f);
 
 		for (int i = 0; i < 100; i++)
 		{
-			glVertex3f((2.0f * cos(i * twicePi / 100)), (2.0f * sin(i * twicePi / 100)), 0.0f);
+			glVertex3f((200.0f * cos(i * twicePi / 100)), (200.0f * sin(i * twicePi / 100)), 0.0f);
 		}
 
 		Renderer::End();
