@@ -3,7 +3,7 @@
 #include "../src/Maths/Random.h"
 #include "../src/Core/DebugSystem.h"
 
-#define MAX_ASTROIDS 0
+#define MAX_ASTROIDS 6
 #define MAX_BULLETS 20
 
 Game::Game()

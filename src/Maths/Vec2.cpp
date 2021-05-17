@@ -94,6 +94,11 @@ namespace Apex {
 		return !(*this == other);
 	}
 
+	const Vec2 Vec2::operator*(float Scale) const
+	{
+		return Vec2(m_X * Scale, m_Y * Scale);
+	}
+
 	const Vec2 Vec2::operator/(float inverseScale) const
 	{
 		return Vec2(m_X / inverseScale, m_Y / inverseScale);

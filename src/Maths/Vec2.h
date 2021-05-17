@@ -30,6 +30,7 @@ namespace Apex {
 		bool operator==(const Vec2& other);
 		bool operator!=(const Vec2& other);
 
+		const Vec2 operator*(float Scale) const;
 		const Vec2 operator/(float inverseScale) const;
 
 		inline float GetLength() const { return sqrtf((m_X * m_X) + (m_Y * m_Y)); }

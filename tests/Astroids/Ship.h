@@ -17,6 +17,8 @@ namespace Apex {
 		Vec3 m_BodyVertices[4];
 		Vec3 m_ThrusterVertices[6];
 
+		bool m_IsAccelarating;
+
 		float m_Angle;
 	public:
 		explicit Ship(Vec2 position);

@@ -13,7 +13,7 @@
 namespace Apex {
 
 	Ship::Ship(Vec2 position)
-		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }
+		:m_Position(position), m_Translate(Vec2(0.0f, 0.0f)), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }, m_IsAccelarating(false)
 	{
 		m_BodyVertices[0] = Vec3(  0.0f,  15.0f, 0.0f);
 		m_BodyVertices[1] = Vec3( 10.0f, -10.0f, 0.0f);
@@ -45,21 +45,27 @@ namespace Apex {
 
 		if (Window::GetInstance()->GetKey[W])
 		{
-
-			m_Accelaration.m_X = 350.0f;
-			m_Accelaration.m_Y = 350.0f;
+			m_IsAccelarating = true;
 		}
 		else
 		{
-			m_Accelaration = Vec2(0.0f, 0.0f);
+			m_IsAccelarating = false;
 		}
 
 		Vec2 forwardDir = GetNosePosition().GetNormalised();
 
-		m_Velocity = m_Accelaration * forwardDir;
+		if (m_IsAccelarating)
+		{
+			m_Accelaration = Vec2(2.5f * dt, 2.5f * dt);
+		}
+		else 
+		{
+			m_Accelaration = Vec2(0.0f, 0.0f);
+		}
 
-		m_Translate.m_X += m_Velocity.m_X * dt * dt;
-		m_Translate.m_Y += m_Velocity.m_Y * dt * dt;
+		m_Velocity += m_Accelaration * forwardDir;
+
+		m_Translate += m_Velocity * dt * dt;
 
 		Translation();
 
