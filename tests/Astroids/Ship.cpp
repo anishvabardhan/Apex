@@ -63,9 +63,9 @@ namespace Apex {
 			m_Accelaration = Vec2(0.0f, 0.0f);
 		}
 
-		m_Velocity += m_Accelaration * forwardDir;
+		m_Velocity += m_Accelaration * forwardDir * dt;
 
-		m_Translate += m_Velocity * dt * dt;
+		m_Translate += m_Velocity * dt;
 
 		Translation();
 
