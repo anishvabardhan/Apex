@@ -91,7 +91,7 @@ void Game::Tick()
 				//------------------------------------------------------------------------------------------
 				//Applying the collision discs on the entity
 
-				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), 55.0f);
+				g_AstroidDisc = new Apex::Disc2D(g_Astroids[i].GetPostion() + g_Astroids[i].GetTranslate(), g_Astroids[i].GetRadius());
 
 				g_Renderer->Push();
 

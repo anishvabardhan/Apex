@@ -15,7 +15,10 @@ namespace Apex {
 		Vec2 m_Accelaration;
 		
 		Vec3 m_BodyVertices[6];
+
+		int m_NumOfVertices;
 		
+		float m_Radius;
 		float m_Angle;
 	public:
 		explicit Astroid(Vec2 position, int i);
@@ -27,6 +30,7 @@ namespace Apex {
 		void Translation();
 		void Rotation();
 
+		inline float GetRadius() const { return m_Radius; }
 		inline Vec2 GetPostion() const { return m_Position; }
 		inline Vec2 GetTranslate() const { return m_Translate; }
 	};

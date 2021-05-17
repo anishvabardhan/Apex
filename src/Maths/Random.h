@@ -15,6 +15,7 @@ namespace Apex {
 		
 		static int GetRandomIntLessThan(int maxNotInclusive);
 		static float GetRandomFloatInRange(float minInclusive, float maxInclusive);
+		static int GetRandomIntInRange(int minInclusive, int maxInclusive);
 
 		float Interpolate(float start, float end, float fractionTowardEnd);
 	public:

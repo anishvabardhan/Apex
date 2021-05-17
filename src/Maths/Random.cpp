@@ -30,6 +30,12 @@ namespace Apex {
 		return (float)minInclusive + (float)GetRandomIntLessThan((int)range);
 	}
 
+	int Random::GetRandomIntInRange(int minInclusive, int maxInclusive)
+	{
+		int range = (maxInclusive - minInclusive) + 1;
+		return minInclusive + GetRandomIntLessThan(range);
+	}
+
 	float Random::Interpolate(float start, float end, float fractionTowardEnd)
 	{
 		float range = end - start;
