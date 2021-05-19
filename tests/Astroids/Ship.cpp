@@ -82,7 +82,7 @@ namespace Apex {
 			m_BodyVertices[3].m_X, m_BodyVertices[3].m_Y, m_BodyVertices[3].m_Z
 		};
 
-		Renderer::BeginLineLoop();
+		Renderer::BeginPolygon();
 
 		glColor3f(1.0f, 0.8f, 0.0f);
 		

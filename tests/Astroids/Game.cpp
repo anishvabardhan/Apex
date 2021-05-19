@@ -4,14 +4,20 @@
 #include "../src/Core/DebugSystem.h"
 
 #define MAX_ASTROIDS 6
-#define MAX_BULLETS 20
+#define MAX_BULLETS 1
 
 Game::Game()
-	:g_TS(60), g_Renderer(nullptr), g_Player(nullptr), g_PlayerDisc(nullptr), g_AstroidDisc(nullptr)
+	:g_TS(60), g_Renderer(nullptr), g_Player(nullptr), g_Bullet(nullptr), g_PlayerDisc(nullptr), g_AstroidDisc(nullptr), g_Update{0.0f, 0.0f}, g_BulletVelocity{0.0f, 0.0f}, g_BulletAccelaration{0.0f, 0.0f}, g_IsFiring(false)
 {
 }
 
 Game::~Game()
+{
+	delete g_Player;
+	delete g_Renderer;
+}
+
+void Game::SpawnBullets()
 {
 }
 
@@ -23,17 +29,12 @@ void Game::BeginPlay()
 	//Instatntiating the characters 
 	
 	g_Player = new Apex::Ship((Apex::Vec2(30.0f, 30.0f)));
-		
+
 	for (int i = 0; i < MAX_ASTROIDS; i++)
 	{
 		Apex::Astroid g_Object(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), i);
 	
 		g_Astroids.push_back(g_Object);
-	}
-
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		Apex::Bullet g_Bullet(g_Player->GetNosePosition());
 	}
 }
 
@@ -50,6 +51,7 @@ void Game::Tick()
 
 			g_TS.Update();
 
+
 			//----------------------------------------------------------------------------------------------
 			//Initializing the renderer
 
@@ -57,9 +59,32 @@ void Game::Tick()
 
 			g_Renderer->Push();
 
-			for (uint32_t i = 0; i < g_Gun.size(); i++)
+			if (g_App.GetKey[SPACEBAR])
 			{
-				g_Gun[i].Render(g_TS.GetTimeDelta());
+				g_IsFiring = true;
+				g_BulletAccelaration = Apex::Vec2(1.5f * g_TS.GetTimeDelta(), 1.5f * g_TS.GetTimeDelta());
+			}
+			else
+			{
+				g_BulletAccelaration = Apex::Vec2(0.0f, 0.0f);
+			}
+
+			if (g_IsFiring)
+			{
+				g_Bullet = new Apex::Bullet(g_Translate);
+
+				Apex::Vec2 forwardDir = g_Player->GetNosePosition().GetNormalised();
+
+				g_BulletVelocity += g_BulletAccelaration * forwardDir * g_TS.GetTimeDelta();
+				g_Update += g_BulletVelocity;
+
+				g_Bullet->OnUpdate(g_Update, g_Player->GetNosePosition(), g_TS.GetTimeDelta());
+
+				g_Bullet->Render();
+			}
+			else
+			{
+				g_Translate = g_Player->GetPosition() + g_Player->GetNosePosition() + g_Player->GetTranslate();
 			}
 
 			g_Renderer->Pop();

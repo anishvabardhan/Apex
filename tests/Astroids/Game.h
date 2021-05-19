@@ -18,11 +18,19 @@ class Game
 	Apex::Disc2D* g_PlayerDisc, * g_AstroidDisc;
 	Apex::Ship* g_Player;
 
-	std::vector<Apex::Bullet> g_Gun;
 	std::vector<Apex::Astroid> g_Astroids;
+
+	Apex::Bullet* g_Bullet;
+
+	Apex::Vec2 g_Update, g_Translate;
+	Apex::Vec2 g_BulletVelocity, g_BulletAccelaration;
+
+	bool g_IsFiring;
 public:
 	Game();
 	~Game();
+
+	void SpawnBullets();
 
 	void BeginPlay();
 	void Tick();

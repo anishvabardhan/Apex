@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../src/Maths/Vec2.h"
+#include "../src/Maths/Vec3.h"
 
 namespace Apex {
 
@@ -11,12 +12,20 @@ namespace Apex {
 		Vec2 m_Velocity;
 		Vec2 m_Accelaration;
 
-		float m_Angle;
+		Vec2 g_BulletVelocity, g_BulletAccelaration;
+
+		Vec3 m_BodyVertices[10];
+
+		int m_NumOfVertices;
+		float m_Angle, m_Radius;
 	public:
 		explicit Bullet(Vec2 position);
 		~Bullet();
 
-		void Render(float dt);
+		void OnUpdate(Vec2 position, Vec2 spawnPosition, float dt);
+		void Render();
+
+		void Rotation();
 	};
 
 }
