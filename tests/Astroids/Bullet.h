@@ -7,25 +7,25 @@ namespace Apex {
 
 	class Bullet
 	{
+	public:
 		Vec2 m_Position;
-		Vec2 m_Translate;
 		Vec2 m_Velocity;
-		Vec2 m_Accelaration;
-
-		Vec2 g_BulletVelocity, g_BulletAccelaration;
 
 		Vec3 m_BodyVertices[10];
 
 		int m_NumOfVertices;
-		float m_Angle, m_Radius;
+
+		float m_Age;
+		float m_Radius;
 	public:
-		explicit Bullet(Vec2 position);
+		explicit Bullet(const Vec2& position);
 		~Bullet();
 
-		void OnUpdate(Vec2 position, Vec2 spawnPosition, float dt);
+		void OnUpdate(Vec2 update, float dt);
 		void Render();
 
-		void Rotation();
+		inline float GetAge() { return m_Age; }
+		inline Vec2 GetPosition() { return m_Position; }
 	};
 
 }

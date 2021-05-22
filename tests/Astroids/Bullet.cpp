@@ -11,9 +11,8 @@
 
 namespace Apex {
 
-	Bullet::Bullet(Vec2 position)
-		:m_Position(position), m_Translate(Vec2(0, 0)), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ 0.0f, 0.0f }, m_Angle(0.0f), m_Radius(1.0f), m_NumOfVertices(10), g_BulletVelocity{ 0.0f, 0.0f }, 
-		g_BulletAccelaration{ 0.0f, 0.0f }
+	Bullet::Bullet(const Vec2& position)
+		:m_Position(position), m_Radius(2.0f), m_NumOfVertices(10), m_Age(0.0f)
 	{
 		GLfloat twicePi = 2.0f * (GLfloat)M_PI;
 
@@ -27,37 +26,17 @@ namespace Apex {
 	{
 	}
 
-	void Bullet::OnUpdate(Vec2 position, Vec2 spawnPosition, float dt)
+	void Bullet::OnUpdate(Vec2 update, float dt)
 	{
-		position += m_Position;
+		update += m_Position;
 
-		if ((position.m_X > 0.0f && position.m_X < 1024.0f)
-			&& (position.m_Y > 0.0f && position.m_Y < 768.0f))
+		m_Age += dt;
+
+		if ((update.m_X > 0.0f && update.m_X < 1024.0f)
+			&& (update.m_Y > 0.0f && update.m_Y < 768.0f))
 		{
-			glTranslatef(position.m_X, position.m_Y, 0.0f);
+			glTranslatef(update.m_X, update.m_Y, 0.0f);
 		}
-
-		if (position.m_X < 0.0f)
-		{
-			position.m_X = 1024.0f + (float)((int)(position.m_X) % 1024);
-		}
-
-		if (position.m_Y < 0.0f)
-		{
-			position.m_Y = 768.0f + (float)((int)(position.m_Y) % 768);
-		}
-
-		if (position.m_X > 1024.0f)
-		{
-			position.m_X = (float)((int)(position.m_X) % 1024) - position.m_X;
-		}
-
-		if (position.m_Y > 768.0f)
-		{
-			position.m_Y = (float)((int)(position.m_Y) % 768) - position.m_Y;
-		}
-
-		Rotation();
 	}
 
 	void Bullet::Render()
@@ -85,11 +64,6 @@ namespace Apex {
 		}
 
 		Renderer::End();
-	}
-
-	void Bullet::Rotation()
-	{
-		glRotatef(m_Angle, 0.0f, 0.0f, 1.0f);
 	}
 
 }

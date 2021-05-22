@@ -18,7 +18,7 @@ namespace Apex {
 	bool Disc2D::CheckCollision(Disc2D* obj1, Disc2D* obj2)
 	{
 		if ((float)((obj1->m_Center.m_X - obj2->m_Center.m_X) * (obj1->m_Center.m_X - obj2->m_Center.m_X)) + 
-			((obj1->m_Center.m_Y - obj2->m_Center.m_Y) * (obj1->m_Center.m_Y - obj2->m_Center.m_Y)) < 
+			((obj1->m_Center.m_Y - obj2->m_Center.m_Y) * (obj1->m_Center.m_Y - obj2->m_Center.m_Y)) <= 
 			((obj1->m_Radius + obj2->m_Radius) * (obj1->m_Radius + obj2->m_Radius)))
 			return true;
 

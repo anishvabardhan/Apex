@@ -8,30 +8,41 @@
 #include "../src/Core/Time.h"
 #include "../src/Physics/2D/Disc2D.h"
 
-#include <vector>
+const int MAX_ASTEROIDS = 150;
+const int MAX_BULLETS = 6;
 
 class Game
 {
 	Apex::Window g_App;
 	Apex::Time g_TS;
 	Apex::Renderer* g_Renderer;
-	Apex::Disc2D* g_PlayerDisc, * g_AstroidDisc;
+	Apex::Disc2D *g_PlayerDisc, *g_AstroidDisc[MAX_ASTEROIDS], *g_BulletDisc;
 	Apex::Ship* g_Player;
 
-	std::vector<Apex::Astroid> g_Astroids;
+	Apex::Astroid* g_Objects;
+	Apex::Astroid* g_Astroid[MAX_ASTEROIDS];
 
 	Apex::Bullet* g_Bullet;
 
-	Apex::Vec2 g_Update, g_Translate;
-	Apex::Vec2 g_BulletVelocity, g_BulletAccelaration;
+	Apex::Vec2 g_Update;
+	Apex::Vec2 g_Translate;
+	Apex::Vec2 g_BulletVelocity;
+
+	float g_BulletLife;
 
 	bool g_IsFiring;
+
+	int g_NumOfBullets;
+	int g_NumOfAstroids;
 public:
 	Game();
 	~Game();
 
-	void SpawnBullets();
-
 	void BeginPlay();
 	void Tick();
+
+	void SpawnBullet();
+	void DestroyBullet();
+
+	void DestroyAstroid(int index);
 };

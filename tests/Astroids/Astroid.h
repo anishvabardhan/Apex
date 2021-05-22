@@ -9,6 +9,7 @@ namespace Apex {
 
 	class Astroid : public Entity
 	{
+	public:
 		Vec2 m_Position;
 		Vec2 m_Translate;
 		Vec2 m_Velocity;
