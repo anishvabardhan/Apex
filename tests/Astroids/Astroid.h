@@ -21,8 +21,10 @@ namespace Apex {
 		
 		float m_Radius;
 		float m_Angle;
+		float m_Min;
+		float m_Max;
 	public:
-		explicit Astroid(Vec2 position, int i);
+		explicit Astroid(Vec2 position, Vec2 translate, float min, float max);
 		~Astroid();
 
 		void OnUpdate(float dt) override;
@@ -32,7 +34,7 @@ namespace Apex {
 		void Rotation();
 
 		inline float GetRadius() const { return m_Radius; }
-		inline Vec2 GetPostion() const { return m_Position; }
+		inline Vec2 GetPosition() const { return m_Position; }
 		inline Vec2 GetTranslate() const { return m_Translate; }
 	};
 

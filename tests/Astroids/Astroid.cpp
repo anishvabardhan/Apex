@@ -11,16 +11,16 @@
 
 namespace Apex {
 
-	Random random1(100, 500), random2(-100, 100);
+	Random random(-100, 100);
 
-	Astroid::Astroid(Vec2 position, int i)
-		:m_Position(position), m_Translate(Vec2(random1.GetRandomInRange(), random1.GetRandomInRange())), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ random2.GetRandomInRange(), random2.GetRandomInRange() }, m_NumOfVertices(6), m_Radius(55.0f)
+	Astroid::Astroid(Vec2 position, Vec2 translate, float min, float max)
+		:m_Position(position), m_Min(min), m_Max(max), m_Translate(translate), m_Angle(0.0f), m_Velocity{ 0.0f, 0.0f }, m_Accelaration{ random.GetRandomInRange(), random.GetRandomInRange() }, m_NumOfVertices(6), m_Radius(55.0f)
 	{
 		float twicePi = 2 * (float)M_PI;
 
 		for (int i = 0; i < m_NumOfVertices; i++)
 		{
-			m_Radius = Random::GetRandomFloatInRange(30.0f, 55.0f);
+			m_Radius = Random::GetRandomFloatInRange(m_Min, m_Max);
 
 			m_BodyVertices[i] = Vec3(m_Radius * cos(i * (twicePi / m_NumOfVertices)), m_Radius * sin(i * (twicePi / m_NumOfVertices)), 0.0f);
 		}

@@ -3,8 +3,10 @@
 #include "../src/Maths/Random.h"
 #include "../src/Core/DebugSystem.h"
 
+Apex::Random random(100, 500);
+
 Game::Game()
-	:g_TS(60), g_BulletVelocity(Apex::Vec2(7.5f, 7.5f)), g_Renderer(nullptr), g_Player(nullptr), g_Objects(nullptr), g_PlayerDisc(nullptr), g_NumOfBullets(0), g_NumOfAstroids(8), g_BulletLife(50.0f), g_IsFiring(false)
+	:g_TS(60), g_BulletVelocity(Apex::Vec2(7.5f, 7.5f)), g_Renderer(nullptr), g_BulletDisc(nullptr), g_Player(nullptr), g_Objects(nullptr), g_PlayerDisc(nullptr), g_NumOfBullets(0), g_NumOfAstroids(2), g_BulletLife(50.0f), g_IsFiring(false)
 {
 	for (int i = 0; i < g_NumOfAstroids; i++)
 	{
@@ -34,11 +36,11 @@ void Game::BeginPlay()
 
 	for (int i = 0; i < g_NumOfAstroids; i++)
 	{	
-		g_Objects = new Apex::Astroid(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), i);
+		g_Objects = new Apex::Astroid(Apex::Vec2(Apex::Random::GetRandomFloatInRange(75.0f, 275.0f), Apex::Random::GetRandomFloatInRange(175.0f, 375.0f)), Apex::Vec2(random.GetRandomInRange(), random.GetRandomInRange()), 30.0f, 55.0f);
 
 		g_Astroid[i] = g_Objects;
 
-		g_AstroidDisc[i] = new Apex::Disc2D(g_Astroid[i]->GetPostion() + g_Astroid[i]->GetTranslate(), g_Astroid[i]->GetRadius());
+		g_AstroidDisc[i] = new Apex::Disc2D(g_Astroid[i]->GetPosition() + g_Astroid[i]->GetTranslate(), g_Astroid[i]->GetRadius());
 	}
 }
 
@@ -120,8 +122,7 @@ void Game::Tick()
 
 				if (g_Astroid[i] != nullptr && g_AstroidDisc[i] != nullptr)
 				{
-					g_AstroidDisc[i] = new Apex::Disc2D(g_Astroid[i]->GetPostion() + g_Astroid[i]->GetTranslate(), g_Astroid[i]->GetRadius());
-
+					g_AstroidDisc[i] = new Apex::Disc2D(g_Astroid[i]->GetPosition() + g_Astroid[i]->GetTranslate(), g_Astroid[i]->GetRadius());
 
 					g_Renderer->Push();
 
@@ -136,7 +137,7 @@ void Game::Tick()
 					//------------------------------------------------------------------------------------------
 					//Collision Detection
 
-					if (Apex::Disc2D::CheckCollision(g_AstroidDisc[i], g_PlayerDisc))
+					if (g_AstroidDisc[i] != nullptr && Apex::Disc2D::CheckCollision(g_AstroidDisc[i], g_PlayerDisc))
 					{
 						delete g_Player;
 						g_Player = new Apex::Ship((Apex::Vec2(30.0f, 30.0f)));
@@ -203,12 +204,26 @@ void Game::DestroyBullet()
 
 void Game::DestroyAstroid(int index)
 {
+	Apex::Vec2 newPosition = g_Astroid[index]->GetPosition();
+	Apex::Vec2 newTranslate = g_Astroid[index]->GetTranslate();
+	float newMin = g_Astroid[index]->m_Min / 2;
+	float newMax = g_Astroid[index]->m_Max / 2;
+
+	if (newMin < 15.0f)
+	{
+		newMin = 0.0f;
+		newMax = 0.0f;
+	}
+
 	if (index == g_NumOfAstroids - 1)
 	{
+		g_NumOfAstroids++;
 		delete (g_Astroid[index]);
 		delete g_AstroidDisc[index];
-		g_Astroid[index] = nullptr;
-		g_AstroidDisc[index] = nullptr;
+		g_Astroid[index] = new Apex::Astroid(newPosition, newTranslate, newMin, newMax);
+		g_AstroidDisc[index] = new Apex::Disc2D(newPosition, newMin);
+		g_Astroid[index + 1] = new Apex::Astroid(newPosition, newTranslate, newMin, newMax);
+		g_AstroidDisc[index + 1] = new Apex::Disc2D(newPosition, newMin);
 	}
 	else
 	{
@@ -219,6 +234,9 @@ void Game::DestroyAstroid(int index)
 			g_Astroid[j - 1] = g_Astroid[j];
 			g_Astroid[j] = nullptr;
 		}
+		g_NumOfAstroids++;
+		g_Astroid[g_NumOfAstroids - 2] = new Apex::Astroid(newPosition, newTranslate, newMin, newMax);
+		g_Astroid[g_NumOfAstroids - 1] = new Apex::Astroid(newPosition, newTranslate, newMin, newMax);
 
 		delete(g_AstroidDisc[index]);
 		g_AstroidDisc[index] = nullptr;
@@ -227,6 +245,8 @@ void Game::DestroyAstroid(int index)
 			g_AstroidDisc[j - 1] = g_AstroidDisc[j];
 			g_AstroidDisc[j] = nullptr;
 		}
-
+		g_AstroidDisc[g_NumOfAstroids - 2] = new Apex::Disc2D(newPosition, newMin);
+		g_AstroidDisc[g_NumOfAstroids - 1] = new Apex::Disc2D(newPosition, newMin);
 	}
+
 }
