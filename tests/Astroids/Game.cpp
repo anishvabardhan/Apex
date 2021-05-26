@@ -6,7 +6,7 @@
 Apex::Random random(100, 500);
 
 Game::Game()
-	:g_TS(60), g_BulletVelocity(Apex::Vec2(7.5f, 7.5f)), g_Renderer(nullptr), g_BulletDisc(nullptr), g_Player(nullptr), g_Objects(nullptr), g_PlayerDisc(nullptr), g_NumOfBullets(0), g_NumOfAstroids(2), g_BulletLife(50.0f), g_IsFiring(false)
+	:g_TS(60), g_BulletVelocity(Apex::Vec2(7.5f, 7.5f)), g_Renderer(nullptr), g_BulletDisc(nullptr), g_Player(nullptr), g_Objects(nullptr), g_PlayerDisc(nullptr), g_NumOfBullets(0), g_NumOfAstroids(6), g_BulletLife(50.0f), g_IsFiring(false)
 {
 	for (int i = 0; i < g_NumOfAstroids; i++)
 	{
