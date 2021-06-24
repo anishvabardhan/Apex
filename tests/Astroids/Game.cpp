@@ -99,7 +99,8 @@ void Game::Tick()
 				//------------------------------------------------------------------------------------------
 				//Applying the collision discs on the entity
 
-			g_PlayerDisc = new Apex::Disc2D(g_Player->GetPosition() + g_Player->GetTranslate(), 15.0f);
+			if(g_Player != nullptr)
+				g_PlayerDisc = new Apex::Disc2D(g_Player->GetPosition() + g_Player->GetTranslate(), 15.0f);
 
 			g_Renderer->Push();
 
@@ -120,7 +121,7 @@ void Game::Tick()
 				//------------------------------------------------------------------------------------------
 				//Applying the collision discs on the entity
 
-				if (g_Astroid[i] != nullptr && g_AstroidDisc[i] != nullptr)
+				if (g_Astroid[i] != nullptr)
 				{
 					g_AstroidDisc[i] = new Apex::Disc2D(g_Astroid[i]->GetPosition() + g_Astroid[i]->GetTranslate(), g_Astroid[i]->GetRadius());
 
@@ -137,7 +138,7 @@ void Game::Tick()
 					//------------------------------------------------------------------------------------------
 					//Collision Detection
 
-					if (g_AstroidDisc[i] != nullptr && Apex::Disc2D::CheckCollision(g_AstroidDisc[i], g_PlayerDisc))
+					if (Apex::Disc2D::CheckCollision(g_AstroidDisc[i], g_PlayerDisc))
 					{
 						delete g_Player;
 						g_Player = new Apex::Ship((Apex::Vec2(30.0f, 30.0f)));
