@@ -1,14 +1,10 @@
-#include "../tests/Astroids/Game.h"
+#include "../tests/Texturing/TextureTest.h"
 
 int main()
 {
-	Game* Astroids = new Game();
+	TextureTest* Test = new TextureTest();
 
-	Astroids->BeginPlay();
-
-	Astroids->Tick();
-
-	delete Astroids;
+	Test->Init();
 
 	return 0;
 }
