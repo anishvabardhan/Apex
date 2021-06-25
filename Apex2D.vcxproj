@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="tests\Astroids\Bullet.cpp" />
     <ClCompile Include="src\Core\DebugSystem.cpp" />
     <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
@@ -170,8 +171,10 @@
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
+    <ClCompile Include="tests\Texturing\TextureTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="tests\Astroids\Bullet.h" />
     <ClInclude Include="src\Core\DebugSystem.h" />
     <ClInclude Include="src\Physics\2D\Disc2D.h" />
@@ -477,6 +480,7 @@
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="src\Core\Time.h" />
+    <ClInclude Include="tests\Texturing\TextureTest.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
