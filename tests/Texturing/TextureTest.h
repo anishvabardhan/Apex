@@ -3,6 +3,9 @@
 #include "Graphics/Renderer.h"
 #include "Window/Window.h"
 
+#include <Windows.h>
+#include <GL/GL.h>
+
 class TextureTest
 {
 	Apex::Window g_App;
