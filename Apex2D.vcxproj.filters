@@ -18,9 +18,6 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Maths\Vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,14 +63,26 @@
     <ClCompile Include="tests\Texturing\TextureTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Texturing\stb_image.cpp">
+    <ClCompile Include="src\Graphics\External\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\IndexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\VertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphics\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\glm\detail\_features.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -986,12 +995,47 @@
     <ClInclude Include="tests\Texturing\TextureTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Texturing\stb_image.h">
+    <ClInclude Include="src\Graphics\External\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\External\glext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\External\glcorearb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\External\wglext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\IndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\VertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\GLEW\include\GL\glew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\GLEW\include\GL\eglew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\GLEW\include\GL\glxew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\GLEW\include\GL\wglew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Shaders\Basic.shader" />
     <None Include="src\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -1406,10 +1450,21 @@
     <None Include="src\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="res\Shaders\Basic.shader" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="tests\Texturing\Images\cimg.png">
+    <Image Include="res\Textures\cimg.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\Textures\tex.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="vendor\GLEW\lib\Release\Win32\glew32.lib" />
+    <Library Include="vendor\GLEW\lib\Release\Win32\glew32s.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="vendor\GLEW\LICENSE.txt" />
   </ItemGroup>
 </Project>

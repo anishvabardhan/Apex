@@ -1,6 +1,7 @@
 #include "Window.h"
 
-#include <gl/GL.h>
+#include <GL/glew.h>
+#include <GL/GL.h>
 
 namespace Apex {
 
@@ -96,7 +97,7 @@ namespace Apex {
 		if (!window)
 			window = this;
 
-		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 1024, 768, NULL, NULL, NULL, NULL);
+		m_Hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"Apex2D", WS_OVERLAPPEDWINDOW, 0, 0, 1024, 1024, NULL, NULL, NULL, NULL);
 
 		if (!m_Hwnd)
 			return false;
@@ -184,7 +185,11 @@ namespace Apex {
 		
 		MakeContextCurrent(m_OurWindowHandleToDeviceContext, m_OurWindowHandleToRenderContext);
 
-		glLineWidth(1.5f);
+		if (glewInit() != GLEW_OK)
+		{
+			std::cout << "ERROR" << std::endl;
+		}
+
 		glEnable(GL_BLEND);
 		glEnable(GL_LINE_SMOOTH);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

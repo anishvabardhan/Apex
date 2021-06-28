@@ -1,80 +1,77 @@
 #include "TextureTest.h"
 
-#include "stb_image.h"
-
-int width, height, bpp;
-static GLuint texName;
+#include "Graphics/Shader.h"
+#include "Graphics/IndexBuffer.h"
+#include "Graphics/VertexBuffer.h"
+#include "Graphics/Texture.h"
 
 TextureTest::TextureTest()
-	: g_Renderer(nullptr)
 {
 }
 
 TextureTest::~TextureTest()
 {
-	delete g_Renderer;
 }
 
 void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
-		while (g_App.IsRun())
 		{
-			g_App.Broadcast();
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-			g_Renderer->InitRender();
+			float positions[] = {
+			   //PositionCoords		 //TextureCoords
+				-0.5f, -0.5f,           0.0f, 0.0f,  // 0
+				 0.5f, -0.5f,           1.0f, 0.0f,  // 1
+				 0.5f,  0.5f,           1.0f, 1.0f,  // 2
+				-0.5f,  0.5f,           0.0f, 1.0f   // 3
+			};
 
-			glShadeModel(GL_FLAT);
-			glEnable(GL_DEPTH_TEST);
+			unsigned int indices[] = {
+				0, 1, 2,
+				2, 3, 0
+			};
 
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			Apex::VertexBuffer vbo(positions, 4 * 4 * sizeof(float));
 
-			stbi_set_flip_vertically_on_load(1);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (const void*)8);
 
-			GLubyte* texImage;
+			Apex::IndexBuffer ibo(indices, 6);
 
-			texImage = stbi_load("tests/Texturing/Images/cimg.png", &width, &height, &bpp, 4);
+			Apex::Shader shader("res/Shaders/Basic.shader");
+			shader.Bind();
 
-			glGenTextures(1, &texName);
-			glBindTexture(GL_TEXTURE_2D, texName);
-			
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			Apex::Texture texture("res/Textures/tex.png");
+			texture.Bind();
+			shader.SetUniform1i("u_Texture", 0);
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-			
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage);
-			glBindTexture(GL_TEXTURE_2D, 0);
+			vbo.UnBind();
+			ibo.UnBind();
+			shader.UnBind();
 
-			glEnable(GL_TEXTURE_2D);
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+			while (g_App.IsRun())
+			{
+				g_App.Broadcast();
 
-			g_Renderer->Push();
+				glClear(GL_COLOR_BUFFER_BIT);
 
-			glBindTexture(GL_TEXTURE_2D, texName);
+				shader.Bind();
 
-			Apex::Renderer::BeginQuads();
+				vbo.Bind();
+				ibo.Bind();
 
-			glTexCoord2f(0.0f, 0.0f);
-			glVertex3f(100.0f, 100.0f, 0.0f);
-			glTexCoord2f(0.0f, 1.0f);
-			glVertex3f(924.0f, 100.0f, 0.0f);
-			glTexCoord2f(1.0f, 1.0f);
-			glVertex3f(924.0f, 668.0f, 0.0f);
-			glTexCoord2f(1.0f, 0.0f);
-			glVertex3f(100.0f, 668.0f, 0.0f);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-			Apex::Renderer::End();
+				g_App.SwappingBuffers();
+			}
 
-			g_Renderer->Pop();
-
-			g_Renderer->Flush();
-
-			glDisable(GL_TEXTURE_2D);
-
-			g_App.SwappingBuffers();
+			vbo.UnBind();
+			ibo.UnBind();
+			shader.UnBind();
 		}
 	}
 }

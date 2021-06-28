@@ -88,13 +88,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>src\;$(SolutionDir)vendor\GLFW\include;$(SolutionDir)vendor\GLEW\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +105,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -113,7 +113,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>src\;$(SolutionDir)vendor\GLFW\include;$(SolutionDir)vendor\GLEW\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,7 +153,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="tests\Texturing\stb_image.cpp" />
+    <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Renderer.cpp" />
+    <ClCompile Include="src\Graphics\Shader.cpp" />
+    <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\External\stb_image.cpp" />
     <ClCompile Include="tests\Astroids\Bullet.cpp" />
     <ClCompile Include="src\Core\DebugSystem.cpp" />
     <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
@@ -165,15 +169,22 @@
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
     <ClCompile Include="src\Maths\Vec4.cpp" />
-    <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="tests\Texturing\TextureTest.cpp" />
+    <ClCompile Include="src\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tests\Texturing\stb_image.h" />
+    <ClInclude Include="src\Graphics\External\glcorearb.h" />
+    <ClInclude Include="src\Graphics\External\glext.h" />
+    <ClInclude Include="src\Graphics\External\wglext.h" />
+    <ClInclude Include="src\Graphics\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Renderer.h" />
+    <ClInclude Include="src\Graphics\Shader.h" />
+    <ClInclude Include="src\Graphics\VertexBuffer.h" />
+    <ClInclude Include="src\Graphics\External\stb_image.h" />
     <ClInclude Include="tests\Astroids\Bullet.h" />
     <ClInclude Include="src\Core\DebugSystem.h" />
     <ClInclude Include="src\Physics\2D\Disc2D.h" />
@@ -473,12 +484,16 @@
     <ClInclude Include="src\glm\vec3.hpp" />
     <ClInclude Include="src\glm\vec4.hpp" />
     <ClInclude Include="src\glm\vector_relational.hpp" />
-    <ClInclude Include="src\Graphics\Renderer.h" />
     <ClInclude Include="src\Maths\Vec2.h" />
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="tests\Texturing\TextureTest.h" />
+    <ClInclude Include="src\Graphics\Texture.h" />
+    <ClInclude Include="vendor\GLEW\include\GL\eglew.h" />
+    <ClInclude Include="vendor\GLEW\include\GL\glew.h" />
+    <ClInclude Include="vendor\GLEW\include\GL\glxew.h" />
+    <ClInclude Include="vendor\GLEW\include\GL\wglew.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
@@ -622,7 +637,15 @@
     <None Include="src\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="tests\Texturing\Images\cimg.png" />
+    <Image Include="res\Textures\cimg.png" />
+    <Image Include="res\Textures\tex.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="vendor\GLEW\lib\Release\Win32\glew32.lib" />
+    <Library Include="vendor\GLEW\lib\Release\Win32\glew32s.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="vendor\GLEW\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
