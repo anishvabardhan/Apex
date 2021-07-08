@@ -1459,6 +1459,12 @@
     <Image Include="res\Textures\tex.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\Textures\brick.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\stripes.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\GLEW\lib\Release\Win32\glew32.lib" />
