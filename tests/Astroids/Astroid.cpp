@@ -1,7 +1,7 @@
  #include "Astroid.h"
 
-#include "../src/Maths/Random.h"
-#include "../src/Graphics/Renderer.h"
+#include "../Maths/Random.h"
+#include "../Graphics/Renderer.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>

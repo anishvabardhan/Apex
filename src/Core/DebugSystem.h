@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Physics/2D/Disc2D.h"
-#include "Maths/Vec2.h"
+#include "../Physics/2D/Disc2D.h"
+#include "../Maths/Vec2.h"
 
 namespace Apex {
 

@@ -1,7 +1,7 @@
 #include "Game.h"
 
-#include "../src/Maths/Random.h"
-#include "../src/Core/DebugSystem.h"
+#include "../Maths/Random.h"
+#include "../Core/DebugSystem.h"
 
 Apex::Random random(100, 500);
 

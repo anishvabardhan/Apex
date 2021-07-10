@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <iostream>
 
-#include "Input/Input.h"
+#include "../Input/Input.h"
 
 namespace Apex {
 

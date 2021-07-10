@@ -1,9 +1,9 @@
 #include "Ship.h"
 
-#include "../src/Window/Window.h"
-#include "../src/Graphics/Renderer.h"
+#include "../Window/Window.h"
+#include "../Graphics/Renderer.h"
 
-#include "../src/Maths/Random.h"
+#include "../Maths/Random.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>

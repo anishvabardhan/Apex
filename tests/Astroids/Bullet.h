@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../src/Maths/Vec2.h"
-#include "../src/Maths/Vec3.h"
+#include "../Maths/Vec2.h"
+#include "../Maths/Vec3.h"
 
 namespace Apex {
 

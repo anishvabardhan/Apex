@@ -7,12 +7,11 @@ layout(location = 1) in vec2 texCoord;
 out vec2 v_TexCoord;
 
 uniform mat4 u_Proj;
-uniform mat4 u_Scale;
-uniform mat4 u_ModelView;
+uniform mat4 u_Model;
 
 void main()
 {
-	gl_Position = u_Scale * u_Proj * u_ModelView * position;
+	gl_Position = u_Proj * u_Model * position;
 	v_TexCoord = texCoord;
 };
 
@@ -23,7 +22,6 @@ layout(location = 0) out vec4 color;
 
 in vec2 v_TexCoord;
 
-uniform vec4 u_Color;
 uniform sampler2D u_Texture;
 
 void main()

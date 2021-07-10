@@ -1,6 +1,6 @@
 #include "Bullet.h"
-#include "../src/Graphics/Renderer.h"
-#include "../src/Window/Window.h"
+#include "../Graphics/Renderer.h"
+#include "../Window/Window.h"
 
 #include "Ship.h"
 

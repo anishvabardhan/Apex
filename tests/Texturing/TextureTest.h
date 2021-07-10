@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Window/Window.h"
+#include "../Window/Window.h"
 
 #include <Windows.h>
 #include <GL/glew.h>

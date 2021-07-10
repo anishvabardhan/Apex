@@ -1,10 +1,10 @@
 #include "TextureTest.h"
 
-#include "Graphics/Shader.h"
-#include "Graphics/IndexBuffer.h"
-#include "Graphics/VertexBuffer.h"
-#include "Graphics/Texture.h"
-#include "Maths/Mat4.h"
+#include "../Graphics/Shader.h"
+#include "../Graphics/IndexBuffer.h"
+#include "../Graphics/VertexBuffer.h"
+#include "../Graphics/Texture.h"
+#include "../Maths/Mat4.h"
 
 TextureTest::TextureTest()
 {
@@ -19,16 +19,15 @@ void TextureTest::Init()
 	if (g_App.Init())
 	{
 		{
+			glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 			glEnable(GL_DEPTH_TEST);
-
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 			float positions[] = {
 			       //PositionCoords		      //TextureCoords
-			      0.0f,   0.0f,  0.0f,           0.0f, 0.0f,  // 0
-			    200.0f,   0.0f,  0.0f,           2.0f, 0.0f,  // 1
-			    200.0f, 200.0f,  0.0f,           2.0f, 2.0f,  // 2
-			      0.0f, 200.0f,  0.0f,           0.0f, 2.0f   // 3
+			   -0.5f, -0.5f,  0.0f,           0.0f, 0.0f,  // 0
+			    0.5f, -0.5f,  0.0f,           2.0f, 0.0f,  // 1
+			    0.5f,  0.5f,  0.0f,           2.0f, 2.0f,  // 2
+			   -0.5f,  0.5f,  0.0f,           0.0f, 2.0f   // 3
 			};
 
 			unsigned int indices[] = {
@@ -45,10 +44,9 @@ void TextureTest::Init()
 
 			Apex::IndexBuffer ibo(indices, 6);
 
-			float r = 0.0f;
-
-			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -1.0f, 1.0f);
-			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(412.0f, 412.0f, 0.0f));
+			//Apex::Mat4 proj = Apex::Mat4::orthographic(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+			Apex::Mat4 proj = Apex::Mat4::perspective(45.0f, (float)(1024.0f / 1024.0f), 0.1f, 100.0f);
+			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(0.0f, 0.0f, 0.2f));
 
 			Apex::Shader shader("res/Shaders/Basic.shader");
 			shader.Bind();
@@ -57,8 +55,8 @@ void TextureTest::Init()
 			texture.Bind();
 
 			shader.SetUniform1i("u_Texture", 0);
+			shader.SetUniformMat4f("u_Model", model);
 			shader.SetUniformMat4f("u_Proj", proj);
-			shader.SetUniformMat4f("u_ModelView", model);
 
 			vbo.UnBind();
 			ibo.UnBind();
@@ -68,15 +66,9 @@ void TextureTest::Init()
 			{
 				g_App.Broadcast();
 
-				r += 0.00016f;
-
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				Apex::Mat4 scale = Apex::Mat4::scale(Apex::Vec3(0.5f - (sin(r) / 2), 0.5f - (sin(r) / 2), 0.0f));
-
 				shader.Bind();
-				shader.SetUniformMat4f("u_Scale", scale);
-
 				vbo.Bind();
 				ibo.Bind();
 

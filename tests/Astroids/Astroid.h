@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../src/Maths/Vec2.h"
-#include "../src/Maths/Vec3.h"
-#include "../src/Physics/2D/Disc2D.h"
+#include "../Maths/Vec2.h"
+#include "../Maths/Vec3.h"
+#include "../Physics/2D/Disc2D.h"
 #include "Entity.h"
 
 namespace Apex {

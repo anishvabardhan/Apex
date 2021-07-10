@@ -7,7 +7,8 @@ namespace Apex {
 
 	inline float toRadians(float degrees)
 	{
-		return degrees * ((float)M_PI / 180.0f);
+		float temp = M_PI / 180.0f;
+		return degrees * temp;
 	}
 
 }

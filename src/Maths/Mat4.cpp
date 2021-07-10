@@ -236,10 +236,10 @@ namespace Apex {
 	{
 		Mat4 result;
 
-		float q = 1.0f / tan(toRadians(fov / 2));
+		float q = 1.0f / tanf(toRadians(0.5f * fov));
 		float a = q / aspectRatio;
-		float b = (near + far) / (near - far);
-		float c = (2.0f * near * far) / (near - far);
+		float b = (near + far) * 1.0f / (far - near);
+		float c = (-2.0f * far * near) * 1.0f / (far - near);
 
 		result.elements[0] = a;
 		result.elements[5] = q;

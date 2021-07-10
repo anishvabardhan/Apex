@@ -3,10 +3,10 @@
 #include "Ship.h"
 #include "Astroid.h"
 #include "Bullet.h"
-#include "../src/Window/Window.h"
-#include "../src/Graphics/Renderer.h"
-#include "../src/Core/Time.h"
-#include "../src/Physics/2D/Disc2D.h"
+#include "../Window/Window.h"
+#include "../Graphics/Renderer.h"
+#include "../Core/Time.h"
+#include "../Physics/2D/Disc2D.h"
 
 const int MAX_ASTEROIDS = 150;
 const int MAX_BULLETS = 6;

@@ -1,6 +1,6 @@
 #include "DebugSystem.h"
-#include "Graphics/Renderer.h"
-#include "Window/Window.h"
+#include "../Graphics/Renderer.h"
+#include "../Window/Window.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
