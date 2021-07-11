@@ -81,6 +81,9 @@
     <ClCompile Include="src\Graphics\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\glm\detail\_features.hpp">
@@ -1034,6 +1037,9 @@
     <ClInclude Include="src\Graphics\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\glm\detail\func_common.inl">
@@ -1451,6 +1457,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\Shaders\Basic.shader" />
+    <None Include="res\Shaders\Text.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Textures\cimg.png">
@@ -1472,5 +1479,16 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\GLEW\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\Fonts\arial.ttf" />
+    <Font Include="res\Fonts\arialbd.ttf" />
+    <Font Include="res\Fonts\arialbi.ttf" />
+    <Font Include="res\Fonts\ariali.ttf" />
+    <Font Include="res\Fonts\ARIALN.TTF" />
+    <Font Include="res\Fonts\ARIALNB.TTF" />
+    <Font Include="res\Fonts\ARIALNBI.TTF" />
+    <Font Include="res\Fonts\ARIALNI.TTF" />
+    <Font Include="res\Fonts\ariblk.ttf" />
   </ItemGroup>
 </Project>
