@@ -60,6 +60,7 @@ void TextureTest::Init()
 			}
 
 			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -1.0f, 1.0f);
+			//Apex::Mat4 proj = Apex::Mat4::perspective(60.0f, 1024.0f / 1024.0f, 0.1f, 100.0f);
 			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(0.0f, 0.0f, 0.2f));
 
 			Apex::Shader shader("res/Shaders/Basic.shader");

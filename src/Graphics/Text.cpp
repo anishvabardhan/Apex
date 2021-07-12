@@ -76,7 +76,7 @@ namespace Apex {
 	}
 
 	void Text::RenderText(std::string text, float x, float y, Vec2 scale)
-	{		
+	{
 		glActiveTexture(GL_TEXTURE1);
 
 		glBindVertexArray(m_VAO);
@@ -108,7 +108,6 @@ namespace Apex {
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			glDrawArrays(GL_TRIANGLES, 0, 6);
-			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 			x += (c.s_Advance >> 6) * scale.m_X;
 		}

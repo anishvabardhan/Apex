@@ -4,8 +4,8 @@
 #include <map>
 
 #include "../Maths/Maths.h"
-#include "Shader.h"
 
+#include <GL/glew.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
