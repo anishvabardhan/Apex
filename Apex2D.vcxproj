@@ -155,6 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
+    <ClCompile Include="src\Maths\AABB2.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
@@ -180,6 +183,9 @@
     <ClCompile Include="src\Graphics\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\FrameBuffer.h" />
+    <ClInclude Include="src\Graphics\SpriteSheet.h" />
+    <ClInclude Include="src\Maths\AABB2.h" />
     <ClInclude Include="src\Graphics\External\glcorearb.h" />
     <ClInclude Include="src\Graphics\External\glext.h" />
     <ClInclude Include="src\Graphics\External\wglext.h" />
@@ -644,6 +650,7 @@
   <ItemGroup>
     <Image Include="res\Textures\brick.png" />
     <Image Include="res\Textures\cimg.png" />
+    <Image Include="res\Textures\font.png" />
     <Image Include="res\Textures\stripes.png" />
     <Image Include="res\Textures\tex.png" />
   </ItemGroup>
