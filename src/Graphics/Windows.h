@@ -8,7 +8,7 @@
 
 namespace Apex {
 
-	class Window
+	class Windows
 	{
 
 // Member Variables-------------------------------------------------------------------------------------
@@ -20,8 +20,8 @@ namespace Apex {
 	
 		static bool m_Keys[MAX_KEYS];
 	public:
-		explicit Window(std::string title, int width, int height);
-		~Window();
+		explicit Windows(std::string title, int width, int height);
+		~Windows();
 
 		int Init();
 		void Clear() const;

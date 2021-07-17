@@ -6,7 +6,7 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 
-#include "Maths/Maths.h"
+#include "../Maths/Maths.h"
 
 namespace Apex {
 

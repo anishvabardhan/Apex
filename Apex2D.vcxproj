@@ -155,8 +155,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
+    <ClCompile Include="src\Graphics\VertexArray.cpp" />
+    <ClCompile Include="src\Graphics\Windows.cpp" />
     <ClCompile Include="src\Maths\AABB2.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
@@ -180,11 +184,16 @@
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="tests\Texturing\TextureTest.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
-    <ClCompile Include="src\Graphics\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\FrameBuffer.h" />
+    <ClInclude Include="src\Graphics\OrthoGraphic.h" />
+    <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
+    <ClInclude Include="src\Graphics\VertexArray.h" />
+    <ClInclude Include="src\Graphics\VertexBufferLayout.h" />
+    <ClInclude Include="src\Graphics\Windows.h" />
     <ClInclude Include="src\Maths\AABB2.h" />
     <ClInclude Include="src\Graphics\External\glcorearb.h" />
     <ClInclude Include="src\Graphics\External\glext.h" />
@@ -499,7 +508,6 @@
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="tests\Texturing\TextureTest.h" />
     <ClInclude Include="src\Graphics\Texture.h" />
-    <ClInclude Include="src\Graphics\Text.h" />
     <ClInclude Include="vendor\GLEW\include\GL\eglew.h" />
     <ClInclude Include="vendor\GLEW\include\GL\glew.h" />
     <ClInclude Include="vendor\GLEW\include\GL\glxew.h" />
@@ -507,7 +515,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
-    <None Include="res\Shaders\Text.shader" />
     <None Include="src\glm\detail\func_common.inl" />
     <None Include="src\glm\detail\func_common_simd.inl" />
     <None Include="src\glm\detail\func_exponential.inl" />

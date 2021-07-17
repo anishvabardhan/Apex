@@ -2,10 +2,10 @@
 
 namespace Apex {
 
-	bool Window::m_Keys[MAX_KEYS];
+	bool Windows::m_Keys[MAX_KEYS];
 	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-	Window::Window(std::string title, int width, int height)
+	Windows::Windows(std::string title, int width, int height)
 		: m_Title(title), m_Width(width), m_Height(height)
 	{
 		Init();
@@ -16,12 +16,12 @@ namespace Apex {
 		}
 	}
 
-	Window::~Window()
+	Windows::~Windows()
 	{
 		glfwTerminate();
 	}
 
-	int Window::Init()
+	int Windows::Init()
 	{
 		if (!glfwInit())
 			return -1;
@@ -50,28 +50,28 @@ namespace Apex {
 		return 0;
 	}
 
-	void Window::Clear() const
+	void Windows::Clear() const
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
-	bool Window::Close() const
+	bool Windows::Close() const
 	{
 		return glfwWindowShouldClose(m_Window);
 	}
 
-	void Window::SetClose() const
+	void Windows::SetClose() const
 	{
 		glfwSetWindowShouldClose(m_Window, true);
 	}
 
-	void Window::Update() const
+	void Windows::Update() const
 	{
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}
 
-	bool Window::IsKeyPressed(unsigned int keycode)
+	bool Windows::IsKeyPressed(unsigned int keycode)
 	{
 		if (keycode >= MAX_KEYS)
 			return false;
@@ -81,7 +81,7 @@ namespace Apex {
 
 	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		Window* win = (Window*)glfwGetWindowUserPointer(window);
+		Windows* win = (Windows*)glfwGetWindowUserPointer(window);
 		win->m_Keys[key] = action != GLFW_RELEASE;
 	}
 

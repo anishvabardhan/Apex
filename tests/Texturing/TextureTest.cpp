@@ -2,10 +2,10 @@
 
 #include "../Graphics/Shader.h"
 #include "../Graphics/IndexBuffer.h"
-#include "../Graphics/VertexBuffer.h"
+#include "../Graphics/VertexArray.h"
 #include "../Graphics/Texture.h"
 #include "../Maths/Mat4.h"
-#include "../Graphics/Text.h"
+#include "../Graphics/Font.h"
 
 TextureTest::TextureTest()
 {
@@ -20,13 +20,10 @@ void TextureTest::Init()
 	if (g_App.Init())
 	{
 		{
-			Apex::FrameBufferSpecification fbSpec;
-			fbSpec.s_Width = 1024;
-			fbSpec.s_Height = 1024;
-			g_FrameBuffer = new Apex::FrameBuffer(fbSpec);
+			glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
-			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-
+			Apex::Font font;
+			
 			float positions[] = {
 			       //PositionCoords		        //TextureCoords
 			    412.0f,  412.0f,  0.0f,           0.0f, 0.0f,  // 0
@@ -40,53 +37,64 @@ void TextureTest::Init()
 				2, 3, 0
 			};
 			
-			Apex::VertexBuffer vbo(positions, 4 * 5 * sizeof(float));
-			
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (const void*)12);
+			Apex::VertexArray* vao = new Apex::VertexArray();
+			Apex::VertexBuffer* vbo = new Apex::VertexBuffer(positions, 4 * 5 * sizeof(float));
+
+			Apex::VertexBufferLayout layout;
+			layout.Push(3);
+			layout.Push(2);
+
+			vao->AddBuffer(*vbo, layout);
 			
 			Apex::IndexBuffer ibo(indices, 6);
-
-			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -1.0f, 1.0f);
-			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(0.0f, 0.0f, 0.2f));
+			
+			Apex::Texture texture("res/Textures/font.png", NULL);
+			texture.Bind();
 
 			Apex::Shader shader("res/Shaders/Basic.shader");
 			shader.Bind();
-			
-			Apex::Texture texture("res/Textures/font.png", g_FrameBuffer->GetColorAttachmentRendererID());
-			texture.Bind();
+
+			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
+			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(0.0f, 0.0f, 0.2f));
 
 			shader.SetUniform1i("u_Texture", 0);
-			shader.SetUniformMat4f("u_Model", model);
 			shader.SetUniformMat4f("u_Proj", proj);
 
-			vbo.UnBind();
-			ibo.UnBind();
 			shader.UnBind();
+			
+			font.BuildFont("OpenGL3", 412.0f, 712.0f, 1.0f);
 
 			while (g_App.IsRun())
 			{
 				g_App.Broadcast();
 
-				g_FrameBuffer->Bind();
-
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-				vbo.Bind();
-				ibo.Bind();
+				
 				shader.Bind();
 
-				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+				{
+					font.DrawFontText(shader);
+				}
 
-				g_FrameBuffer->UnBind();
+				{
+					shader.SetUniformMat4f("u_Model", model);
+					vao->Bind();
+					ibo.Bind();
+
+					glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
+
+					vao->UnBind();
+					ibo.UnBind();
+				}
+
 				g_App.SwappingBuffers();
 			}
 
-			vbo.UnBind();
+			
+			vao->UnBind();
 			ibo.UnBind();
 			shader.UnBind();
+			
 		}
 	}
 }
