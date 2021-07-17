@@ -23,7 +23,7 @@ namespace Apex {
 		std::vector<VertexArray*> m_VAO;
 		std::vector<IndexBuffer*> m_IBO;
 	public:
-		Font();
+		explicit Font(std::string text, float xpos, float ypos, float scale);
 		~Font();
 
 		void BuildFont(std::string text, float xpos, float ypos, float scale);

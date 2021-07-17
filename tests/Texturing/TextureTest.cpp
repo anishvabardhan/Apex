@@ -20,16 +20,17 @@ void TextureTest::Init()
 	if (g_App.Init())
 	{
 		{
-			glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-			Apex::Font font;
+			Apex::Font font1("OpenGL3", 512.0f, 912.0f, 1.0f);
+			Apex::Font font2("19May", 312.0f, 712.0f, 1.0f);
 			
 			float positions[] = {
 			       //PositionCoords		        //TextureCoords
-			    412.0f,  412.0f,  0.0f,           0.0f, 0.0f,  // 0
-			    612.0f,  412.0f,  0.0f,           1.0f, 0.0f,  // 1
-			    612.0f,  612.0f,  0.0f,           1.0f, 1.0f,  // 2
-			    412.0f,  612.0f,  0.0f,           0.0f, 1.0f   // 3
+			    312.0f,  312.0f,  0.0f,           0.0f, 0.0f,  // 0
+			    712.0f,  312.0f,  0.0f,           1.0f, 0.0f,  // 1
+			    712.0f,  712.0f,  0.0f,           1.0f, 1.0f,  // 2
+			    312.0f,  712.0f,  0.0f,           0.0f, 1.0f   // 3
 			};
 			
 			unsigned int indices[] = {
@@ -62,8 +63,6 @@ void TextureTest::Init()
 
 			shader.UnBind();
 			
-			font.BuildFont("OpenGL3", 412.0f, 712.0f, 1.0f);
-
 			while (g_App.IsRun())
 			{
 				g_App.Broadcast();
@@ -72,20 +71,17 @@ void TextureTest::Init()
 				
 				shader.Bind();
 
-				{
-					font.DrawFontText(shader);
-				}
+				font1.DrawFontText(shader);
+				font2.DrawFontText(shader);
 
-				{
-					shader.SetUniformMat4f("u_Model", model);
-					vao->Bind();
-					ibo.Bind();
+				shader.SetUniformMat4f("u_Model", model);
+				vao->Bind();
+				ibo.Bind();
 
-					glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
+				glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
 
-					vao->UnBind();
-					ibo.UnBind();
-				}
+				vao->UnBind();
+				ibo.UnBind();
 
 				g_App.SwappingBuffers();
 			}
