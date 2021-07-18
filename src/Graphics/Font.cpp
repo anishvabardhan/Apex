@@ -2,11 +2,11 @@
 
 #include <GL/glew.h>
 
-#include <map>
-
 namespace Apex {
 
-	std::map<char, fontSpec> fontMap = {
+	Font::Font(std::string text, float xpos, float ypos, float scale)
+	{
+		fontMap = {
 		{'A', {Vec2(0.073f, 0.700f), {}}}, {'a', {Vec2(0.073f, 0.574f), {}}}, {'0', {Vec2(0.010f, 0.763f), {}}},
 		{'B', {Vec2(0.136f, 0.700f), {}}}, {'b', {Vec2(0.136f, 0.574f), {}}}, {'1', {Vec2(0.073f, 0.763f), {}}},
 		{'C', {Vec2(0.199f, 0.700f), {}}}, {'c', {Vec2(0.199f, 0.574f), {}}}, {'2', {Vec2(0.136f, 0.763f), {}}},
@@ -33,10 +33,8 @@ namespace Apex {
 		{'X', {Vec2(0.514f, 0.637f), {}}}, {'x', {Vec2(0.514f, 0.511f), {}}}, {'@', {Vec2(0.010f, 0.700f), {}}},
 		{'Y', {Vec2(0.577f, 0.637f), {}}}, {'y', {Vec2(0.577f, 0.502f), {}}}, {'%', {Vec2(0.323f, 0.826f), {}}},
 		{'Z', {Vec2(0.640f, 0.637f), {}}}, {'z', {Vec2(0.640f, 0.511f), {}}}, {'&', {Vec2(0.388f, 0.826f), {}}}
-	};
+		};
 
-	Font::Font(std::string text, float xpos, float ypos, float scale)
-	{
 		BuildFont(text, xpos, ypos, scale);
 	}
 	
@@ -50,9 +48,6 @@ namespace Apex {
 
 		for (auto i : m_Text)
 		{
-			//fontMap[i].m_Z = xpos;
-			//fontMap[i].m_W = ypos;
-
 			fontMap[i].quadCoord.push_back(Vec2(xpos, ypos));
 
 			float positions[] = {
@@ -95,13 +90,13 @@ namespace Apex {
 	{
 		shader.Bind();
 
-		std::map<char, int> duplicates;
+		std::map<char, int> duplicate;
 
 		for (int i = 0; i < m_Text.size(); i++)
 		{
-			duplicates[m_Text[i]]++;
+			duplicate[m_Text[i]]++;
 
-			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(fontMap[m_Text[i]].quadCoord[duplicates[m_Text[i]] - 1].m_X, fontMap[m_Text[i]].quadCoord[duplicates[m_Text[i]] - 1].m_Y, 0.2f));
+			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(fontMap[m_Text[i]].quadCoord[duplicate[m_Text[i]] - 1].m_X, fontMap[m_Text[i]].quadCoord[duplicate[m_Text[i]] - 1].m_Y, 0.2f));
 			shader.SetUniformMat4f("u_Model", model);
 
 			m_VAO[i]->Bind();

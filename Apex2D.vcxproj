@@ -157,7 +157,6 @@
   <ItemGroup>
     <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\FrameBuffer.cpp" />
-    <ClCompile Include="src\Graphics\OrthoGraphic.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\Windows.cpp" />
@@ -188,7 +187,6 @@
   <ItemGroup>
     <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\FrameBuffer.h" />
-    <ClInclude Include="src\Graphics\OrthoGraphic.h" />
     <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
     <ClInclude Include="src\Graphics\VertexArray.h" />

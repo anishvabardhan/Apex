@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "../Maths/Maths.h"
 #include "../Graphics/VertexArray.h"
@@ -19,6 +20,7 @@ namespace Apex {
 
 	class Font
 	{
+		std::map<char, fontSpec> fontMap;
 		std::string m_Text;
 		std::vector<VertexArray*> m_VAO;
 		std::vector<IndexBuffer*> m_IBO;
