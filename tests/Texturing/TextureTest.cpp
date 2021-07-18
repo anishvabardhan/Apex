@@ -22,8 +22,7 @@ void TextureTest::Init()
 		{
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-			Apex::Font font1("OpenGL3", 512.0f, 912.0f, 1.0f);
-			Apex::Font font2("19May", 312.0f, 712.0f, 1.0f);
+			Apex::Font font1("OpenGL3 - Textures", 512.0f, 912.0f, 1.0f);
 			
 			float positions[] = {
 			       //PositionCoords		        //TextureCoords
@@ -72,7 +71,7 @@ void TextureTest::Init()
 				shader.Bind();
 
 				font1.DrawFontText(shader);
-				font2.DrawFontText(shader);
+				//font2.DrawFontText(shader);
 
 				shader.SetUniformMat4f("u_Model", model);
 				vao->Bind();
