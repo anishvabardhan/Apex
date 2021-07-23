@@ -155,7 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graphics\Font.cpp" />
+    <ClCompile Include="src\Graphics\BitMapFont.cpp" />
     <ClCompile Include="src\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
@@ -166,6 +166,8 @@
     <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\External\stb_image.cpp" />
+    <ClCompile Include="src\Core\StringUtils.cpp" />
+    <ClCompile Include="src\Core\StringTokenizer.cpp" />
     <ClCompile Include="tests\Astroids\Bullet.cpp" />
     <ClCompile Include="src\Core\DebugSystem.cpp" />
     <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
@@ -185,7 +187,7 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphics\Font.h" />
+    <ClInclude Include="src\Graphics\BitMapFont.h" />
     <ClInclude Include="src\Graphics\FrameBuffer.h" />
     <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
@@ -201,6 +203,8 @@
     <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\External\stb_image.h" />
+    <ClInclude Include="src\Core\StringUtils.h" />
+    <ClInclude Include="src\Core\StringTokenizer.h" />
     <ClInclude Include="tests\Astroids\Bullet.h" />
     <ClInclude Include="src\Core\DebugSystem.h" />
     <ClInclude Include="src\Physics\2D\Disc2D.h" />
@@ -656,6 +660,7 @@
     <Image Include="res\Textures\brick.png" />
     <Image Include="res\Textures\cimg.png" />
     <Image Include="res\Textures\font.png" />
+    <Image Include="res\Textures\SquirrelFixedFont.png" />
     <Image Include="res\Textures\stripes.png" />
     <Image Include="res\Textures\tex.png" />
   </ItemGroup>

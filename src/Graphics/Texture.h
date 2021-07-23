@@ -11,7 +11,7 @@ namespace Apex {
 		unsigned char* m_LocalBuffer;
 		int m_Width, m_Height, m_BPP;
 	public:
-		explicit Texture(const std::string& path, unsigned int id);
+		explicit Texture(const std::string& path);
 		~Texture();
 
 		void Bind(unsigned int slot = 0) const;

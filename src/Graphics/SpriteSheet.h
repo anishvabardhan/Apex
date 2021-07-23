@@ -18,7 +18,7 @@ namespace Apex {
 		AABB2 GetTexCoordsForSpriteCoords(const Vec2& spriteCoords) const;
 		AABB2 GetTexCoordsForSpriteCoords(int spriteIndex) const;
 		int GetNumSprites() const;
-		const Texture& GetSpriteTexture() const { return m_SpriteSheetTexture; }
+		const Texture& GetSpriteSheetTexture() const { return m_SpriteSheetTexture; }
 	};
 
 }

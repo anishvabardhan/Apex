@@ -5,7 +5,7 @@
 #include "../Graphics/VertexArray.h"
 #include "../Graphics/Texture.h"
 #include "../Maths/Mat4.h"
-#include "../Graphics/Font.h"
+#include "../Graphics/BitMapFont.h"
 
 TextureTest::TextureTest()
 {
@@ -21,9 +21,9 @@ void TextureTest::Init()
 	{
 		{
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-			Apex::Font font1("OPENGL3 - TEXTURES", 312.0f, 912.0f, 1.0f);
 			
+			Apex::BitMapFont* font = g_Renderer.CreateOrGetBitmapFont("SquirrelFixedFont");
+
 			float positions[] = {
 			       //PositionCoords		        //TextureCoords
 			    312.0f,  312.0f,  0.0f,           0.0f, 0.0f,  // 0
@@ -38,26 +38,24 @@ void TextureTest::Init()
 			};
 			
 			Apex::VertexArray* vao = new Apex::VertexArray();
-			Apex::VertexBuffer* vbo = new Apex::VertexBuffer(positions, 4 * 5 * sizeof(float));
-
+			Apex::VertexBuffer vbo(positions, 4 * 5 * sizeof(float));
+			
 			Apex::VertexBufferLayout layout;
 			layout.Push(3);
 			layout.Push(2);
-
-			vao->AddBuffer(*vbo, layout);
+			
+			vao->AddBuffer(vbo, layout);
 			
 			Apex::IndexBuffer ibo(indices, 6);
 			
 			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
 			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(0.0f, 0.0f, 0.2f));
 
-			Apex::Texture texture("res/Textures/font.png", NULL);
-			texture.Bind();
+			Apex::Texture texture("res/Textures/stripes.png");
 
 			Apex::Shader shader("res/Shaders/Basic.shader");
 			shader.Bind();
 
-			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Proj", proj);
 
 			shader.UnBind();
@@ -70,14 +68,17 @@ void TextureTest::Init()
 				
 				shader.Bind();
 
-				font1.DrawFontText(shader);
+				g_Renderer.Drawtext2D(Apex::Vec2(0.0f, 0.0f), "ANISHVA", 25.0f, font, 1.0f, shader);
 
+				glActiveTexture(GL_TEXTURE1);
+				texture.Bind();
+				shader.SetUniform1i("u_Texture", 1);
 				shader.SetUniformMat4f("u_Model", model);
 				vao->Bind();
 				ibo.Bind();
-
+				
 				glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
-
+				
 				vao->UnBind();
 				ibo.UnBind();
 

@@ -14,14 +14,15 @@ namespace Apex {
 	AABB2 SpriteSheet::GetTexCoordsForSpriteCoords(const Vec2& spriteCoords) const
 	{
 		AABB2 texCoords;
-		texCoords.m_Mins.m_X = static_cast<float>(spriteCoords.m_X) * 1.f / (float)(m_SpriteLayout.m_X);
-		texCoords.m_Mins.m_Y = static_cast<float>(spriteCoords.m_Y) * 1.f / (float)(m_SpriteLayout.m_Y);
+		texCoords.m_Mins.m_X = (spriteCoords.m_X) * 1.f / (m_SpriteLayout.m_X);
+		texCoords.m_Mins.m_Y = (spriteCoords.m_Y) * 1.f / (m_SpriteLayout.m_Y);
 
-		texCoords.m_Maxs.m_X = (float)(spriteCoords.m_X + 1) * 1.f / (float)(m_SpriteLayout.m_X);
-		texCoords.m_Maxs.m_Y = (float)(spriteCoords.m_Y + 1) * 1.f / (float)(m_SpriteLayout.m_Y);
+		texCoords.m_Maxs.m_X = (spriteCoords.m_X + 1) * 1.f / (m_SpriteLayout.m_X);
+		texCoords.m_Maxs.m_Y = (spriteCoords.m_Y + 1) * 1.f / (m_SpriteLayout.m_Y);
 
-		texCoords.m_Mins.m_Y = 1.f - texCoords.m_Mins.m_Y;
-		texCoords.m_Maxs.m_Y = 1.f - texCoords.m_Maxs.m_Y;
+		texCoords.m_Mins.m_Y = 1.0f - texCoords.m_Mins.m_Y;
+		texCoords.m_Maxs.m_Y = 1.0f - texCoords.m_Maxs.m_Y;
+
 		return texCoords;
 	}
 	
@@ -29,8 +30,8 @@ namespace Apex {
 	{
 		Vec2 spriteCoords;
 
-		spriteCoords.m_X = spriteIndex % (int)m_SpriteLayout.m_Y;
-		spriteCoords.m_Y = spriteIndex / m_SpriteLayout.m_Y;
+		spriteCoords.m_X = int(spriteIndex % (int)m_SpriteLayout.m_Y);
+		spriteCoords.m_Y = int(spriteIndex / (int)m_SpriteLayout.m_Y);
 
 		return GetTexCoordsForSpriteCoords(spriteCoords);
 	}

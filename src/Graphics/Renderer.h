@@ -1,22 +1,33 @@
 #pragma once
 
-//#include "Renderable2D.h"
+#include <map>
+#include <string>
 
 namespace Apex {
 
+	class Texture;
+	class BitMapFont;
+	class Vec2;
+	class Shader;
+
 	class Renderer
 	{
+		std::map<std::string, Texture*>	m_loadedTextures;
+		std::map<std::string, BitMapFont*>	m_loadedFonts;
+
 	public:
 		Renderer();
 	    ~Renderer();
 
-		/*void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
-		void Draw(const Renderable2D& renderable) const;
-		*/
 		void InitRender();
 
 		void Push();
 		void Pop();
+
+		void Drawtext2D(const Vec2& drawMins, const std::string& asciiText, float cellHeight, const BitMapFont* font, float aspectScale, Shader shader);
+
+		Texture* CreateOrGetTexture(const std::string& path);
+		BitMapFont* CreateOrGetBitmapFont(const char* bitmapFontName);
 
 		static void BeginLineLoop();
 		static void BeginLineStrip();
