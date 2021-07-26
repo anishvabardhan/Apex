@@ -66,13 +66,13 @@
     <ClCompile Include="src\Graphics\External\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\IndexBuffer.cpp">
+    <ClCompile Include="src\Graphics\Buffers\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\VertexBuffer.cpp">
+    <ClCompile Include="src\Graphics\Buffers\VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Texture.cpp">
@@ -87,10 +87,10 @@
     <ClCompile Include="src\Graphics\SpriteSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\FrameBuffer.cpp">
+    <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\VertexArray.cpp">
+    <ClCompile Include="src\Graphics\Buffers\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Windows.cpp">
@@ -1031,10 +1031,10 @@
     <ClInclude Include="src\Graphics\External\wglext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\IndexBuffer.h">
+    <ClInclude Include="src\Graphics\Buffers\IndexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\VertexBuffer.h">
+    <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vendor\GLEW\include\GL\glew.h">
@@ -1064,16 +1064,16 @@
     <ClInclude Include="src\Graphics\SpriteSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\FrameBuffer.h">
+    <ClInclude Include="src\Graphics\Buffers\FrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderable2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\VertexArray.h">
+    <ClInclude Include="src\Graphics\Buffers\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\VertexBufferLayout.h">
+    <ClInclude Include="src\Graphics\Buffers\VertexBufferLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Windows.h">

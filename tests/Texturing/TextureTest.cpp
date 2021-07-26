@@ -1,11 +1,12 @@
 #include "TextureTest.h"
 
 #include "../Graphics/Shader.h"
-#include "../Graphics/IndexBuffer.h"
-#include "../Graphics/VertexArray.h"
+#include "../Graphics/BUffers/IndexBuffer.h"
+#include "../Graphics/BUffers/VertexArray.h"
 #include "../Graphics/Texture.h"
 #include "../Maths/Mat4.h"
 #include "../Graphics/BitMapFont.h"
+#include "../Core/StringUtils.h"
 
 TextureTest::TextureTest()
 {
@@ -27,16 +28,16 @@ void TextureTest::Init()
 			float positions[] = {
 			       //PositionCoords		        //TextureCoords
 			    312.0f,  312.0f,  0.0f,           0.0f, 0.0f,  // 0
-			    712.0f,  312.0f,  0.0f,           1.0f, 0.0f,  // 1
-			    712.0f,  712.0f,  0.0f,           1.0f, 1.0f,  // 2
-			    312.0f,  712.0f,  0.0f,           0.0f, 1.0f   // 3
+			    712.0f,  312.0f,  0.0f,           2.0f, 0.0f,  // 1
+			    712.0f,  712.0f,  0.0f,           2.0f, 2.0f,  // 2
+			    312.0f,  712.0f,  0.0f,           0.0f, 2.0f   // 3
 			};
 			
 			unsigned int indices[] = {
 				0, 1, 2,
 				2, 3, 0
 			};
-			
+
 			Apex::VertexArray* vao = new Apex::VertexArray();
 			Apex::VertexBuffer vbo(positions, 4 * 5 * sizeof(float));
 			
@@ -68,10 +69,9 @@ void TextureTest::Init()
 				
 				shader.Bind();
 
-				g_Renderer.Drawtext2D(Apex::Vec2(0.0f, 0.0f), "ANISHVA", 25.0f, font, 1.0f, shader);
+				g_Renderer.Drawtext2D(Apex::Vec2(375.0f, 900.0f), "Apex Engine", 25.0f, font, 1.0f, shader);
 
-				glActiveTexture(GL_TEXTURE1);
-				texture.Bind();
+				texture.Bind(Apex::TEXTURESLOT::SLOT1);
 				shader.SetUniform1i("u_Texture", 1);
 				shader.SetUniformMat4f("u_Model", model);
 				vao->Bind();

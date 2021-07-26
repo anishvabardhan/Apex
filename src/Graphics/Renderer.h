@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 
+
 namespace Apex {
 
 	class Texture;

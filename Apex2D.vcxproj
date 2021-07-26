@@ -156,15 +156,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphics\BitMapFont.cpp" />
-    <ClCompile Include="src\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
-    <ClCompile Include="src\Graphics\VertexArray.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\Windows.cpp" />
     <ClCompile Include="src\Maths\AABB2.cpp" />
-    <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
-    <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\External\stb_image.cpp" />
     <ClCompile Include="src\Core\StringUtils.cpp" />
     <ClCompile Include="src\Core\StringTokenizer.cpp" />
@@ -188,20 +188,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\BitMapFont.h" />
-    <ClInclude Include="src\Graphics\FrameBuffer.h" />
+    <ClInclude Include="src\Graphics\Buffers\FrameBuffer.h" />
     <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
-    <ClInclude Include="src\Graphics\VertexArray.h" />
-    <ClInclude Include="src\Graphics\VertexBufferLayout.h" />
+    <ClInclude Include="src\Graphics\Buffers\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="src\Graphics\Windows.h" />
     <ClInclude Include="src\Maths\AABB2.h" />
     <ClInclude Include="src\Graphics\External\glcorearb.h" />
     <ClInclude Include="src\Graphics\External\glext.h" />
     <ClInclude Include="src\Graphics\External\wglext.h" />
-    <ClInclude Include="src\Graphics\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Buffers\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
-    <ClInclude Include="src\Graphics\VertexBuffer.h" />
+    <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\External\stb_image.h" />
     <ClInclude Include="src\Core\StringUtils.h" />
     <ClInclude Include="src\Core\StringTokenizer.h" />

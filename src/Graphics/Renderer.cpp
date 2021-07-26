@@ -1,8 +1,8 @@
 #include "Renderer.h"
 
-#include "IndexBuffer.h"
+#include "Buffers/IndexBuffer.h"
 #include "Shader.h"
-#include "VertexArray.h"
+#include "Buffers/VertexArray.h"
 #include "BitMapFont.h"
 #include "Texture.h"
 #include "SpriteSheet.h"
@@ -105,8 +105,7 @@ namespace Apex {
 
 	void Renderer::Drawtext2D(const Vec2& drawMins, const std::string& asciiText, float cellHeight, const BitMapFont* font, float aspectScale, Shader shader)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		font->m_spriteSheet.GetSpriteSheetTexture().Bind();
+		font->m_spriteSheet.GetSpriteSheetTexture().Bind(Apex::TEXTURESLOT::SLOT0);
 		float cellWidth = cellHeight * (font->m_baseAspect * aspectScale);
 		Vec2 drawMaxs = Vec2(drawMins.m_X + cellWidth, drawMins.m_Y + cellHeight);
 		float cursorMins;
@@ -150,9 +149,11 @@ namespace Apex {
 			shader.SetUniformMat4f("u_Model", model);
 
 			vao->Bind();
+			ibo.Bind();
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
 
+			ibo.UnBind();
 			vao->UnBind();
 		}
 	}

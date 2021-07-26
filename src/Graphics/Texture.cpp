@@ -2,8 +2,6 @@
 
 #include "External/stb_image.h"
 
-#include <GL/glew.h>
-
 namespace Apex {
 
 	Texture::Texture(const std::string& path)
@@ -36,9 +34,9 @@ namespace Apex {
 		glDeleteTextures(1, &m_RendererID);
 	}
 
-	void Texture::Bind(unsigned int slot) const
+	void Texture::Bind(TEXTURESLOT slot) const
 	{
-		//glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(slot);
 		glBindTexture(GL_TEXTURE_2D, m_RendererID);
 	}
 

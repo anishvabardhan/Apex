@@ -1,9 +1,9 @@
 #pragma once
 
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexBufferLayout.h"
+#include "Buffers/VertexArray.h"
+#include "Buffers/VertexBuffer.h"
+#include "Buffers/IndexBuffer.h"
+#include "Buffers/VertexBufferLayout.h"
 #include "Shader.h"
 
 #include "../Maths/Maths.h"
