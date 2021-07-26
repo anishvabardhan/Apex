@@ -12,7 +12,6 @@ namespace Apex {
 
 	Renderer::Renderer()
 	{
-		InitRender();
 	}
 
 	Renderer::~Renderer()
