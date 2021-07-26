@@ -141,7 +141,7 @@ namespace Apex {
 
 			vao->AddBuffer(vbo, layout);
 
-			Apex::IndexBuffer ibo(indices, 6);
+			IndexBuffer ibo(indices, 6);
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
