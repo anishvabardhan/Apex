@@ -21,7 +21,7 @@ namespace Apex {
 	{
 
 		float cellWidth = cellHeight * (m_baseAspect * aspectScale);
-		return cellWidth * static_cast<float>(asciiText.length());
+		return cellWidth * float(asciiText.length());
 	}
 
 	const Texture* BitMapFont::GetSpriteSheetTexture() const
