@@ -197,7 +197,6 @@ namespace Apex {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glShadeModel(GL_SMOOTH);             
 		glClearDepth(1.0f);                 
-		glEnable(GL_DEPTH_TEST);             
 		glDepthFunc(GL_LEQUAL);              
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	}

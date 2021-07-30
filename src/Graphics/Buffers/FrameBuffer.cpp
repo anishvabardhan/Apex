@@ -1,52 +1,59 @@
 #include "FrameBuffer.h"
 
 #include <GL/glew.h>
+#include <iostream>
 
 namespace Apex {
 
-	FrameBuffer::FrameBuffer(const FrameBufferSpecification& spec)
-		: m_Specification(spec)
+	FrameBuffer::FrameBuffer()
 	{
 		Invalidate();
 	}
 	
 	FrameBuffer::~FrameBuffer()
 	{
-		glDeleteFramebuffers(1, &m_RendererID);
+		glDeleteFramebuffers(1, &m_FrameBufferID);
 	}
 
 	void FrameBuffer::Bind()
 	{
-		glBindFramebuffer(GL_TEXTURE_2D, m_RendererID);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FrameBufferID);
+		glEnable(GL_DEPTH_TEST);
+
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void FrameBuffer::UnBind()
 	{
-		glBindFramebuffer(GL_TEXTURE_2D, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glDisable(GL_DEPTH_TEST);
+
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 	void FrameBuffer::Invalidate()
 	{
-		glCreateFramebuffers(1, &m_RendererID);
-		glBindFramebuffer(GL_TEXTURE_2D, m_RendererID);
+		glGenFramebuffers(1, &m_FrameBufferID);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID);
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_ColorAttachment);
+		glGenTextures(1, &m_ColorAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.s_Width, m_Specification.s_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
 
-		glBindFramebuffer(GL_TEXTURE_2D, 0);
-	}
-	
-	const FrameBufferSpecification& FrameBuffer::GetSpecification() const
-	{
-		return m_Specification;
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	uint32_t FrameBuffer::GetColorAttachmentRendererID() const
+	unsigned int FrameBuffer::GetFrameBufferID() const
+	{
+		return m_FrameBufferID;
+	}
+
+	unsigned int FrameBuffer::GetColorAttachmentID() const
 	{
 		return m_ColorAttachment;
 	}

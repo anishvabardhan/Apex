@@ -1,12 +1,11 @@
 #include "TextureTest.h"
 
+#include "../Graphics/Buffers/VertexArray.h"
+#include "../Graphics/Buffers/IndexBuffer.h"
 #include "../Graphics/Shader.h"
-#include "../Graphics/BUffers/IndexBuffer.h"
-#include "../Graphics/BUffers/VertexArray.h"
-#include "../Graphics/Texture.h"
-#include "../Maths/Mat4.h"
-#include "../Graphics/BitMapFont.h"
-#include "../Core/StringUtils.h"
+#include "../Graphics/Mesh.h"
+#include "../Graphics/Font.h"
+#include "../Maths/Maths.h"
 
 TextureTest::TextureTest()
 {
@@ -14,82 +13,106 @@ TextureTest::TextureTest()
 
 TextureTest::~TextureTest()
 {
+	delete g_FrameBuffer;
 }
 
 void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
-		{
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			
-			Apex::BitMapFont* font = g_Renderer.CreateOrGetBitmapFont("SquirrelFixedFont");
+		{			
+			// Create the Bitmap Font-----------------------------------------------------------------------
 
-			float positions[] = {
-			       //PositionCoords		        //TextureCoords
-			    312.0f,  312.0f,  0.0f,           0.0f, 0.0f,  // 0
-			    712.0f,  312.0f,  0.0f,           2.0f, 0.0f,  // 1
-			    712.0f,  712.0f,  0.0f,           2.0f, 2.0f,  // 2
-			    312.0f,  712.0f,  0.0f,           0.0f, 2.0f   // 3
-			};
-			
-			unsigned int indices[] = {
-				0, 1, 2,
-				2, 3, 0
-			};
+			Apex::Font* font = g_Renderer.CreateBitmapFont("res/Textures/NewFont.png");
 
-			Apex::VertexArray* vao = new Apex::VertexArray();
-			Apex::VertexBuffer vbo(positions, 4 * 5 * sizeof(float));
+			//----------------------------------------------------------------------------------------------
+			// Create a quad with a texture attachment------------------------------------------------------
+
+			Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), "res/Textures/stripes.png");
 			
-			Apex::VertexBufferLayout layout;
-			layout.Push(3);
-			layout.Push(2);
-			
-			vao->AddBuffer(vbo, layout);
-			
-			Apex::IndexBuffer ibo(indices, 6);
-			
+			//----------------------------------------------------------------------------------------------
+            // Create a Screen Quad for the Framebuffer------------------------------------------------------
+
+			Apex::Mesh* screenQuad = new Apex::Mesh(Apex::Vec2(0.0f, 0.0f), Apex::Vec2(1024.0f, 1024.0f));
+
+			//----------------------------------------------------------------------------------------------
+            // Create an Orthgraphic Camera-----------------------------------------------------------------
+
 			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
-			Apex::Mat4 model = Apex::Mat4::translation(Apex::Vec3(0.0f, 0.0f, 0.2f));
 
-			Apex::Texture texture("res/Textures/stripes.png");
+			//----------------------------------------------------------------------------------------------
+            // Create a Basic Shader and Screen Shader for renderables and framebuffer respectively-------
 
 			Apex::Shader shader("res/Shaders/Basic.shader");
-			shader.Bind();
+			Apex::Shader screenShader("res/Shaders/Screen.shader");
 
-			shader.SetUniformMat4f("u_Proj", proj);
+			//----------------------------------------------------------------------------------------------
+			// Create the Frambuffer----------------------------------------------------------------------
 
-			shader.UnBind();
-			
+			g_FrameBuffer = new Apex::FrameBuffer();
+
+			//----------------------------------------------------------------------------------------------
+			// GAME LOOP------------------------------------------------------------------------------------
+
 			while (g_App.IsRun())
-			{
+			{  
+				// The Message Loop-------------------------------------------------------------------------
+				
 				g_App.Broadcast();
 
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				
+				//------------------------------------------------------------------------------------------
+				// Bind the FrameBuffer---------------------------------------------------------------------
+
+				g_FrameBuffer->Bind();
+
+				//------------------------------------------------------------------------------------------
+				// Bind the Shader--------------------------------------------------------------------------
+
 				shader.Bind();
 
-				g_Renderer.Drawtext2D(Apex::Vec2(375.0f, 900.0f), "Apex Engine", 25.0f, font, 1.0f, shader);
+				//------------------------------------------------------------------------------------------
+				// Set the Uniforms-------------------------------------------------------------------------
 
-				texture.Bind(Apex::TEXTURESLOT::SLOT1);
-				shader.SetUniform1i("u_Texture", 1);
-				shader.SetUniformMat4f("u_Model", model);
-				vao->Bind();
-				ibo.Bind();
-				
-				glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
-				
-				vao->UnBind();
-				ibo.UnBind();
+				shader.SetUniformMat4f("u_Proj", proj);
+
+				//------------------------------------------------------------------------------------------
+				// Render the Text--------------------------------------------------------------------------
+
+				g_Renderer.Drawtext(Apex::Vec2(0.0f, 974.0f), "(APEX ENGINE)", 50.0f, font, shader);
+				g_Renderer.Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, shader);
+
+				//------------------------------------------------------------------------------------------
+				// Render the Qaud--------------------------------------------------------------------------
+
+				g_Renderer.DrawQuad(quad, shader);
+
+				//------------------------------------------------------------------------------------------
+				// UnBind the FrameBuffer-------------------------------------------------------------------
+
+				g_FrameBuffer->UnBind();
+
+				//------------------------------------------------------------------------------------------
+				// Bind the Screen Shader-------------------------------------------------------------------
+
+				screenShader.Bind();
+
+				//------------------------------------------------------------------------------------------
+				// Bind the Framebuffer Color Attachment----------------------------------------------------
+
+				glBindTexture(GL_TEXTURE_2D, g_FrameBuffer->GetColorAttachmentID());
+
+				//------------------------------------------------------------------------------------------
+				// Render the FrameBuffer-------------------------------------------------------------------
+
+				g_Renderer.DrawFrameBuffer(screenQuad);
+
+				//------------------------------------------------------------------------------------------
+				// Swap Front and Back Buffer---------------------------------------------------------------
 
 				g_App.SwappingBuffers();
 			}
 
-			
-			vao->UnBind();
-			ibo.UnBind();
-			shader.UnBind();
-			
+			delete quad;
 		}
 	}
 }

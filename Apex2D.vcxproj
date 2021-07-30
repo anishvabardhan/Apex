@@ -155,7 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graphics\BitMapFont.cpp" />
+    <ClCompile Include="src\Graphics\Mesh.cpp" />
+    <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
     <ClCompile Include="src\Graphics\Buffers\VertexArray.cpp" />
@@ -166,8 +167,6 @@
     <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\External\stb_image.cpp" />
-    <ClCompile Include="src\Core\StringUtils.cpp" />
-    <ClCompile Include="src\Core\StringTokenizer.cpp" />
     <ClCompile Include="tests\Astroids\Bullet.cpp" />
     <ClCompile Include="src\Core\DebugSystem.cpp" />
     <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
@@ -187,7 +186,8 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphics\BitMapFont.h" />
+    <ClInclude Include="src\Graphics\Mesh.h" />
+    <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\Buffers\FrameBuffer.h" />
     <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
@@ -203,8 +203,6 @@
     <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\External\stb_image.h" />
-    <ClInclude Include="src\Core\StringUtils.h" />
-    <ClInclude Include="src\Core\StringTokenizer.h" />
     <ClInclude Include="tests\Astroids\Bullet.h" />
     <ClInclude Include="src\Core\DebugSystem.h" />
     <ClInclude Include="src\Physics\2D\Disc2D.h" />
@@ -517,6 +515,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
+    <None Include="res\Shaders\Screen.shader" />
     <None Include="src\glm\detail\func_common.inl" />
     <None Include="src\glm\detail\func_common_simd.inl" />
     <None Include="src\glm\detail\func_exponential.inl" />
@@ -660,7 +659,7 @@
     <Image Include="res\Textures\brick.png" />
     <Image Include="res\Textures\cimg.png" />
     <Image Include="res\Textures\font.png" />
-    <Image Include="res\Textures\SquirrelFixedFont.png" />
+    <Image Include="res\Textures\NewFont.png" />
     <Image Include="res\Textures\stripes.png" />
     <Image Include="res\Textures\tex.png" />
   </ItemGroup>
@@ -670,17 +669,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\GLEW\LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="res\Fonts\arial.ttf" />
-    <Font Include="res\Fonts\arialbd.ttf" />
-    <Font Include="res\Fonts\arialbi.ttf" />
-    <Font Include="res\Fonts\ariali.ttf" />
-    <Font Include="res\Fonts\ARIALN.TTF" />
-    <Font Include="res\Fonts\ARIALNB.TTF" />
-    <Font Include="res\Fonts\ARIALNBI.TTF" />
-    <Font Include="res\Fonts\ARIALNI.TTF" />
-    <Font Include="res\Fonts\ariblk.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,17 +1,12 @@
 #include "Renderer.h"
 
-#include "Buffers/IndexBuffer.h"
-#include "Shader.h"
-#include "Buffers/VertexArray.h"
-#include "BitMapFont.h"
-#include "Texture.h"
-#include "SpriteSheet.h"
-#include "../Core/StringUtils.h"
+#include <GL/glew.h>
 
 namespace Apex {
 
 	Renderer::Renderer()
 	{
+		glViewport(0, 0, 1024, 1024);
 	}
 
 	Renderer::~Renderer()
@@ -102,30 +97,31 @@ namespace Apex {
 		glPopMatrix();
 	}
 
-	void Renderer::Drawtext2D(const Vec2& drawMins, const std::string& asciiText, float cellHeight, const BitMapFont* font, float aspectScale, Shader shader)
+	void Renderer::Drawtext(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader)
 	{
-		font->m_spriteSheet.GetSpriteSheetTexture().Bind(Apex::TEXTURESLOT::SLOT0);
-		float cellWidth = cellHeight * (font->m_baseAspect * aspectScale);
-		Vec2 drawMaxs = Vec2(drawMins.m_X + cellWidth, drawMins.m_Y + cellHeight);
-		float cursorMins;
-		float cursorMaxs;
-		float lineMins = drawMins.m_Y;
-		float lineMaxs = drawMaxs.m_Y;
+		font->GetSpriteSheet().GetSpriteSheetTexture().Bind(TEXTURESLOT::SLOT0);
 
-		VertexArray* vao = new VertexArray();
+		float cellWidth = quadHeight;
+		
+		AABB2 quadPos;
+		AABB2 uvPos;
+		
+		quadPos.m_Mins.m_Y = position.m_Y;
+		quadPos.m_Maxs.m_Y = position.m_Y + quadHeight;
 
-		for (size_t i = 0; i < asciiText.size(); ++i)
+		for (size_t i = 0; i < asciiText.size(); i++)
 		{
-			cursorMins = ((float)i * cellWidth) + drawMins.m_X;
-			cursorMaxs = ((float)(i + 1) * cellWidth) + drawMins.m_X;
-			AABB2 uv = font->GetUVsForGlyph(asciiText[i]);
+			quadPos.m_Mins.m_X = (i * cellWidth) + position.m_X;
+			quadPos.m_Maxs.m_X = ((i + 1) * cellWidth) + position.m_X;
+
+			uvPos = font->GetGlyphUV(asciiText[i]);
 
 			float positions[] = {
-				     //PositionCoords		              //TextureCoords
-				cursorMins, lineMins, 0.0f,       uv.m_Mins.m_X, uv.m_Maxs.m_Y,
-				cursorMaxs, lineMins, 0.0f,       uv.m_Maxs.m_X, uv.m_Maxs.m_Y,
-				cursorMaxs, lineMaxs, 0.0f,		  uv.m_Maxs.m_X, uv.m_Mins.m_Y,
-				cursorMins, lineMaxs, 0.0f,       uv.m_Mins.m_X, uv.m_Mins.m_Y
+				               //PositionCoords		                        //TextureCoords
+				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,       uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
+				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,       uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
+				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
+				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,       uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
 			};
 
 			unsigned int indices[] = {
@@ -133,59 +129,72 @@ namespace Apex {
 				2, 3, 0
 			};
 
-			VertexBuffer vbo(positions, 4 * 5 * sizeof(float));
+			VertexArray* vao = new VertexArray();
+
+			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 5 * sizeof(float));
 
 			VertexBufferLayout layout;
 			layout.Push(3);
 			layout.Push(2);
 
-			vao->AddBuffer(vbo, layout);
+			vao->AddBuffer(*vbo, layout);
 
-			IndexBuffer ibo(indices, 6);
+			IndexBuffer* ibo = new IndexBuffer(indices, 6);
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
 			vao->Bind();
-			ibo.Bind();
+			ibo->Bind();
 
-			glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-			ibo.UnBind();
+			ibo->UnBind();
 			vao->UnBind();
+
+			delete vbo;
+			delete ibo;
+			delete vao;
 		}
 	}
 
-	Texture* Renderer::CreateOrGetTexture(const std::string& path)
+	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
 	{
-		if (m_loadedTextures.find(path) != m_loadedTextures.end())
-		{
-			return m_loadedTextures.at(path);
-		}
-		else
-		{
-			Texture* newTexture = new Texture(path);
-			m_loadedTextures[path] = newTexture;
-			return newTexture;
-		}
+		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
+
+		mesh->GetTexture()->Bind(TEXTURESLOT::SLOT1);
+
+		shader.SetUniform1i("u_Texture", 1);
+		shader.SetUniformMat4f("u_Model", model);
+
+		mesh->GetVAO()->Bind();
+		mesh->GetIBO()->Bind();
+
+		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mesh->GetIBO()->UnBind();
+		mesh->GetVAO()->UnBind();
 	}
 
-	BitMapFont* Renderer::CreateOrGetBitmapFont(const char* bitmapFontName)
+	void Renderer::DrawFrameBuffer(Mesh* mesh)
 	{
-		std::string path = StringUtils::Stringf("res/Textures/SquirrelFixedFont.png", bitmapFontName);
-		std::map<std::string, BitMapFont*>::iterator found = m_loadedFonts.find(bitmapFontName);
-		if (found != m_loadedFonts.end())
-		{
-			return found->second;
-		}
-		else
-		{
-			SpriteSheet* bitMapsheet = new SpriteSheet(*CreateOrGetTexture(path), 16, 16);
-			BitMapFont* newFont = new BitMapFont(bitmapFontName, *bitMapsheet, 1.0f);
-			m_loadedFonts[bitmapFontName] = newFont;
-			return newFont;
-		}
+		mesh->GetVAO()->Bind();
+		mesh->GetIBO()->Bind();
+
+		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mesh->GetIBO()->UnBind();
+		mesh->GetVAO()->UnBind();
+	}
+
+	Font* Renderer::CreateBitmapFont(const std::string& path)
+	{
+		Texture* texture = new Texture(path);
+
+		SpriteSheet* bitMapsheet = new SpriteSheet(*texture, 16, 16);
+		Font* newFont = new Font(*bitMapsheet);
+		return newFont;
 	}
 
 }

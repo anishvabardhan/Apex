@@ -1,21 +1,19 @@
 #pragma once
 
-#include <map>
 #include <string>
 
+#include "Buffers/IndexBuffer.h"
+#include "Buffers/VertexArray.h"
+#include "Mesh.h"
+#include "Font.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "../Maths/Maths.h"
 
 namespace Apex {
 
-	class Texture;
-	class BitMapFont;
-	class Vec2;
-	class Shader;
-
 	class Renderer
 	{
-		std::map<std::string, Texture*>	m_loadedTextures;
-		std::map<std::string, BitMapFont*>	m_loadedFonts;
-
 	public:
 		Renderer();
 	    ~Renderer();
@@ -25,10 +23,11 @@ namespace Apex {
 		void Push();
 		void Pop();
 
-		void Drawtext2D(const Vec2& drawMins, const std::string& asciiText, float cellHeight, const BitMapFont* font, float aspectScale, Shader shader);
+		void Drawtext(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader);
+		void DrawQuad(Mesh* mesh, Shader shader);
+		void DrawFrameBuffer(Mesh* mesh);
 
-		Texture* CreateOrGetTexture(const std::string& path);
-		BitMapFont* CreateOrGetBitmapFont(const char* bitmapFontName);
+		Font* CreateBitmapFont(const std::string& path);
 
 		static void BeginLineLoop();
 		static void BeginLineStrip();

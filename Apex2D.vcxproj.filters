@@ -96,13 +96,10 @@
     <ClCompile Include="src\Graphics\Windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\StringUtils.cpp">
+    <ClCompile Include="src\Graphics\Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\BitMapFont.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\StringTokenizer.cpp">
+    <ClCompile Include="src\Graphics\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1079,13 +1076,10 @@
     <ClInclude Include="src\Graphics\Windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\StringUtils.h">
+    <ClInclude Include="src\Graphics\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\BitMapFont.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\StringTokenizer.h">
+    <ClInclude Include="src\Graphics\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1505,6 +1499,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\Shaders\Basic.shader" />
+    <None Include="res\Shaders\Screen.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Textures\cimg.png">
@@ -1522,7 +1517,7 @@
     <Image Include="res\Textures\font.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\Textures\SquirrelFixedFont.png">
+    <Image Include="res\Textures\NewFont.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -1532,16 +1527,5 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\GLEW\LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="res\Fonts\arial.ttf" />
-    <Font Include="res\Fonts\arialbd.ttf" />
-    <Font Include="res\Fonts\arialbi.ttf" />
-    <Font Include="res\Fonts\ariali.ttf" />
-    <Font Include="res\Fonts\ARIALN.TTF" />
-    <Font Include="res\Fonts\ARIALNB.TTF" />
-    <Font Include="res\Fonts\ARIALNBI.TTF" />
-    <Font Include="res\Fonts\ARIALNI.TTF" />
-    <Font Include="res\Fonts\ariblk.ttf" />
   </ItemGroup>
 </Project>

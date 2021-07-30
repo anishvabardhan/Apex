@@ -15,9 +15,7 @@ namespace Apex {
 		SpriteSheet(const Texture& texture, int tilesWide, int tilesHigh);
 		~SpriteSheet();
 
-		AABB2 GetTexCoordsForSpriteCoords(const Vec2& spriteCoords) const;
-		AABB2 GetTexCoordsForSpriteCoords(int spriteIndex) const;
-		int GetNumSprites() const;
+		AABB2 GetTexCoords(int charAscii);
 		const Texture& GetSpriteSheetTexture() const { return m_SpriteSheetTexture; }
 	};
 
