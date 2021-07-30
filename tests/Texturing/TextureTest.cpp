@@ -101,9 +101,6 @@ void TextureTest::Init()
 
 				glBindTexture(GL_TEXTURE_2D, g_FrameBuffer->GetColorAttachmentID());
 
-				//------------------------------------------------------------------------------------------
-				// Render the FrameBuffer-------------------------------------------------------------------
-
 				g_Renderer.DrawFrameBuffer(screenQuad);
 
 				//------------------------------------------------------------------------------------------

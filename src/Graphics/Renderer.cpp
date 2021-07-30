@@ -117,7 +117,7 @@ namespace Apex {
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
 			float positions[] = {
-				               //PositionCoords		                        //TextureCoords
+				               //PositionCoords		                          //TextureCoords
 				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,       uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
 				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,       uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
 				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
