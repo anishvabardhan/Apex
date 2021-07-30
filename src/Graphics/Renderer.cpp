@@ -101,7 +101,7 @@ namespace Apex {
 	{
 		font->GetSpriteSheet().GetSpriteSheetTexture().Bind(TEXTURESLOT::SLOT0);
 
-		float cellWidth = quadHeight;
+		float quadWidth = quadHeight;
 		
 		AABB2 quadPos;
 		AABB2 uvPos;
@@ -111,8 +111,8 @@ namespace Apex {
 
 		for (size_t i = 0; i < asciiText.size(); i++)
 		{
-			quadPos.m_Mins.m_X = (i * cellWidth) + position.m_X;
-			quadPos.m_Maxs.m_X = ((i + 1) * cellWidth) + position.m_X;
+			quadPos.m_Mins.m_X = (i * quadWidth) + position.m_X;
+			quadPos.m_Maxs.m_X = ((i + 1) * quadWidth) + position.m_X;
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
