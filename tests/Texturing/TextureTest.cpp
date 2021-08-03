@@ -13,7 +13,8 @@ TextureTest::TextureTest()
 
 TextureTest::~TextureTest()
 {
-	delete g_FrameBuffer;
+	delete g_CurrentFrameBuffer;
+	delete g_NextFrameBuffer;
 }
 
 void TextureTest::Init()
@@ -47,9 +48,10 @@ void TextureTest::Init()
 			Apex::Shader screenShader("res/Shaders/Screen.shader");
 
 			//----------------------------------------------------------------------------------------------
-			// Create the Frambuffer----------------------------------------------------------------------
+			// Create the Frambuffers----------------------------------------------------------------------
 
-			g_FrameBuffer = new Apex::FrameBuffer();
+			g_CurrentFrameBuffer = new Apex::FrameBuffer();
+			g_NextFrameBuffer = new Apex::FrameBuffer();
 
 			//----------------------------------------------------------------------------------------------
 			// GAME LOOP------------------------------------------------------------------------------------
@@ -63,7 +65,10 @@ void TextureTest::Init()
 				//------------------------------------------------------------------------------------------
 				// Bind the FrameBuffer---------------------------------------------------------------------
 
-				g_FrameBuffer->Bind();
+				g_CurrentFrameBuffer->Bind();
+
+				g_Renderer.ClearColor();
+				g_Renderer.Clear();
 
 				//------------------------------------------------------------------------------------------
 				// Bind the Shader--------------------------------------------------------------------------
@@ -78,7 +83,7 @@ void TextureTest::Init()
 				//------------------------------------------------------------------------------------------
 				// Render the Text--------------------------------------------------------------------------
 
-				g_Renderer.Drawtext(Apex::Vec2(0.0f, 974.0f), "(APEX ENGINE)", 50.0f, font, shader);
+				g_Renderer.Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, shader);
 				g_Renderer.Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, shader);
 
 				//------------------------------------------------------------------------------------------
@@ -89,7 +94,10 @@ void TextureTest::Init()
 				//------------------------------------------------------------------------------------------
 				// UnBind the FrameBuffer-------------------------------------------------------------------
 
-				g_FrameBuffer->UnBind();
+				g_CurrentFrameBuffer->UnBind();
+
+				g_Renderer.ClearColor();
+				g_Renderer.Clear();
 
 				//------------------------------------------------------------------------------------------
 				// Bind the Screen Shader-------------------------------------------------------------------
@@ -97,9 +105,9 @@ void TextureTest::Init()
 				screenShader.Bind();
 
 				//------------------------------------------------------------------------------------------
-				// Bind the Framebuffer Color Attachment----------------------------------------------------
+				// Copy from Current to Destination Framebuffer---------------------------------------------
 
-				glBindTexture(GL_TEXTURE_2D, g_FrameBuffer->GetColorAttachmentID());
+				g_Renderer.CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
 
 				g_Renderer.DrawFrameBuffer(screenQuad);
 

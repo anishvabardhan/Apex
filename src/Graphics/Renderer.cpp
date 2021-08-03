@@ -188,6 +188,31 @@ namespace Apex {
 		mesh->GetVAO()->UnBind();
 	}
 
+	void Renderer::CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next)
+	{
+		glBindTexture(GL_TEXTURE_2D, current->GetColorAttachmentID());
+		glBindTexture(GL_TEXTURE_2D, next->GetColorAttachmentID());
+
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, current->GetFrameBufferID());
+
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, next->GetFrameBufferID());
+
+		glBlitFramebuffer(0, 0, 1024, 1024, 0, 0, 1024, 1024, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	}
+
+	void Renderer::Clear() const
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void Renderer::ClearColor() const
+	{
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+
 	Font* Renderer::CreateBitmapFont(const std::string& path)
 	{
 		Texture* texture = new Texture(path);

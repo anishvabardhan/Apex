@@ -4,6 +4,7 @@
 
 #include "Buffers/IndexBuffer.h"
 #include "Buffers/VertexArray.h"
+#include "Buffers/FrameBuffer.h"
 #include "Mesh.h"
 #include "Font.h"
 #include "Texture.h"
@@ -26,6 +27,9 @@ namespace Apex {
 		void Drawtext(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader);
 		void DrawQuad(Mesh* mesh, Shader shader);
 		void DrawFrameBuffer(Mesh* mesh);
+		void CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next);
+		void Clear() const;
+		void ClearColor() const;
 
 		Font* CreateBitmapFont(const std::string& path);
 
