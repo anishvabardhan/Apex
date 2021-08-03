@@ -117,11 +117,11 @@ namespace Apex {
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
 			float positions[] = {
-				               //PositionCoords		                          //TextureCoords
-				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,       uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,       uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
-				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,       uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
+				               //PositionCoords		                      //Color                    //TextureCoords
+				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
+				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
+				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
+				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
 			};
 
 			unsigned int indices[] = {
@@ -131,10 +131,11 @@ namespace Apex {
 
 			VertexArray* vao = new VertexArray();
 
-			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 5 * sizeof(float));
+			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 
 			VertexBufferLayout layout;
 			layout.Push(3);
+			layout.Push(4);
 			layout.Push(2);
 
 			vao->AddBuffer(*vbo, layout);

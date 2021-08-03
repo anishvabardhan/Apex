@@ -29,7 +29,7 @@ void TextureTest::Init()
 			//----------------------------------------------------------------------------------------------
 			// Create a quad with a texture attachment------------------------------------------------------
 
-			Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), "res/Textures/stripes.png");
+			Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec3(1.0f, 1.0f, 1.0f), "res/Textures/stripes.png");
 			
 			//----------------------------------------------------------------------------------------------
             // Create a Screen Quad for the Framebuffer------------------------------------------------------
@@ -63,7 +63,7 @@ void TextureTest::Init()
 				g_App.Broadcast();
 
 				//------------------------------------------------------------------------------------------
-				// Bind the FrameBuffer---------------------------------------------------------------------
+				// Bind the Current FrameBuffer---------------------------------------------------------------------
 
 				g_CurrentFrameBuffer->Bind();
 
@@ -92,10 +92,10 @@ void TextureTest::Init()
 				g_Renderer.DrawQuad(quad, shader);
 
 				//------------------------------------------------------------------------------------------
-				// UnBind the FrameBuffer-------------------------------------------------------------------
+				// UnBind the Current FrameBuffer-------------------------------------------------------------------
 
 				g_CurrentFrameBuffer->UnBind();
-
+				
 				g_Renderer.ClearColor();
 				g_Renderer.Clear();
 
@@ -108,7 +108,7 @@ void TextureTest::Init()
 				// Copy from Current to Destination Framebuffer---------------------------------------------
 
 				g_Renderer.CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-
+				
 				g_Renderer.DrawFrameBuffer(screenQuad);
 
 				//------------------------------------------------------------------------------------------

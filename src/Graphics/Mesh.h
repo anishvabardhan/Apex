@@ -15,7 +15,7 @@ namespace Apex{
         IndexBuffer* m_IBO;
         Texture* m_Texture;
     public:
-        explicit Mesh(const Vec2& position, Vec2 meshDim, const std::string& path);
+        explicit Mesh(const Vec2& position, Vec2 meshDim, Vec3 color, const std::string& path);
         explicit Mesh(const Vec2& position, Vec2 meshDim);
         ~Mesh();
 
