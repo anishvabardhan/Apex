@@ -184,6 +184,7 @@
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="tests\Texturing\TextureTest.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
+    <ClCompile Include="src\Graphics\External\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\Mesh.h" />
@@ -508,6 +509,7 @@
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="tests\Texturing\TextureTest.h" />
     <ClInclude Include="src\Graphics\Texture.h" />
+    <ClInclude Include="src\Graphics\External\tinyxml2.h" />
     <ClInclude Include="vendor\GLEW\include\GL\eglew.h" />
     <ClInclude Include="vendor\GLEW\include\GL\glew.h" />
     <ClInclude Include="vendor\GLEW\include\GL\glxew.h" />
