@@ -160,6 +160,53 @@ namespace Apex {
 		}
 	}
 
+	void Renderer::DrawQuad(const Vec2& position, const Vec2& dimensions, const Texture& texture, const AABB2& texCoords, const Vec4& color, Shader shader)
+	{
+		texture.Bind(TEXTURESLOT::SLOT2);
+
+		float positions[] = {
+			                     //PositionCoords		                                             //Color                                   //TextureCoords
+            position.m_X,                  position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y,
+            position.m_X + dimensions.m_X, position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y,
+            position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f,	  color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y,
+            position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		VertexArray* vao = new VertexArray();
+
+		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+
+		VertexBufferLayout layout;
+		layout.Push(3);
+		layout.Push(4);
+		layout.Push(2);
+
+		vao->AddBuffer(*vbo, layout);
+
+		IndexBuffer* ibo = new IndexBuffer(indices, 6);
+
+		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
+		shader.SetUniform1i("u_Texture", 2);
+		shader.SetUniformMat4f("u_Model", model);
+
+		vao->Bind();
+		ibo->Bind();
+
+		glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		ibo->UnBind();
+		vao->UnBind();
+
+		delete vbo;
+		delete ibo;
+		delete vao;
+	}
+
 	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
 	{
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
@@ -221,6 +268,13 @@ namespace Apex {
 		SpriteSheet* bitMapsheet = new SpriteSheet(*texture, 16, 16);
 		Font* newFont = new Font(*bitMapsheet);
 		return newFont;
+	}
+
+	Texture* Renderer::CreateTexture(const std::string& path)
+	{
+		Texture* texture = new Texture(path);
+
+		return texture;
 	}
 
 }

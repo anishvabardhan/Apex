@@ -2,12 +2,14 @@
 
 #include "../Graphics/Buffers/VertexArray.h"
 #include "../Graphics/Buffers/IndexBuffer.h"
+#include "../Graphics/SpriteAnimation.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/Mesh.h"
 #include "../Graphics/Font.h"
 #include "../Maths/Maths.h"
 
 TextureTest::TextureTest()
+	: g_Time(60)
 {
 }
 
@@ -21,16 +23,21 @@ void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
-		{			
+		{
+			g_Time.SetSeed();
+
 			// Create the Bitmap Font-----------------------------------------------------------------------
 
 			Apex::Font* font = g_Renderer.CreateBitmapFont("res/Textures/NewFont.png");
 
+			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*g_Renderer.CreateTexture("res/Textures/bird.png"), 5, 3);
+			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, Apex::SPRITEANIMATIONMODE::PLAY_LOOP, 10.0, 0, 14);
+			
 			//----------------------------------------------------------------------------------------------
 			// Create a quad with a texture attachment------------------------------------------------------
 
 			Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec3(1.0f, 1.0f, 1.0f), "res/Textures/stripes.png");
-			
+
 			//----------------------------------------------------------------------------------------------
             // Create a Screen Quad for the Framebuffer------------------------------------------------------
 
@@ -62,8 +69,10 @@ void TextureTest::Init()
 				
 				g_App.Broadcast();
 
+				g_Time.Update();
+
 				//------------------------------------------------------------------------------------------
-				// Bind the Current FrameBuffer---------------------------------------------------------------------
+				// Bind the Current FrameBuffer-------------------------------------------------------------
 
 				g_CurrentFrameBuffer->Bind();
 
@@ -81,6 +90,13 @@ void TextureTest::Init()
 				shader.SetUniformMat4f("u_Proj", proj);
 
 				//------------------------------------------------------------------------------------------
+				// Render the Animated Qaud-----------------------------------------------------------------
+
+				animation->Update(g_Time.GetTimeDelta());
+
+				g_Renderer.DrawQuad(Apex::Vec2(25.0f, 25.0f), Apex::Vec2(100.0f, 100.0f), *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), Apex::Vec4(1.0f, 1.0f, 1.0f, 1.0f), shader);
+
+				//------------------------------------------------------------------------------------------
 				// Render the Text--------------------------------------------------------------------------
 
 				g_Renderer.Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, shader);
@@ -92,7 +108,7 @@ void TextureTest::Init()
 				g_Renderer.DrawQuad(quad, shader);
 
 				//------------------------------------------------------------------------------------------
-				// UnBind the Current FrameBuffer-------------------------------------------------------------------
+				// UnBind the Current FrameBuffer-----------------------------------------------------------
 
 				g_CurrentFrameBuffer->UnBind();
 				

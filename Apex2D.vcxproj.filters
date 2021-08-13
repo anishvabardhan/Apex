@@ -63,7 +63,7 @@
     <ClCompile Include="tests\Texturing\TextureTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\External\stb_image.cpp">
+    <ClCompile Include="src\External\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Buffers\IndexBuffer.cpp">
@@ -102,7 +102,13 @@
     <ClCompile Include="src\Graphics\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\External\tinyxml2.cpp">
+    <ClCompile Include="src\External\tinyxml2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\XMLParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\SpriteAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1019,7 +1025,7 @@
     <ClInclude Include="tests\Texturing\TextureTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\External\stb_image.h">
+    <ClInclude Include="src\External\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\External\glext.h">
@@ -1085,7 +1091,13 @@
     <ClInclude Include="src\Graphics\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\External\tinyxml2.h">
+    <ClInclude Include="src\External\tinyxml2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\XMLParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1524,6 +1536,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\Textures\NewFont.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\Explosion_5x5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\fire.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\bird.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

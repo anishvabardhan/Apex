@@ -25,6 +25,7 @@ namespace Apex {
 		void Pop();
 
 		void Drawtext(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader);
+		void DrawQuad(const Vec2& position, const Vec2& dimensions, const Texture& texture, const AABB2& texCoords, const Vec4& color, Shader shader);
 		void DrawQuad(Mesh* mesh, Shader shader);
 		void DrawFrameBuffer(Mesh* mesh);
 		void CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next);
@@ -32,6 +33,7 @@ namespace Apex {
 		void ClearColor() const;
 
 		Font* CreateBitmapFont(const std::string& path);
+		Texture* CreateTexture(const std::string& path);
 
 		static void BeginLineLoop();
 		static void BeginLineStrip();

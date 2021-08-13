@@ -2,7 +2,7 @@
 
 namespace Apex {
 
-	SpriteSheet::SpriteSheet(const Texture& texture, int tilesWide, int tilesHigh)
+	SpriteSheet::SpriteSheet(Texture& texture, int tilesWide, int tilesHigh)
 		: m_SpriteSheetTexture(texture), m_SpriteLayout(Vec2(tilesWide, tilesHigh))
 	{
 	}

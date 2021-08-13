@@ -1,6 +1,6 @@
  #include "Texture.h"
 
-#include "External/stb_image.h"
+#include "../External/stb_image.h"
 
 namespace Apex {
 

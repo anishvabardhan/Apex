@@ -9,14 +9,15 @@ namespace Apex {
 
 	class SpriteSheet
 	{
-		const Texture& m_SpriteSheetTexture;
+		Texture& m_SpriteSheetTexture;
 		Vec2 m_SpriteLayout;
 	public:
-		SpriteSheet(const Texture& texture, int tilesWide, int tilesHigh);
+		SpriteSheet(Texture& texture, int tilesWide, int tilesHigh);
 		~SpriteSheet();
 
 		AABB2 GetTexCoords(int charAscii);
-		const Texture& GetSpriteSheetTexture() const { return m_SpriteSheetTexture; }
+		Texture& GetSpriteSheetTexture() const { return m_SpriteSheetTexture; }
+		const Vec2 GetLayout() const { return m_SpriteLayout; }
 	};
 
 }

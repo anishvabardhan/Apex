@@ -42,14 +42,14 @@ distribution.
 */
 /*
     gcc:
-        g++ -Wall -DDEBUG tinyxml2.cpp xmltest.cpp -o gccxmltest.exe
+        g++ -Wall -DTINYXML2_DEBUG tinyxml2.cpp xmltest.cpp -o gccxmltest.exe
     Formatting, Artistic Style:
         AStyle.exe --style=1tbs --indent-switches --break-closing-brackets --indent-preprocessor tinyxml2.cpp tinyxml2.h
 */
 
 #if defined( _DEBUG ) || defined (__DEBUG__)
-#   ifndef DEBUG
-#       define DEBUG
+#   ifndef TINYXML2_DEBUG
+#       define TINYXML2_DEBUG
 #   endif
 #endif
 
@@ -73,7 +73,8 @@ distribution.
 #endif
 
 
-#if defined(DEBUG)
+#if !defined(TIXMLASSERT)
+#if defined(TINYXML2_DEBUG)
 #   if defined(_MSC_VER)
 #       // "(void)0," is for suppressing C4127 warning in "assert(false)", "assert(true)" and the like
 #       define TIXMLASSERT( x )           if ( !((void)0,(x))) { __debugbreak(); }
@@ -87,14 +88,27 @@ distribution.
 #else
 #   define TIXMLASSERT( x )               {}
 #endif
-
+#endif
 
 /* Versioning, past 1.0.14:
     http://semver.org/
 */
-static const int TIXML2_MAJOR_VERSION = 5;
+static const int TIXML2_MAJOR_VERSION = 9;
 static const int TIXML2_MINOR_VERSION = 0;
-static const int TIXML2_PATCH_VERSION = 1;
+static const int TIXML2_PATCH_VERSION = 0;
+
+#define TINYXML2_MAJOR_VERSION 9
+#define TINYXML2_MINOR_VERSION 0
+#define TINYXML2_PATCH_VERSION 0
+
+// A fixed element depth limit is problematic. There needs to be a
+// limit to avoid a stack overflow. However, that limit varies per
+// system, and the capacity of the stack. On the other hand, it's a trivial
+// attack that can result from ill, malicious, or even correctly formed XML,
+// so there needs to be a limit in place.
+static const int TINYXML2_MAX_ELEMENT_DEPTH = 100;
+
+using namespace std;
 
 namespace tinyxml2
 {
@@ -112,11 +126,12 @@ namespace tinyxml2
         pointers into the XML file itself, and will apply normalization
         and entity translation if actually read. Can also store (and memory
         manage) a traditional char[]
+        Isn't clear why TINYXML2_LIB is needed; but seems to fix #719
     */
-    class StrPair
+    class TINYXML2_LIB StrPair
     {
     public:
-        enum {
+        enum Mode {
             NEEDS_ENTITY_PROCESSING = 0x01,
             NEEDS_NEWLINE_NORMALIZATION = 0x02,
             NEEDS_WHITESPACE_COLLAPSING = 0x04,
@@ -173,7 +188,7 @@ namespace tinyxml2
         char* _end;
 
         StrPair(const StrPair& other);	// not supported
-        void operator=(StrPair& other);	// not supported, use TransferTo()
+        void operator=(const StrPair& other);	// not supported, use TransferTo()
     };
 
 
@@ -284,7 +299,7 @@ namespace tinyxml2
             TIXMLASSERT(cap > 0);
             if (cap > _allocated) {
                 TIXMLASSERT(cap <= INT_MAX / 2);
-                int newAllocated = cap * 2;
+                const int newAllocated = cap * 2;
                 T* newMem = new T[newAllocated];
                 TIXMLASSERT(newAllocated >= _size);
                 memcpy(newMem, _mem, sizeof(T) * _size);	// warning: not using constructors, only works for PODs
@@ -317,7 +332,6 @@ namespace tinyxml2
         virtual void* Alloc() = 0;
         virtual void Free(void*) = 0;
         virtual void SetTracked() = 0;
-        virtual void Clear() = 0;
     };
 
 
@@ -330,7 +344,7 @@ namespace tinyxml2
     public:
         MemPoolT() : _blockPtrs(), _root(0), _currentAllocs(0), _nAllocs(0), _maxAllocs(0), _nUntracked(0) {}
         ~MemPoolT() {
-            Clear();
+            MemPoolT< ITEM_SIZE >::Clear();
         }
 
         void Clear() {
@@ -385,7 +399,7 @@ namespace tinyxml2
             }
             --_currentAllocs;
             Item* item = static_cast<Item*>(mem);
-#ifdef DEBUG
+#ifdef TINYXML2_DEBUG
             memset(item, 0xfe, sizeof(*item));
 #endif
             item->next = _root;
@@ -503,10 +517,8 @@ namespace tinyxml2
         XML_ERROR_FILE_NOT_FOUND,
         XML_ERROR_FILE_COULD_NOT_BE_OPENED,
         XML_ERROR_FILE_READ_ERROR,
-        UNUSED_XML_ERROR_ELEMENT_MISMATCH,	// remove at next major version
         XML_ERROR_PARSING_ELEMENT,
         XML_ERROR_PARSING_ATTRIBUTE,
-        UNUSED_XML_ERROR_IDENTIFYING_TAG,	// remove at next major version
         XML_ERROR_PARSING_TEXT,
         XML_ERROR_PARSING_CDATA,
         XML_ERROR_PARSING_COMMENT,
@@ -517,6 +529,7 @@ namespace tinyxml2
         XML_ERROR_PARSING,
         XML_CAN_NOT_CONVERT_TEXT,
         XML_NO_TEXT_NODE,
+        XML_ELEMENT_DEPTH_EXCEEDED,
 
         XML_ERROR_COUNT
     };
@@ -540,7 +553,7 @@ namespace tinyxml2
             TIXMLASSERT(p);
             return p;
         }
-        static char* SkipWhiteSpace(char* p, int* curLineNumPtr) {
+        static char* SkipWhiteSpace(char* const p, int* curLineNumPtr) {
             return const_cast<char*>(SkipWhiteSpace(const_cast<const char*>(p), curLineNumPtr));
         }
 
@@ -568,6 +581,11 @@ namespace tinyxml2
                 || ch == '-';
         }
 
+        inline static bool IsPrefixHex(const char* p) {
+            p = SkipWhiteSpace(p, 0);
+            return p && *p == '0' && (*(p + 1) == 'x' || *(p + 1) == 'X');
+        }
+
         inline static bool StringEqual(const char* p, const char* q, int nChar = INT_MAX) {
             if (p == q) {
                 return true;
@@ -578,7 +596,7 @@ namespace tinyxml2
             return strncmp(p, q, nChar) == 0;
         }
 
-        inline static bool IsUTF8Continuation(char p) {
+        inline static bool IsUTF8Continuation(const char p) {
             return (p & 0x80) != 0;
         }
 
@@ -595,6 +613,7 @@ namespace tinyxml2
         static void ToStr(float v, char* buffer, int bufferSize);
         static void ToStr(double v, char* buffer, int bufferSize);
         static void ToStr(int64_t v, char* buffer, int bufferSize);
+        static void ToStr(uint64_t v, char* buffer, int bufferSize);
 
         // converts strings to primitive types
         static bool	ToInt(const char* str, int* value);
@@ -603,7 +622,7 @@ namespace tinyxml2
         static bool	ToFloat(const char* str, float* value);
         static bool ToDouble(const char* str, double* value);
         static bool ToInt64(const char* str, int64_t* value);
-
+        static bool ToUnsigned64(const char* str, uint64_t* value);
         // Changes what is serialized for a boolean value.
         // Default to "true" and "false". Shouldn't be changed
         // unless you have a special testing or compatibility need.
@@ -904,7 +923,7 @@ namespace tinyxml2
         void* GetUserData() const { return _userData; }
 
     protected:
-        XMLNode(XMLDocument*);
+        explicit XMLNode(XMLDocument*);
         virtual ~XMLNode();
 
         virtual char* ParseDeep(char* p, StrPair* parentEndTag, int* curLineNumPtr);
@@ -970,7 +989,7 @@ namespace tinyxml2
         virtual bool ShallowEqual(const XMLNode* compare) const;
 
     protected:
-        XMLText(XMLDocument* doc) : XMLNode(doc), _isCData(false) {}
+        explicit XMLText(XMLDocument* doc) : XMLNode(doc), _isCData(false) {}
         virtual ~XMLText() {}
 
         char* ParseDeep(char* p, StrPair* parentEndTag, int* curLineNumPtr);
@@ -1001,7 +1020,7 @@ namespace tinyxml2
         virtual bool ShallowEqual(const XMLNode* compare) const;
 
     protected:
-        XMLComment(XMLDocument* doc);
+        explicit XMLComment(XMLDocument* doc);
         virtual ~XMLComment();
 
         char* ParseDeep(char* p, StrPair* parentEndTag, int* curLineNumPtr);
@@ -1038,7 +1057,7 @@ namespace tinyxml2
         virtual bool ShallowEqual(const XMLNode* compare) const;
 
     protected:
-        XMLDeclaration(XMLDocument* doc);
+        explicit XMLDeclaration(XMLDocument* doc);
         virtual ~XMLDeclaration();
 
         char* ParseDeep(char* p, StrPair* parentEndTag, int* curLineNumPtr);
@@ -1072,7 +1091,7 @@ namespace tinyxml2
         virtual bool ShallowEqual(const XMLNode* compare) const;
 
     protected:
-        XMLUnknown(XMLDocument* doc);
+        explicit XMLUnknown(XMLDocument* doc);
         virtual ~XMLUnknown();
 
         char* ParseDeep(char* p, StrPair* parentEndTag, int* curLineNumPtr);
@@ -1123,6 +1142,12 @@ namespace tinyxml2
             return i;
         }
 
+        uint64_t Unsigned64Value() const {
+            uint64_t i = 0;
+            QueryUnsigned64Value(&i);
+            return i;
+        }
+
         /// Query as an unsigned integer. See IntValue()
         unsigned UnsignedValue() const {
             unsigned i = 0;
@@ -1158,6 +1183,8 @@ namespace tinyxml2
         /// See QueryIntValue
         XMLError QueryInt64Value(int64_t* value) const;
         /// See QueryIntValue
+        XMLError QueryUnsigned64Value(uint64_t* value) const;
+        /// See QueryIntValue
         XMLError QueryBoolValue(bool* value) const;
         /// See QueryIntValue
         XMLError QueryDoubleValue(double* value) const;
@@ -1172,6 +1199,8 @@ namespace tinyxml2
         void SetAttribute(unsigned value);
         /// Set the attribute to value.
         void SetAttribute(int64_t value);
+        /// Set the attribute to value.
+        void SetAttribute(uint64_t value);
         /// Set the attribute to value.
         void SetAttribute(bool value);
         /// Set the attribute to value.
@@ -1257,6 +1286,8 @@ namespace tinyxml2
         /// See IntAttribute()
         int64_t Int64Attribute(const char* name, int64_t defaultValue = 0) const;
         /// See IntAttribute()
+        uint64_t Unsigned64Attribute(const char* name, uint64_t defaultValue = 0) const;
+        /// See IntAttribute()
         bool BoolAttribute(const char* name, bool defaultValue = false) const;
         /// See IntAttribute()
         double DoubleAttribute(const char* name, double defaultValue = 0) const;
@@ -1302,6 +1333,15 @@ namespace tinyxml2
         }
 
         /// See QueryIntAttribute()
+        XMLError QueryUnsigned64Attribute(const char* name, uint64_t* value) const {
+            const XMLAttribute* a = FindAttribute(name);
+            if (!a) {
+                return XML_NO_ATTRIBUTE;
+            }
+            return a->QueryUnsigned64Value(value);
+        }
+
+        /// See QueryIntAttribute()
         XMLError QueryBoolAttribute(const char* name, bool* value) const {
             const XMLAttribute* a = FindAttribute(name);
             if (!a) {
@@ -1326,6 +1366,17 @@ namespace tinyxml2
             return a->QueryFloatValue(value);
         }
 
+        /// See QueryIntAttribute()
+        XMLError QueryStringAttribute(const char* name, const char** value) const {
+            const XMLAttribute* a = FindAttribute(name);
+            if (!a) {
+                return XML_NO_ATTRIBUTE;
+            }
+            *value = a->Value();
+            return XML_SUCCESS;
+        }
+
+
 
         /** Given an attribute name, QueryAttribute() returns
             XML_SUCCESS, XML_WRONG_ATTRIBUTE_TYPE if the conversion
@@ -1333,7 +1384,6 @@ namespace tinyxml2
             doesn't exist. It is overloaded for the primitive types,
             and is a generally more convenient replacement of
             QueryIntAttribute() and related functions.
-
             If successful, the result of the conversion
             will be written to 'value'. If not successful, nothing will
             be written to 'value'. This allows you to provide default
@@ -1343,28 +1393,36 @@ namespace tinyxml2
             QueryAttribute( "foo", &value );		// if "foo" isn't found, value will still be 10
             @endverbatim
         */
-        int QueryAttribute(const char* name, int* value) const {
+        XMLError QueryAttribute(const char* name, int* value) const {
             return QueryIntAttribute(name, value);
         }
 
-        int QueryAttribute(const char* name, unsigned int* value) const {
+        XMLError QueryAttribute(const char* name, unsigned int* value) const {
             return QueryUnsignedAttribute(name, value);
         }
 
-        int QueryAttribute(const char* name, int64_t* value) const {
+        XMLError QueryAttribute(const char* name, int64_t* value) const {
             return QueryInt64Attribute(name, value);
         }
 
-        int QueryAttribute(const char* name, bool* value) const {
+        XMLError QueryAttribute(const char* name, uint64_t* value) const {
+            return QueryUnsigned64Attribute(name, value);
+        }
+
+        XMLError QueryAttribute(const char* name, bool* value) const {
             return QueryBoolAttribute(name, value);
         }
 
-        int QueryAttribute(const char* name, double* value) const {
+        XMLError QueryAttribute(const char* name, double* value) const {
             return QueryDoubleAttribute(name, value);
         }
 
-        int QueryAttribute(const char* name, float* value) const {
+        XMLError QueryAttribute(const char* name, float* value) const {
             return QueryFloatAttribute(name, value);
+        }
+
+        XMLError QueryAttribute(const char* name, const char** value) const {
+            return QueryStringAttribute(name, value);
         }
 
         /// Sets the named attribute to value.
@@ -1385,6 +1443,12 @@ namespace tinyxml2
 
         /// Sets the named attribute to value.
         void SetAttribute(const char* name, int64_t value) {
+            XMLAttribute* a = FindOrCreateAttribute(name);
+            a->SetAttribute(value);
+        }
+
+        /// Sets the named attribute to value.
+        void SetAttribute(const char* name, uint64_t value) {
             XMLAttribute* a = FindOrCreateAttribute(name);
             a->SetAttribute(value);
         }
@@ -1462,7 +1526,6 @@ namespace tinyxml2
             @verbatim
                 <foo>Hullaballoo!<b>This is text</b></foo>
             @endverbatim
-
             For this XML:
             @verbatim
                 <foo />
@@ -1479,6 +1542,8 @@ namespace tinyxml2
         void SetText(unsigned value);
         /// Convenience method for setting text inside an element. See SetText() for important limitations.
         void SetText(int64_t value);
+        /// Convenience method for setting text inside an element. See SetText() for important limitations.
+        void SetText(uint64_t value);
         /// Convenience method for setting text inside an element. See SetText() for important limitations.
         void SetText(bool value);
         /// Convenience method for setting text inside an element. See SetText() for important limitations.
@@ -1514,6 +1579,8 @@ namespace tinyxml2
         /// See QueryIntText()
         XMLError QueryInt64Text(int64_t* uval) const;
         /// See QueryIntText()
+        XMLError QueryUnsigned64Text(uint64_t* uval) const;
+        /// See QueryIntText()
         XMLError QueryBoolText(bool* bval) const;
         /// See QueryIntText()
         XMLError QueryDoubleText(double* dval) const;
@@ -1527,11 +1594,28 @@ namespace tinyxml2
         /// See QueryIntText()
         int64_t Int64Text(int64_t defaultValue = 0) const;
         /// See QueryIntText()
+        uint64_t Unsigned64Text(uint64_t defaultValue = 0) const;
+        /// See QueryIntText()
         bool BoolText(bool defaultValue = false) const;
         /// See QueryIntText()
         double DoubleText(double defaultValue = 0) const;
         /// See QueryIntText()
         float FloatText(float defaultValue = 0) const;
+
+        /**
+            Convenience method to create a new XMLElement and add it as last (right)
+            child of this node. Returns the created and inserted element.
+        */
+        XMLElement* InsertNewChildElement(const char* name);
+        /// See InsertNewChildElement()
+        XMLComment* InsertNewComment(const char* comment);
+        /// See InsertNewChildElement()
+        XMLText* InsertNewText(const char* text);
+        /// See InsertNewChildElement()
+        XMLDeclaration* InsertNewDeclaration(const char* text);
+        /// See InsertNewChildElement()
+        XMLUnknown* InsertNewUnknown(const char* text);
+
 
         // internal:
         enum ElementClosingType {
@@ -1554,11 +1638,7 @@ namespace tinyxml2
         XMLElement(const XMLElement&);	// not supported
         void operator=(const XMLElement&);	// not supported
 
-        XMLAttribute* FindAttribute(const char* name) {
-            return const_cast<XMLAttribute*>(const_cast<const XMLElement*>(this)->FindAttribute(name));
-        }
         XMLAttribute* FindOrCreateAttribute(const char* name);
-        //void LinkAttribute( XMLAttribute* attrib );
         char* ParseAttributes(char* p, int* curLineNumPtr);
         static void DeleteAttribute(XMLAttribute* attribute);
         XMLAttribute* CreateAttribute();
@@ -1586,6 +1666,13 @@ namespace tinyxml2
     class TINYXML2_LIB XMLDocument : public XMLNode
     {
         friend class XMLElement;
+        // Gives access to SetError and Push/PopDepth, but over-access for everything else.
+        // Wishing C++ had "internal" scope.
+        friend class XMLNode;
+        friend class XMLText;
+        friend class XMLComment;
+        friend class XMLDeclaration;
+        friend class XMLUnknown;
     public:
         /// constructor
         XMLDocument(bool processEntities = true, Whitespace whitespaceMode = PRESERVE_WHITESPACE);
@@ -1609,7 +1696,7 @@ namespace tinyxml2
             specified, TinyXML-2 will assume 'xml' points to a
             null terminated string.
         */
-        XMLError Parse(const char* xml, size_t nBytes = (size_t)(-1));
+        XMLError Parse(const char* xml, size_t nBytes = static_cast<size_t>(-1));
 
         /**
             Load an XML file from disk.
@@ -1621,7 +1708,6 @@ namespace tinyxml2
         /**
             Load an XML file from disk. You are responsible
             for providing and closing the FILE*.
-
             NOTE: The file should be opened as binary ("rb")
             not text in order for TinyXML-2 to correctly
             do newline normalization.
@@ -1732,11 +1818,8 @@ namespace tinyxml2
         */
         void DeleteNode(XMLNode* node);
 
-        void SetError(XMLError error, const char* str1, const char* str2, int lineNum);
-
-        void ClearError() {
-            SetError(XML_SUCCESS, 0, 0, 0);
-        }
+        /// Clears the error flags.
+        void ClearError();
 
         /// Return true if there was an error parsing the document.
         bool Error() const {
@@ -1749,19 +1832,19 @@ namespace tinyxml2
         const char* ErrorName() const;
         static const char* ErrorIDToName(XMLError errorID);
 
-        /// Return a possibly helpful diagnostic location or string.
-        const char* GetErrorStr1() const;
+        /** Returns a "long form" error description. A hopefully helpful
+            diagnostic with location, line number, and/or additional info.
+        */
+        const char* ErrorStr() const;
 
-        /// Return a possibly helpful secondary diagnostic location or string.
-        const char* GetErrorStr2() const;
+        /// A (trivial) utility function that prints the ErrorStr() to stdout.
+        void PrintError() const;
 
-        /// Return the line where the error occured, or zero if unknown.
-        int GetErrorLineNum() const
+        /// Return the line where the error occurred, or zero if unknown.
+        int ErrorLineNum() const
         {
             return _errorLineNum;
         }
-        /// If there is an error, print it to stdout.
-        void PrintError() const;
 
         /// Clear the document, resetting it to the initial state.
         void Clear();
@@ -1778,7 +1861,7 @@ namespace tinyxml2
         char* Identify(char* p, XMLNode** node);
 
         // internal
-        void MarkInUse(XMLNode*);
+        void MarkInUse(const XMLNode* const);
 
         virtual XMLNode* ShallowClone(XMLDocument* /*document*/) const {
             return 0;
@@ -1795,11 +1878,11 @@ namespace tinyxml2
         bool			_processEntities;
         XMLError		_errorID;
         Whitespace		_whitespaceMode;
-        mutable StrPair	_errorStr1;
-        mutable StrPair	_errorStr2;
+        mutable StrPair	_errorStr;
         int             _errorLineNum;
         char* _charBuffer;
         int				_parseCurLineNum;
+        int				_parsingDepth;
         // Memory tracking does add some overhead.
         // However, the code assumes that you don't
         // have a bunch of unlinked nodes around.
@@ -1816,6 +1899,26 @@ namespace tinyxml2
         static const char* _errorNames[XML_ERROR_COUNT];
 
         void Parse();
+
+        void SetError(XMLError error, int lineNum, const char* format, ...);
+
+        // Something of an obvious security hole, once it was discovered.
+        // Either an ill-formed XML or an excessively deep one can overflow
+        // the stack. Track stack depth, and error out if needed.
+        class DepthTracker {
+        public:
+            explicit DepthTracker(XMLDocument* document) {
+                this->_document = document;
+                document->PushDepth();
+            }
+            ~DepthTracker() {
+                _document->PopDepth();
+            }
+        private:
+            XMLDocument* _document;
+        };
+        void PushDepth();
+        void PopDepth();
 
         template<class NodeType, int PoolElementSize>
         NodeType* CreateUnlinkedNode(MemPoolT<PoolElementSize>& pool);
@@ -1885,10 +1988,10 @@ namespace tinyxml2
     {
     public:
         /// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
-        XMLHandle(XMLNode* node) : _node(node) {
+        explicit XMLHandle(XMLNode* node) : _node(node) {
         }
         /// Create a handle from a node.
-        XMLHandle(XMLNode& node) : _node(&node) {
+        explicit XMLHandle(XMLNode& node) : _node(&node) {
         }
         /// Copy constructor
         XMLHandle(const XMLHandle& ref) : _node(ref._node) {
@@ -1965,9 +2068,9 @@ namespace tinyxml2
     class TINYXML2_LIB XMLConstHandle
     {
     public:
-        XMLConstHandle(const XMLNode* node) : _node(node) {
+        explicit XMLConstHandle(const XMLNode* node) : _node(node) {
         }
-        XMLConstHandle(const XMLNode& node) : _node(&node) {
+        explicit XMLConstHandle(const XMLNode& node) : _node(&node) {
         }
         XMLConstHandle(const XMLConstHandle& ref) : _node(ref._node) {
         }
@@ -2080,6 +2183,7 @@ namespace tinyxml2
         void PushAttribute(const char* name, int value);
         void PushAttribute(const char* name, unsigned value);
         void PushAttribute(const char* name, int64_t value);
+        void PushAttribute(const char* name, uint64_t value);
         void PushAttribute(const char* name, bool value);
         void PushAttribute(const char* name, double value);
         /// If streaming, close the Element.
@@ -2091,8 +2195,10 @@ namespace tinyxml2
         void PushText(int value);
         /// Add a text node from an unsigned.
         void PushText(unsigned value);
-        /// Add a text node from an unsigned.
+        /// Add a text node from a signed 64bit integer.
         void PushText(int64_t value);
+        /// Add a text node from an unsigned 64bit integer.
+        void PushText(uint64_t value);
         /// Add a text node from a bool.
         void PushText(bool value);
         /// Add a text node from a float.
@@ -2138,10 +2244,10 @@ namespace tinyxml2
             If in print to memory mode, reset the buffer to the
             beginning.
         */
-        void ClearBuffer() {
+        void ClearBuffer(bool resetToFirstElement = true) {
             _buffer.Clear();
             _buffer.Push(0);
-            _firstElement = true;
+            _firstElement = resetToFirstElement;
         }
 
     protected:
@@ -2151,13 +2257,22 @@ namespace tinyxml2
             the space and tabs used. A PrintSpace() override should call Print().
         */
         virtual void PrintSpace(int depth);
-        void Print(const char* format, ...);
+        virtual void Print(const char* format, ...);
+        virtual void Write(const char* data, size_t size);
+        virtual void Putc(char ch);
+
+        inline void Write(const char* data) { Write(data, strlen(data)); }
 
         void SealElementIfJustOpened();
         bool _elementJustOpened;
         DynArray< const char*, 10 > _stack;
 
     private:
+        /**
+           Prepares to write a new node. This includes sealing an element that was
+           just opened, and writing any whitespace necessary if not in compact mode.
+         */
+        void PrepareForNewNode(bool compactMode);
         void PrintString(const char*, bool restrictedEntitySet);	// prints out, after detecting entities.
 
         bool _firstElement;
