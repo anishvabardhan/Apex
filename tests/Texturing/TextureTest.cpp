@@ -31,7 +31,7 @@ void TextureTest::Init()
 			Apex::Font* font = g_Renderer.CreateBitmapFont("res/Textures/NewFont.png");
 
 			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*g_Renderer.CreateTexture("res/Textures/bird.png"), 5, 3);
-			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, Apex::SPRITEANIMATIONMODE::PLAY_LOOP, 10.0, 0, 14);
+			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
 			
 			//----------------------------------------------------------------------------------------------
 			// Create a quad with a texture attachment------------------------------------------------------
@@ -94,7 +94,7 @@ void TextureTest::Init()
 
 				animation->Update(g_Time.GetTimeDelta());
 
-				g_Renderer.DrawQuad(Apex::Vec2(25.0f, 25.0f), Apex::Vec2(100.0f, 100.0f), *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), Apex::Vec4(1.0f, 1.0f, 1.0f, 1.0f), shader);
+				g_Renderer.DrawQuad(Apex::Vec2(100.0f, 100.0f), Apex::Vec2(100.0f, 100.0f), *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), Apex::Vec4(1.0f, 1.0f, 1.0f, 1.0f), shader);
 
 				//------------------------------------------------------------------------------------------
 				// Render the Text--------------------------------------------------------------------------
