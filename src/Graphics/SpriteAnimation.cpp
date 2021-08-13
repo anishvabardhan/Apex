@@ -6,10 +6,8 @@
 
 namespace Apex {
 
-
-
 	SpriteAnimation::SpriteAnimation(const SpriteSheet& spriteSheet,  float duration, int start, int end)
-		: m_ElapsedSeconds(0), m_DurationSeconds(duration), m_StartIndex(start), m_EndIndex(end), m_CurrentIndex(start), m_IsPlaying(true)
+		: m_Elapsed(0), m_Duration(duration), m_Start(start), m_End(end), m_CurrentIndex(start), m_IsPlaying(true)
 	{
 		m_SpriteSheet = new SpriteSheet(spriteSheet.GetSpriteSheetTexture(), spriteSheet.GetLayout().m_X, spriteSheet.GetLayout().m_Y);
 	}
@@ -26,16 +24,19 @@ namespace Apex {
 			deltaTime = 0.0f;
 		}
 		
-		m_ElapsedSeconds += deltaTime;
-		m_FractionElapsed = m_ElapsedSeconds / m_DurationSeconds;
+		m_Elapsed += deltaTime;
+
+		float elapsedFraction;
+		elapsedFraction = m_Elapsed / m_Duration;
 		
-		if (m_ElapsedSeconds >= m_DurationSeconds)
+		if (m_Duration <= m_Elapsed)
 		{
-			Reset();
+			m_Elapsed = 0.0f;
 		}
 		else
 		{
-			m_CurrentIndex = m_StartIndex + (int)(m_FractionElapsed * GetNumSprites());
+			int temp = elapsedFraction * GetSpritesNumber();
+			m_CurrentIndex = m_Start + temp;
 		}
 	}
 
@@ -46,13 +47,7 @@ namespace Apex {
 
 	Texture* SpriteAnimation::GetTexture()
 	{
-		Texture* texture = &m_SpriteSheet->GetSpriteSheetTexture();
-
-		return texture;
-	}
-	void SpriteAnimation::Reset()
-	{
-		m_ElapsedSeconds = 0.0f;
+		return &m_SpriteSheet->GetSpriteSheetTexture();
 	}
 
 }

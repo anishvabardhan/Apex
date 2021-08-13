@@ -8,15 +8,13 @@ namespace Apex {
 
 	class SpriteAnimation
 	{
-		bool m_IsPlaying;
-		float m_DurationSeconds;
-		float m_ElapsedSeconds;
-		float m_FractionElapsed;
-		int m_StartIndex;
-		int m_EndIndex;
-		int m_CurrentIndex;
-
 		SpriteSheet* m_SpriteSheet;
+		bool m_IsPlaying;
+		float m_Duration;
+		float m_Elapsed;
+		int m_Start;
+		int m_End;
+		int m_CurrentIndex;
 	public:
 		SpriteAnimation(const SpriteSheet& spriteSheet, float duration, int start, int end);
 		~SpriteAnimation();
@@ -24,9 +22,8 @@ namespace Apex {
 		void Update(float deltaTime);
 		AABB2 GetTexCoords();
 		Texture* GetTexture();			    
-		void Reset();	
 
-		inline int	GetNumSprites() const { return (m_EndIndex - m_StartIndex) + 1; }
+		inline int GetSpritesNumber() const { return m_End - m_Start + 1; }
 	};
 
 }
