@@ -1,5 +1,7 @@
 #include "XMLParser.h"
 
+#include "StringTokenizer.h"
+
 namespace Apex {
 
 	int ParseXMLAttrib(const XMLelement& element, const char* attribName, int value)
@@ -14,38 +16,6 @@ namespace Apex {
 		}
 
 		return intValue;
-	}
-	
-	const char* ParseXMLAttrib(const XMLelement& element, const char* attribName, const char* value)
-	{
-		const char* text = value;
-		const char* valueText = element.Attribute(attribName);
-
-		if (valueText)
-			text = valueText;
-
-		return text;
-	}
-	
-	bool ParseXMLAttrib(const XMLelement& element, const char* attribName, bool value)
-	{
-		bool val = value;
-		const char* boolText = element.Attribute(attribName);
-
-		if (boolText)
-		{
-			bool temp;
-			std::string text = boolText;
-			
-			if (text == "true")
-				temp = true;
-			else
-				temp = false;
-
-			val = temp;
-		}
-
-		return val;
 	}
 	
 	float ParseXMLAttrib(const XMLelement& element, const char* attribName, float value)
@@ -64,62 +34,70 @@ namespace Apex {
 
 	Vec2 ParseXMLAttrib(const XMLelement& element, const char* attribName, const Vec2& value)
 	{
-		return Vec2();
+		Vec2 vec2 = value;
+		const char* vecText = element.Attribute(attribName);
+
+		if (vecText)
+		{
+			std::string temp = vecText;
+			std::string newX, newY;
+			size_t commaIndex = 0;
+
+			commaIndex = temp.find(",", commaIndex);
+			
+			newX = std::string(temp, 0, commaIndex);
+			newY = std::string(temp, commaIndex + 1);
+
+			vec2.m_X = atof(newX.c_str());
+			vec2.m_Y = atof(newY.c_str());
+		}
+
+		return vec2;
 	}
 	
 	Vec3 ParseXMLAttrib(const XMLelement& element, const char* attribName, const Vec3& value)
 	{
-		return Vec3();
+		Vec3 vec3 = value;
+		const char* vecText = element.Attribute(attribName);
+
+		if (vecText)
+		{
+			StringTokenizer tokenizer(vecText, ",");
+			tokenizer.Tokenize();
+
+			std::vector<std::string> tokens(3);
+
+			tokens = tokenizer.GetTokens();
+
+			vec3.m_X = strtof(tokens[0].c_str(), nullptr);
+			vec3.m_Y = strtof(tokens[1].c_str(), nullptr);
+			vec3.m_Z = strtof(tokens[2].c_str(), nullptr);
+		}
+
+		return vec3;
 	}
 	
 	Vec4 ParseXMLAttrib(const XMLelement& element, const char* attribName, const Vec4& value)
 	{
-		return Vec4();
-	}
-	
-	AABB2 ParseXMLAttrib(const XMLelement& element, const char* attribName, const AABB2& value)
-	{
-		return AABB2();
-	}
-	
-	int ParseXMLInnerText(const XMLelement& element, int value)
-	{
-		return 0;
-	}
-	
-	const char* ParseXMLInnerText(const XMLelement& element, const char* value)
-	{
-		return 0;
-	}
-	
-	bool ParseXMLInnerText(const XMLelement& element, bool value)
-	{
-		return false;
-	}
-	
-	float ParseXMLInnerText(const XMLelement& element, float value)
-	{
-		return 0.0f;
-	}
-	
-	Vec2 ParseXMLInnerText(const XMLelement& element, const Vec2& value)
-	{
-		return Vec2();
-	}
-	
-	Vec3 ParseXMLInnerText(const XMLelement& element, const Vec3& value)
-	{
-		return Vec3();
-	}
-	
-	Vec4 ParseXMLInnerText(const XMLelement& element, const Vec4& value)
-	{
-		return Vec4();
-	}
-	
-	AABB2 ParseXMLInnerText(const XMLelement& element, const AABB2& value)
-	{
-		return AABB2();
+		Vec4 vec4 = value;
+		const char* vecText = element.Attribute(attribName);
+
+		if (vecText)
+		{
+			StringTokenizer tokenizer(vecText, ",");
+			tokenizer.Tokenize();
+
+			std::vector<std::string> tokens(4);
+
+			tokens = tokenizer.GetTokens();
+
+			vec4.m_X = strtof(tokens[0].c_str(), nullptr);
+			vec4.m_Y = strtof(tokens[1].c_str(), nullptr);
+			vec4.m_Z = strtof(tokens[2].c_str(), nullptr);
+			vec4.m_W = strtof(tokens[3].c_str(), nullptr);
+		}
+
+		return vec4;
 	}
 
 }

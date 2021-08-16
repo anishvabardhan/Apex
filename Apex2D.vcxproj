@@ -159,6 +159,7 @@
     <ClCompile Include="src\Graphics\Mesh.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp" />
+    <ClCompile Include="src\Graphics\SpriteDefinition.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
     <ClCompile Include="src\Graphics\Buffers\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\Windows.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\External\stb_image.cpp" />
+    <ClCompile Include="src\Core\StringTokenizer.cpp" />
     <ClCompile Include="tests\Astroids\Bullet.cpp" />
     <ClCompile Include="src\Core\DebugSystem.cpp" />
     <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\Buffers\FrameBuffer.h" />
     <ClInclude Include="src\Graphics\Renderable2D.h" />
+    <ClInclude Include="src\Graphics\SpriteDefinition.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexArray.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexBufferLayout.h" />
@@ -207,6 +210,7 @@
     <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\External\stb_image.h" />
+    <ClInclude Include="src\Core\StringTokenizer.h" />
     <ClInclude Include="tests\Astroids\Bullet.h" />
     <ClInclude Include="src\Core\DebugSystem.h" />
     <ClInclude Include="src\Physics\2D\Disc2D.h" />
@@ -678,6 +682,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\GLEW\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="tests\Texturing\sprite.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

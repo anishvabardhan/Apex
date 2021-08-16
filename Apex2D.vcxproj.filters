@@ -111,6 +111,12 @@
     <ClCompile Include="src\Graphics\SpriteAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\StringTokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\SpriteDefinition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\glm\detail\_features.hpp">
@@ -1100,6 +1106,12 @@
     <ClInclude Include="src\Graphics\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\StringTokenizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\SpriteDefinition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\glm\detail\func_common.inl">
@@ -1554,5 +1566,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\GLEW\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="tests\Texturing\sprite.xml" />
   </ItemGroup>
 </Project>

@@ -11,6 +11,10 @@ namespace Apex {
 		m_LocalBuffer = stbi_load(m_FilePath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
 		glGenTextures(1, &m_RendererID);
+
+		//glEnable(GL_TEXTURE_2D);
+		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
+
 		glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

@@ -3,6 +3,7 @@
 #include "../Graphics/Buffers/VertexArray.h"
 #include "../Graphics/Buffers/IndexBuffer.h"
 #include "../Graphics/SpriteAnimation.h"
+#include "../Graphics/SpriteDefinition.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/Mesh.h"
 #include "../Graphics/Font.h"
@@ -24,13 +25,23 @@ void TextureTest::Init()
 	if (g_App.Init())
 	{
 		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 			g_Time.SetSeed();
+
+			tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
+			doc->LoadFile("tests/Texturing/sprite.xml");
+			tinyxml2::XMLElement* root = doc->FirstChildElement()->FirstChildElement();
+
+
+			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*root);
 
 			// Create the Bitmap Font-----------------------------------------------------------------------
 
 			Apex::Font* font = g_Renderer.CreateBitmapFont("res/Textures/NewFont.png");
 
-			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*g_Renderer.CreateTexture("res/Textures/bird.png"), 5, 3);
+			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*g_Renderer.CreateTexture("res/Textures/bird.png"), spriteDefs);
 			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
 			
 			//----------------------------------------------------------------------------------------------
@@ -94,7 +105,7 @@ void TextureTest::Init()
 
 				animation->Update(g_Time.GetTimeDelta());
 
-				g_Renderer.DrawQuad(Apex::Vec2(100.0f, 100.0f), Apex::Vec2(100.0f, 100.0f), *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), Apex::Vec4(1.0f, 1.0f, 1.0f, 1.0f), shader);
+				g_Renderer.DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, shader);
 
 				//------------------------------------------------------------------------------------------
 				// Render the Text--------------------------------------------------------------------------

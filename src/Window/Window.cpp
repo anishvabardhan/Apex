@@ -190,14 +190,6 @@ namespace Apex {
 		{
 			std::cout << "ERROR" << std::endl;
 		}
-
-		glEnable(GL_BLEND);
-		glEnable(GL_LINE_SMOOTH);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glShadeModel(GL_SMOOTH);             
-		glClearDepth(1.0f);                 
-		glDepthFunc(GL_LEQUAL);              
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	}
 
 	void Window::OnUpdate()
