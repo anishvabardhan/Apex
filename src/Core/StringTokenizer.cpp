@@ -13,11 +13,8 @@ namespace Apex {
 	{
 	}
 	
-	void StringTokenizer::Tokenize(const std::string& delimiter)
+	void StringTokenizer::Tokenize()
 	{
-		if (!delimiter.empty())
-			m_Delimiter = delimiter;
-
 		m_Tokens.clear();
 
 		size_t prevIndex = 0;
