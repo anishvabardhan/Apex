@@ -1559,6 +1559,18 @@
     <Image Include="res\Textures\bird.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\Textures\grass.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\burst.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\bomb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Textures\ChernoLogo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="vendor\GLEW\lib\Release\Win32\glew32.lib" />

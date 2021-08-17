@@ -667,11 +667,15 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Textures\bird.png" />
+    <Image Include="res\Textures\bomb.png" />
     <Image Include="res\Textures\brick.png" />
+    <Image Include="res\Textures\burst.png" />
+    <Image Include="res\Textures\ChernoLogo.png" />
     <Image Include="res\Textures\cimg.png" />
     <Image Include="res\Textures\Explosion_5x5.png" />
     <Image Include="res\Textures\fire.png" />
     <Image Include="res\Textures\font.png" />
+    <Image Include="res\Textures\grass.png" />
     <Image Include="res\Textures\NewFont.png" />
     <Image Include="res\Textures\stripes.png" />
     <Image Include="res\Textures\tex.png" />

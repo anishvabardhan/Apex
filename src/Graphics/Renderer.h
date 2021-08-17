@@ -40,6 +40,8 @@ namespace Apex {
 		static void BeginPolygon();
 		static void BeginQuads();
 
+		static void Blend();
+
 		static void End();
 		static void Flush();
 	};

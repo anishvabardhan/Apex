@@ -25,15 +25,13 @@ void TextureTest::Init()
 	if (g_App.Init())
 	{
 		{
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			g_Renderer.Blend();
 
 			g_Time.SetSeed();
 
 			tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
 			doc->LoadFile("tests/Texturing/sprite.xml");
 			tinyxml2::XMLElement* root = doc->FirstChildElement()->FirstChildElement();
-
 
 			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*root);
 
