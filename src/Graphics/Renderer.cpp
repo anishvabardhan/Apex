@@ -54,7 +54,7 @@ namespace Apex {
 		//--------------------------------------------------------------------------------------------------
 		//Specify Clear Values for the Color Buffers--------------------------------------------------------
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	void Renderer::BeginLineLoop()
@@ -80,6 +80,7 @@ namespace Apex {
 	void Renderer::Blend()
 	{
 		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
