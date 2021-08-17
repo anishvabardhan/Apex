@@ -17,8 +17,8 @@ namespace Apex {
 	{
 		m_Tokens.clear();
 
-		size_t prevIndex = 0;
-		size_t currentIndex = 0;
+		int prevIndex = 0;
+		int currentIndex = 0;
 
 		currentIndex = m_Input.find_first_of(m_Delimiter, currentIndex);
 
@@ -31,7 +31,7 @@ namespace Apex {
 				prevIndex += m_Delimiter.size();
 			}
 
-			size_t quoteIndex = token.find_first_of("\"");
+			int quoteIndex = token.find_first_of("\"");
 
 			if (quoteIndex != m_Input.npos && token[quoteIndex - 1] != '\\')
 			{
@@ -64,10 +64,13 @@ namespace Apex {
 	const std::string StringTokenizer::Stringf(const char* format, ...)
 	{
 		char textLiteral[2048];
+
 		va_list variableArgList;
+		
 		va_start(variableArgList, format);
 		vsnprintf_s(textLiteral, 2048, _TRUNCATE, format, variableArgList);
 		va_end(variableArgList);
+		
 		textLiteral[2047] = '\0';
 
 		return std::string(textLiteral);
