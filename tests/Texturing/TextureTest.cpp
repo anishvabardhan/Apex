@@ -25,19 +25,33 @@ void TextureTest::Init()
 	if (g_App.Init())
 	{
 		{
+			//----------------------------------------------------------------------------------------------
+			// Enable Blending------------------------------------------------------------------------------
+			
 			g_Renderer.Blend();
 
+			//----------------------------------------------------------------------------------------------
+
 			g_Time.SetSeed();
+
+			//----------------------------------------------------------------------------------------------
+			// Load in the xml sheet------------------------------------------------------------------------
 
 			tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
 			doc->LoadFile("tests/Texturing/sprite.xml");
 			tinyxml2::XMLElement* root = doc->FirstChildElement()->FirstChildElement();
 
+			//----------------------------------------------------------------------------------------------
+
 			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*root);
 
+			//----------------------------------------------------------------------------------------------
 			// Create the Bitmap Font-----------------------------------------------------------------------
 
 			Apex::Font* font = g_Renderer.CreateBitmapFont("res/Textures/NewFont.png");
+
+			//----------------------------------------------------------------------------------------------
+			// Create Animated Sprite-----------------------------------------------------------------------
 
 			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*g_Renderer.CreateTexture("res/Textures/bird.png"), spriteDefs);
 			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
@@ -48,7 +62,7 @@ void TextureTest::Init()
 			Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec3(1.0f, 1.0f, 1.0f), "res/Textures/stripes.png");
 
 			//----------------------------------------------------------------------------------------------
-            // Create a Screen Quad for the Framebuffer------------------------------------------------------
+            // Create a Screen Quad for the Framebuffer-----------------------------------------------------
 
 			Apex::Mesh* screenQuad = new Apex::Mesh(Apex::Vec2(0.0f, 0.0f), Apex::Vec2(1024.0f, 1024.0f));
 
