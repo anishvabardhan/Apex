@@ -61,19 +61,4 @@ namespace Apex {
 		}
 	}
 
-	const std::string StringTokenizer::Stringf(const char* format, ...)
-	{
-		char textLiteral[2048];
-
-		va_list variableArgList;
-		
-		va_start(variableArgList, format);
-		vsnprintf_s(textLiteral, 2048, _TRUNCATE, format, variableArgList);
-		va_end(variableArgList);
-		
-		textLiteral[2047] = '\0';
-
-		return std::string(textLiteral);
-	}
-
 }

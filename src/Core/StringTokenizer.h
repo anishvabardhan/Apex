@@ -15,7 +15,6 @@ namespace Apex {
 		~StringTokenizer();
 
 		void Tokenize();
-		const std::string Stringf(const char* format, ...);
 
 		inline std::vector<std::string> GetTokens() const { return m_Tokens; }
 	};
