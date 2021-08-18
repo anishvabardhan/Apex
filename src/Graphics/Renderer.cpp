@@ -77,10 +77,16 @@ namespace Apex {
 		glBegin(GL_QUADS);
 	}
 
-	void Renderer::Blend()
+	void Renderer::EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode)
 	{
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(src, dest);
+		glBlendEquation(mode);
+	}
+
+	void Renderer::DisableBlend()
+	{
+		glDisable(GL_BLEND);
 	}
 
 	void Renderer::End()
@@ -264,7 +270,7 @@ namespace Apex {
 
 	void Renderer::ClearColor() const
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	Font* Renderer::CreateBitmapFont(const std::string& path)

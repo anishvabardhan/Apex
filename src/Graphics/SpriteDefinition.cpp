@@ -16,4 +16,14 @@ namespace Apex {
 	{
 	}
 
+	tinyxml2::XMLElement* SpriteDefinition::InitializeDef(const std::string& path)
+	{
+		tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
+        doc->LoadFile(path.c_str());
+		
+		tinyxml2::XMLElement* root = doc->FirstChildElement()->FirstChildElement();
+
+		return root;
+	}
+
 }

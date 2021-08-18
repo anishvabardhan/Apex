@@ -13,6 +13,31 @@
 
 namespace Apex {
 
+	enum APEX_BLEND_FACTOR {
+		APEX_ZERO                      =      GL_ZERO,
+		APEX_ONE                       =      GL_ONE,
+		APEX_SRC_COLOR                 =      GL_SRC_COLOR,
+		APEX_ONE_MINUS_SRC_COLOR       =      GL_ONE_MINUS_SRC_COLOR,
+		APEX_DST_COLOR                 =      GL_DST_COLOR,
+		APEX_ONE_MINUS_DST_COLOR       =      GL_ONE_MINUS_DST_COLOR,
+		APEX_SRC_ALPHA                 =      GL_SRC_ALPHA,
+		APEX_ONE_MINUS_SRC_ALPHA       =      GL_ONE_MINUS_SRC_ALPHA,
+		APEX_DST_ALPHA                 =      GL_DST_ALPHA,
+		APEX_ONE_MINUS_DST_ALPHA       =      GL_ONE_MINUS_DST_ALPHA,
+		APEX_CONSTANT_COLOR            =      GL_CONSTANT_COLOR,
+		APEX_ONE_MINUS_CONSTANT_COLOR  =      GL_ONE_MINUS_CONSTANT_COLOR,
+		APEX_CONSTANT_ALPHA            =      GL_CONSTANT_ALPHA,
+		APEX_ONE_MINUS_CONSTANT_ALPHA  =      GL_ONE_MINUS_CONSTANT_ALPHA,
+	};
+
+	enum APEX_BLEND_OP {
+		APEX_FUNC_ADD                  =      GL_FUNC_ADD,
+		APEX_FUNC_SUBTRACT             =      GL_FUNC_SUBTRACT,
+		APEX_FUNC_REVERSE_SUBTRACT     =      GL_FUNC_REVERSE_SUBTRACT,
+		APEX_MIN                       =      GL_MIN,
+		APEX_MAX                       =      GL_MAX
+	};
+
 	class Renderer
 	{
 	public:
@@ -40,7 +65,8 @@ namespace Apex {
 		static void BeginPolygon();
 		static void BeginQuads();
 
-		static void Blend();
+		static void EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode = APEX_BLEND_OP::APEX_FUNC_ADD);
+		static void DisableBlend();
 
 		static void End();
 		static void Flush();

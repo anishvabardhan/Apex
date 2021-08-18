@@ -4,38 +4,38 @@
 
 namespace Apex {
 
-	int ParseXMLAttrib(const XMLelement& element, const char* attribName, int value)
+	int ParseXMLAttrib(const XMLelement& element, const std::string& attribName, int value)
 	{
 		int intValue = value;
-		const char* intText = element.Attribute(attribName);
+		const char* intText = element.Attribute(attribName.c_str());
 
 		if (intText)
 		{
-			int temp = atoi(intText);
+			int temp = stoi(static_cast<std::string>(intText));
 			intValue = temp;
 		}
 
 		return intValue;
 	}
 	
-	float ParseXMLAttrib(const XMLelement& element, const char* attribName, float value)
+	float ParseXMLAttrib(const XMLelement& element, const std::string& attribName, float value)
 	{
 		float val = value;
-		const char* floatText = element.Attribute(attribName);
+		const char* floatText = element.Attribute(attribName.c_str());
 
 		if (floatText)
 		{
-			float temp = atof(floatText);
+			float temp = stof(static_cast<std::string>(floatText));
 			val = temp;
 		}
 
 		return val;
 	}
 
-	Vec2 ParseXMLAttrib(const XMLelement& element, const char* attribName, const Vec2& value)
+	Vec2 ParseXMLAttrib(const XMLelement& element, const std::string& attribName, const Vec2& value)
 	{
 		Vec2 vec2 = value;
-		const char* vecText = element.Attribute(attribName);
+		const char* vecText = element.Attribute(attribName.c_str());
 
 		if (vecText)
 		{
@@ -48,17 +48,17 @@ namespace Apex {
 			newX = std::string(temp, 0, commaIndex);
 			newY = std::string(temp, commaIndex + 1);
 
-			vec2.m_X = atof(newX.c_str());
-			vec2.m_Y = atof(newY.c_str());
+			vec2.m_X = stof(newX);
+			vec2.m_Y = stof(newY);
 		}
 
 		return vec2;
 	}
 	
-	Vec3 ParseXMLAttrib(const XMLelement& element, const char* attribName, const Vec3& value)
+	Vec3 ParseXMLAttrib(const XMLelement& element, const std::string& attribName, const Vec3& value)
 	{
 		Vec3 vec3 = value;
-		const char* vecText = element.Attribute(attribName);
+		const char* vecText = element.Attribute(attribName.c_str());
 
 		if (vecText)
 		{
@@ -77,10 +77,10 @@ namespace Apex {
 		return vec3;
 	}
 	
-	Vec4 ParseXMLAttrib(const XMLelement& element, const char* attribName, const Vec4& value)
+	Vec4 ParseXMLAttrib(const XMLelement& element, const std::string& attribName, const Vec4& value)
 	{
 		Vec4 vec4 = value;
-		const char* vecText = element.Attribute(attribName);
+		const char* vecText = element.Attribute(attribName.c_str());
 
 		if (vecText)
 		{

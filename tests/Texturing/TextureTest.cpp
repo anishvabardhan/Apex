@@ -33,15 +33,9 @@ void TextureTest::Init()
 			g_Time.SetSeed();
 
 			//----------------------------------------------------------------------------------------------
-			// Load in the xml sheet------------------------------------------------------------------------
+			// Load in the sprite Definition xml sheet------------------------------------------------------
 
-			tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
-			doc->LoadFile("tests/Texturing/sprite.xml");
-			tinyxml2::XMLElement* root = doc->FirstChildElement()->FirstChildElement();
-
-			//----------------------------------------------------------------------------------------------
-
-			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*root);
+			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*Apex::SpriteDefinition::InitializeDef("tests/Texturing/sprite.xml"));
 
 			//----------------------------------------------------------------------------------------------
 			// Create the Bitmap Font-----------------------------------------------------------------------
@@ -86,9 +80,12 @@ void TextureTest::Init()
 
 			while (g_App.IsRun())
 			{  
+				//------------------------------------------------------------------------------------------
 				// The Message Loop-------------------------------------------------------------------------
 				
 				g_App.Broadcast();
+
+				//------------------------------------------------------------------------------------------
 
 				g_Time.Update();
 
@@ -97,7 +94,13 @@ void TextureTest::Init()
 
 				g_CurrentFrameBuffer->Bind();
 
-				g_Renderer.Blend();
+				//------------------------------------------------------------------------------------------
+				// Enable Blending--------------------------------------------------------------------------
+
+				g_Renderer.EnableBlend(Apex::APEX_BLEND_FACTOR::APEX_SRC_ALPHA, Apex::APEX_BLEND_FACTOR::APEX_ONE_MINUS_SRC_ALPHA);
+
+				//------------------------------------------------------------------------------------------
+				// Clearing Buffers-------------------------------------------------------------------------
 
 				g_Renderer.ClearColor();
 				g_Renderer.Clear();
@@ -151,12 +154,22 @@ void TextureTest::Init()
 				g_Renderer.DrawFrameBuffer(screenQuad);
 
 				//------------------------------------------------------------------------------------------
+				// Disable Blending-------------------------------------------------------------------------
+
+				g_Renderer.DisableBlend();
+
+				//------------------------------------------------------------------------------------------
 				// Swap Front and Back Buffer---------------------------------------------------------------
 
 				g_App.SwappingBuffers();
 			}
 
+			delete font;
 			delete quad;
+			delete sheet;
+			delete animation;
+			delete screenQuad;
+			delete spriteDefs;
 		}
 	}
 }

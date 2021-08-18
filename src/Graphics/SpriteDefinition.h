@@ -20,6 +20,8 @@ namespace Apex {
 
 		SpriteDefinition(const tinyxml2::XMLElement& element);
 		~SpriteDefinition();
+
+		static tinyxml2::XMLElement* InitializeDef(const std::string& path);
 	};
 
 }
