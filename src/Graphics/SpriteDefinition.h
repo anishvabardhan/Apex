@@ -2,9 +2,6 @@
 
 #include "../Core/XMLParser.h"
 
-#include <map>
-#include <iterator>
-
 namespace Apex {
 
 	class Vec2;

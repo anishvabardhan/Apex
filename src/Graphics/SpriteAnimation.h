@@ -1,10 +1,13 @@
 #pragma once
 
+#include <vector>
+
 namespace Apex {
 
 	class Texture;
 	class AABB2;
 	class SpriteSheet;
+	class SpriteDefinition;
 
 	class SpriteAnimation
 	{

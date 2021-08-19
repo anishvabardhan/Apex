@@ -9,6 +9,8 @@
 #include "../Graphics/Font.h"
 #include "../Maths/Maths.h"
 
+#include <vector>
+
 TextureTest::TextureTest()
 	: g_Time(60)
 {
@@ -28,6 +30,8 @@ void TextureTest::Init()
 			//----------------------------------------------------------------------------------------------
 			// Enable Blending------------------------------------------------------------------------------
 			
+			g_Renderer.EnableBlend(Apex::APEX_BLEND_FACTOR::APEX_SRC_ALPHA, Apex::APEX_BLEND_FACTOR::APEX_ONE_MINUS_SRC_ALPHA);
+
 			//----------------------------------------------------------------------------------------------
 
 			g_Time.SetSeed();
@@ -95,11 +99,6 @@ void TextureTest::Init()
 				g_CurrentFrameBuffer->Bind();
 
 				//------------------------------------------------------------------------------------------
-				// Enable Blending--------------------------------------------------------------------------
-
-				g_Renderer.EnableBlend(Apex::APEX_BLEND_FACTOR::APEX_SRC_ALPHA, Apex::APEX_BLEND_FACTOR::APEX_ONE_MINUS_SRC_ALPHA);
-
-				//------------------------------------------------------------------------------------------
 				// Clearing Buffers-------------------------------------------------------------------------
 
 				g_Renderer.ClearColor();
@@ -154,22 +153,24 @@ void TextureTest::Init()
 				g_Renderer.DrawFrameBuffer(screenQuad);
 
 				//------------------------------------------------------------------------------------------
-				// Disable Blending-------------------------------------------------------------------------
-
-				g_Renderer.DisableBlend();
-
-				//------------------------------------------------------------------------------------------
 				// Swap Front and Back Buffer---------------------------------------------------------------
 
 				g_App.SwappingBuffers();
 			}
 
+			//----------------------------------------------------------------------------------------------
+			// Disable Blending-----------------------------------------------------------------------------
+
+			g_Renderer.DisableBlend();
+
+			//----------------------------------------------------------------------------------------------
+
 			delete font;
 			delete quad;
 			delete sheet;
+			delete spriteDefs;
 			delete animation;
 			delete screenQuad;
-			delete spriteDefs;
 		}
 	}
 }
