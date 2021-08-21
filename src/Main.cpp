@@ -1,4 +1,4 @@
-#include "../tests/Texturing/TextureTest.h"
+#include "../tests/Texturing/Code/TextureTest.h"
 
 int main()
 {

@@ -17,6 +17,19 @@ namespace Apex {
 
 		return intValue;
 	}
+
+	std::string ParseXMLAttrib(const XMLelement& element, const std::string& attribName, std::string value)
+	{
+		std::string stringValue = value;
+		const char* charText = element.Attribute(attribName.c_str());
+
+		if (charText)
+		{
+			stringValue = charText;
+		}
+
+		return stringValue;
+	}
 	
 	float ParseXMLAttrib(const XMLelement& element, const std::string& attribName, float value)
 	{

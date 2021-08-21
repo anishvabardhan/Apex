@@ -1,11 +1,25 @@
 #include "Shader.h"
 
+#include "ShaderDefinition.h"
+
 namespace Apex {
+	
+	Shader::Shader(ShaderDefinition* shaderDef)
+		: m_RendererID(0)
+	{
+		m_FilePath = shaderDef->m_FilePath;
+		m_BlendSRC = shaderDef->m_BlendSRC;
+		m_BlendDST = shaderDef->m_BlendDST;
+		m_BlendOp = shaderDef->m_BlendOp;
+
+		ShaderProgramSource source = ParseShader(m_FilePath);
+		m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
+	}
 
 	Shader::Shader(const std::string& filepath)
 		: m_FilePath(filepath), m_RendererID(0)
 	{
-		ShaderProgramSource source = ParseShader(filepath);
+		ShaderProgramSource source = ParseShader(m_FilePath);
 		m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 	}
 

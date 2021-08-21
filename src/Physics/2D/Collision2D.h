@@ -2,8 +2,8 @@
 
 //#include "Graphics/Windows.h"
 #include "../Graphics/Renderable2D.h"
-#include "../../tests/Astroids/Ship.h"
-#include "../../tests/Astroids/Astroid.h"
+#include "../../tests/Astroids/Code/Ship.h"
+#include "../../tests/Astroids/Code/Astroid.h"
 
 namespace Apex {
 

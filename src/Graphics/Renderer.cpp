@@ -4,6 +4,8 @@
 
 namespace Apex {
 
+	static Renderer* m_Renderer = nullptr;
+
 	Renderer::Renderer()
 	{
 		glViewport(0, 0, 1024, 1024);
@@ -77,6 +79,11 @@ namespace Apex {
 		glBegin(GL_QUADS);
 	}
 
+	Renderer* Renderer::GetInstance()
+	{
+		return m_Renderer;
+	}
+
 	void Renderer::EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode)
 	{
 		glEnable(GL_BLEND);
@@ -130,10 +137,10 @@ namespace Apex {
 
 			float positions[] = {
 				               //PositionCoords		                      //Color                    //TextureCoords
-				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
-				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
+				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
+				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
+				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
+				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
 			};
 
 			unsigned int indices[] = {

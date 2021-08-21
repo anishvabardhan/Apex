@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\ShaderDefinition.cpp" />
     <ClCompile Include="src\Graphics\SpriteAnimation.cpp" />
     <ClCompile Include="src\Graphics\Mesh.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />
@@ -170,14 +171,14 @@
     <ClCompile Include="src\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\External\stb_image.cpp" />
     <ClCompile Include="src\Core\StringTokenizer.cpp" />
-    <ClCompile Include="tests\Astroids\Bullet.cpp" />
+    <ClCompile Include="tests\Astroids\Code\Bullet.cpp" />
     <ClCompile Include="src\Core\DebugSystem.cpp" />
     <ClCompile Include="src\Physics\2D\Disc2D.cpp" />
     <ClCompile Include="src\Maths\Random.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
-    <ClCompile Include="tests\Astroids\Game.cpp" />
-    <ClCompile Include="tests\Astroids\Astroid.cpp" />
-    <ClCompile Include="tests\Astroids\Ship.cpp" />
+    <ClCompile Include="tests\Astroids\Code\Game.cpp" />
+    <ClCompile Include="tests\Astroids\Code\Astroid.cpp" />
+    <ClCompile Include="tests\Astroids\Code\Ship.cpp" />
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
     <ClCompile Include="src\Maths\Vec4.cpp" />
@@ -185,12 +186,13 @@
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
-    <ClCompile Include="tests\Texturing\TextureTest.cpp" />
+    <ClCompile Include="tests\Texturing\Code\TextureTest.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\External\tinyxml2.cpp" />
     <ClCompile Include="src\Core\XMLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\ShaderDefinition.h" />
     <ClInclude Include="src\Graphics\SpriteAnimation.h" />
     <ClInclude Include="src\Graphics\Mesh.h" />
     <ClInclude Include="src\Graphics\Font.h" />
@@ -211,14 +213,14 @@
     <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\External\stb_image.h" />
     <ClInclude Include="src\Core\StringTokenizer.h" />
-    <ClInclude Include="tests\Astroids\Bullet.h" />
+    <ClInclude Include="tests\Astroids\Code\Bullet.h" />
     <ClInclude Include="src\Core\DebugSystem.h" />
     <ClInclude Include="src\Physics\2D\Disc2D.h" />
     <ClInclude Include="src\Maths\Random.h" />
-    <ClInclude Include="tests\Astroids\Entity.h" />
-    <ClInclude Include="tests\Astroids\Game.h" />
-    <ClInclude Include="tests\Astroids\Astroid.h" />
-    <ClInclude Include="tests\Astroids\Ship.h" />
+    <ClInclude Include="tests\Astroids\Code\Entity.h" />
+    <ClInclude Include="tests\Astroids\Code\Game.h" />
+    <ClInclude Include="tests\Astroids\Code\Astroid.h" />
+    <ClInclude Include="tests\Astroids\Code\Ship.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Maths\Mat4.h" />
     <ClInclude Include="src\Maths\Maths.h" />
@@ -514,7 +516,7 @@
     <ClInclude Include="src\Physics\2D\Collision2D.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="src\Core\Time.h" />
-    <ClInclude Include="tests\Texturing\TextureTest.h" />
+    <ClInclude Include="tests\Texturing\Code\TextureTest.h" />
     <ClInclude Include="src\Graphics\Texture.h" />
     <ClInclude Include="src\External\tinyxml2.h" />
     <ClInclude Include="vendor\GLEW\include\GL\eglew.h" />
@@ -524,8 +526,8 @@
     <ClInclude Include="src\Core\XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Shaders\Basic.shader" />
-    <None Include="res\Shaders\Screen.shader" />
+    <None Include="res\Shaders\Code\Basic.shader" />
+    <None Include="res\Shaders\Code\Screen.shader" />
     <None Include="src\glm\detail\func_common.inl" />
     <None Include="src\glm\detail\func_common_simd.inl" />
     <None Include="src\glm\detail\func_exponential.inl" />
@@ -688,7 +690,9 @@
     <Text Include="vendor\GLEW\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="tests\Texturing\sprite.xml" />
+    <Xml Include="res\Shaders\Data\screenShader.xml" />
+    <Xml Include="res\Shaders\Data\shader.xml" />
+    <Xml Include="tests\Texturing\Data\sprite.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

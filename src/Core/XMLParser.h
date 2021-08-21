@@ -5,6 +5,8 @@
 #include "../Maths/Vec3.h"
 #include "../Maths/Vec4.h"
 
+#include <string>
+
 typedef tinyxml2::XMLElement XMLelement;
 
 namespace Apex {
@@ -14,6 +16,7 @@ namespace Apex {
 	class Vec4;
 
 	int ParseXMLAttrib(const XMLelement& element, const std::string& attribName, int value);
+	std::string ParseXMLAttrib(const XMLelement& element, const std::string& attribName, std::string value);
 	float ParseXMLAttrib(const XMLelement& element, const std::string& attribName, float value);
 	Vec2 ParseXMLAttrib(const XMLelement& element, const std::string& attribName, const Vec2& value);
 	Vec3 ParseXMLAttrib(const XMLelement& element, const std::string& attribName, const Vec3& value);

@@ -14,7 +14,7 @@ class TextureTest
 {
 	Apex::Window g_App;
 	Apex::Time g_Time;
-	Apex::Renderer g_Renderer;
+	//Apex::Renderer g_Renderer;
 	Apex::FrameBuffer* g_CurrentFrameBuffer;
 	Apex::FrameBuffer* g_NextFrameBuffer;
 public:

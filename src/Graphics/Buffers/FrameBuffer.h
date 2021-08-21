@@ -2,6 +2,8 @@
 
 namespace Apex {
 
+	class Texture;
+
 	class FrameBuffer
 	{
 		unsigned int m_FrameBufferID;

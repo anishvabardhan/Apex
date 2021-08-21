@@ -4,6 +4,7 @@
 #include "../Graphics/Buffers/IndexBuffer.h"
 #include "../Graphics/SpriteAnimation.h"
 #include "../Graphics/SpriteDefinition.h"
+#include "../Graphics/ShaderDefinition.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/Mesh.h"
 #include "../Graphics/Font.h"
@@ -28,9 +29,18 @@ void TextureTest::Init()
 	{
 		{
 			//----------------------------------------------------------------------------------------------
+			// Load Main Shader and Screen Shader---------------------------------------------------------
+
+			Apex::ShaderDefinition* shaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/shader.xml"));
+			Apex::Shader* shader = new Apex::Shader(shaderDef);
+
+			Apex::ShaderDefinition* screeShaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/screenShader.xml"));
+			Apex::Shader* screenShader = new Apex::Shader(screeShaderDef);
+
+			//----------------------------------------------------------------------------------------------
 			// Enable Blending------------------------------------------------------------------------------
-			
-			g_Renderer.EnableBlend(Apex::APEX_BLEND_FACTOR::APEX_SRC_ALPHA, Apex::APEX_BLEND_FACTOR::APEX_ONE_MINUS_SRC_ALPHA);
+
+			Apex::Renderer::GetInstance()->EnableBlend(Apex::ParseBlendFac[shader->GetSRC()], Apex::ParseBlendFac[shader->GetDST()], Apex::ParseBlendOp[shader->GetOP()]);
 
 			//----------------------------------------------------------------------------------------------
 
@@ -39,17 +49,17 @@ void TextureTest::Init()
 			//----------------------------------------------------------------------------------------------
 			// Load in the sprite Definition xml sheet------------------------------------------------------
 
-			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*Apex::SpriteDefinition::InitializeDef("tests/Texturing/sprite.xml"));
+			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*Apex::SpriteDefinition::InitializeDef("tests/Texturing/Data/sprite.xml"));
 
 			//----------------------------------------------------------------------------------------------
 			// Create the Bitmap Font-----------------------------------------------------------------------
 
-			Apex::Font* font = g_Renderer.CreateBitmapFont("res/Textures/NewFont.png");
+			Apex::Font* font = Apex::Renderer::GetInstance()->CreateBitmapFont("res/Textures/NewFont.png");
 
 			//----------------------------------------------------------------------------------------------
 			// Create Animated Sprite-----------------------------------------------------------------------
 
-			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*g_Renderer.CreateTexture("res/Textures/bird.png"), spriteDefs);
+			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->CreateTexture("res/Textures/bird.png"), spriteDefs);
 			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
 			
 			//----------------------------------------------------------------------------------------------
@@ -68,13 +78,12 @@ void TextureTest::Init()
 			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
 
 			//----------------------------------------------------------------------------------------------
-            // Create a Basic Shader and Screen Shader for renderables and framebuffer respectively-------
+            // Create a Screen Shader for framebuffer-------------------------------------------------------
 
-			Apex::Shader shader("res/Shaders/Basic.shader");
-			Apex::Shader screenShader("res/Shaders/Screen.shader");
+			//Apex::Shader screenShader("res/Shaders/Code/Screen.shader");
 
 			//----------------------------------------------------------------------------------------------
-			// Create the Frambuffers----------------------------------------------------------------------
+			// Create the Frambuffers-----------------------------------------------------------------------
 
 			g_CurrentFrameBuffer = new Apex::FrameBuffer();
 			g_NextFrameBuffer = new Apex::FrameBuffer();
@@ -101,56 +110,55 @@ void TextureTest::Init()
 				//------------------------------------------------------------------------------------------
 				// Clearing Buffers-------------------------------------------------------------------------
 
-				g_Renderer.ClearColor();
-				g_Renderer.Clear();
+				Apex::Renderer::GetInstance()->ClearColor();
+				Apex::Renderer::GetInstance()->Clear();
 
 				//------------------------------------------------------------------------------------------
 				// Bind the Shader--------------------------------------------------------------------------
 
-				shader.Bind();
+				shader->Bind();
 
 				//------------------------------------------------------------------------------------------
 				// Set the Uniforms-------------------------------------------------------------------------
 
-				shader.SetUniformMat4f("u_Proj", proj);
+				shader->SetUniformMat4f("u_Proj", proj);
 
 				//------------------------------------------------------------------------------------------
 				// Render the Animated Qaud-----------------------------------------------------------------
 
 				animation->Update(g_Time.GetTimeDelta());
 
-				g_Renderer.DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, shader);
+				Apex::Renderer::GetInstance()->DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
 
 				//------------------------------------------------------------------------------------------
 				// Render the Text--------------------------------------------------------------------------
 
-				g_Renderer.Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, shader);
-				g_Renderer.Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, shader);
+				Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
+				Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
 				//------------------------------------------------------------------------------------------
 				// Render the Qaud--------------------------------------------------------------------------
 
-				g_Renderer.DrawQuad(quad, shader);
+				Apex::Renderer::GetInstance()->DrawQuad(quad, *shader);
 
 				//------------------------------------------------------------------------------------------
 				// UnBind the Current FrameBuffer-----------------------------------------------------------
 
 				g_CurrentFrameBuffer->UnBind();
 				
-				g_Renderer.ClearColor();
-				g_Renderer.Clear();
+				Apex::Renderer::GetInstance()->ClearColor();
+				Apex::Renderer::GetInstance()->Clear();
 
 				//------------------------------------------------------------------------------------------
 				// Bind the Screen Shader-------------------------------------------------------------------
 
-				screenShader.Bind();
+				screenShader->Bind();
 
 				//------------------------------------------------------------------------------------------
 				// Copy from Current to Destination Framebuffer---------------------------------------------
 
-				g_Renderer.CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-				
-				g_Renderer.DrawFrameBuffer(screenQuad);
+				Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
+				Apex::Renderer::GetInstance()->DrawFrameBuffer(screenQuad);
 
 				//------------------------------------------------------------------------------------------
 				// Swap Front and Back Buffer---------------------------------------------------------------
@@ -161,7 +169,7 @@ void TextureTest::Init()
 			//----------------------------------------------------------------------------------------------
 			// Disable Blending-----------------------------------------------------------------------------
 
-			g_Renderer.DisableBlend();
+			Apex::Renderer::GetInstance()->DisableBlend();
 
 			//----------------------------------------------------------------------------------------------
 

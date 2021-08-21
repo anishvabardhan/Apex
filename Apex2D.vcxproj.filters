@@ -36,13 +36,13 @@
     <ClCompile Include="src\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Astroids\Ship.cpp">
+    <ClCompile Include="tests\Astroids\Code\Ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Astroids\Astroid.cpp">
+    <ClCompile Include="tests\Astroids\Code\Astroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Astroids\Game.cpp">
+    <ClCompile Include="tests\Astroids\Code\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Time.cpp">
@@ -57,10 +57,10 @@
     <ClCompile Include="src\Core\DebugSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Astroids\Bullet.cpp">
+    <ClCompile Include="tests\Astroids\Code\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\Texturing\TextureTest.cpp">
+    <ClCompile Include="tests\Texturing\Code\TextureTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\External\stb_image.cpp">
@@ -115,6 +115,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\SpriteDefinition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\ShaderDefinition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1001,13 +1004,13 @@
     <ClInclude Include="src\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Astroids\Ship.h">
+    <ClInclude Include="tests\Astroids\Code\Ship.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Astroids\Astroid.h">
+    <ClInclude Include="tests\Astroids\Code\Astroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Astroids\Game.h">
+    <ClInclude Include="tests\Astroids\Code\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Time.h">
@@ -1016,7 +1019,7 @@
     <ClInclude Include="src\Maths\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Astroids\Entity.h">
+    <ClInclude Include="tests\Astroids\Code\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\2D\Disc2D.h">
@@ -1025,10 +1028,10 @@
     <ClInclude Include="src\Core\DebugSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Astroids\Bullet.h">
+    <ClInclude Include="tests\Astroids\Code\Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tests\Texturing\TextureTest.h">
+    <ClInclude Include="tests\Texturing\Code\TextureTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\External\stb_image.h">
@@ -1110,6 +1113,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\SpriteDefinition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\ShaderDefinition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1528,8 +1534,8 @@
     <None Include="src\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="res\Shaders\Basic.shader" />
-    <None Include="res\Shaders\Screen.shader" />
+    <None Include="res\Shaders\Code\Basic.shader" />
+    <None Include="res\Shaders\Code\Screen.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Textures\cimg.png">
@@ -1580,6 +1586,8 @@
     <Text Include="vendor\GLEW\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="tests\Texturing\sprite.xml" />
+    <Xml Include="tests\Texturing\Data\sprite.xml" />
+    <Xml Include="res\Shaders\Data\shader.xml" />
+    <Xml Include="res\Shaders\Data\screenShader.xml" />
   </ItemGroup>
 </Project>

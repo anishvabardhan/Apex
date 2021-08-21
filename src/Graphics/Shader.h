@@ -12,6 +12,9 @@
 
 namespace Apex {
 
+	class ShaderDefinition;
+	class Mat4;
+
 	struct ShaderProgramSource
 	{
 		std::string VertexSource;
@@ -23,15 +26,22 @@ namespace Apex {
 		// Member Variables-------------------------------------------------------------------------------------
 
 		std::string m_FilePath;
+		std::string m_BlendOp;
+		std::string m_BlendSRC;
+		std::string m_BlendDST;
 		unsigned int m_RendererID;
 		std::unordered_map<std::string, int> m_UniformLocationCache;
 	public:
-		Shader() {}
+		explicit Shader(ShaderDefinition* shaderDef);
 		explicit Shader(const std::string& filepath);
 		~Shader();
 
 		void Bind() const;
 		void UnBind() const;
+
+		inline std::string GetSRC() const { return m_BlendSRC; }
+		inline std::string GetDST() const { return m_BlendDST; }
+		inline std::string GetOP() const { return m_BlendOp; }
 
 		// Set Uniforms
 		void SetUniform1i(const std::string& name, int value);

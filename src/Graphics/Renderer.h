@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 #include "Buffers/IndexBuffer.h"
 #include "Buffers/VertexArray.h"
@@ -30,12 +31,37 @@ namespace Apex {
 		APEX_ONE_MINUS_CONSTANT_ALPHA  =      GL_ONE_MINUS_CONSTANT_ALPHA,
 	};
 
+	static std::map<std::string, APEX_BLEND_FACTOR> ParseBlendFac{
+		{"zero",                              APEX_ZERO                     },
+		{"one",                               APEX_ONE                      },
+		{"src_color",                         APEX_SRC_COLOR                },
+		{"one_minus_src_color",               APEX_ONE_MINUS_SRC_COLOR      },
+		{"dst_color",                         APEX_DST_COLOR                },
+		{"one_minus_dst_color",               APEX_ONE_MINUS_DST_COLOR      },
+		{"src_alpha",                         APEX_SRC_ALPHA                },
+		{"one_minus_src_alpha",               APEX_ONE_MINUS_SRC_ALPHA      },
+		{"dst_alpha",                         APEX_DST_ALPHA                },
+		{"one_minus_dst_alpha",               APEX_ONE_MINUS_DST_ALPHA      },
+		{"constant_color",                    APEX_CONSTANT_COLOR           },
+		{"one_minus_constant_color",          APEX_ONE_MINUS_CONSTANT_COLOR },
+		{"constant_alpha",                    APEX_CONSTANT_ALPHA           },
+		{"one_minus_constant_alpha",          APEX_ONE_MINUS_CONSTANT_ALPHA }
+	};
+
 	enum APEX_BLEND_OP {
 		APEX_FUNC_ADD                  =      GL_FUNC_ADD,
 		APEX_FUNC_SUBTRACT             =      GL_FUNC_SUBTRACT,
 		APEX_FUNC_REVERSE_SUBTRACT     =      GL_FUNC_REVERSE_SUBTRACT,
 		APEX_MIN                       =      GL_MIN,
 		APEX_MAX                       =      GL_MAX
+	};
+
+	static std::map<std::string, APEX_BLEND_OP> ParseBlendOp{
+		{"add", APEX_FUNC_ADD},
+		{"subtract", APEX_FUNC_SUBTRACT},
+		{"reverse_subtract", APEX_FUNC_REVERSE_SUBTRACT},
+		{"min", APEX_MIN},
+		{"max", APEX_MAX}
 	};
 
 	class Renderer
@@ -64,6 +90,8 @@ namespace Apex {
 		static void BeginLineStrip();
 		static void BeginPolygon();
 		static void BeginQuads();
+
+		static Renderer* GetInstance();
 
 		static void EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode = APEX_BLEND_OP::APEX_FUNC_ADD);
 		static void DisableBlend();
