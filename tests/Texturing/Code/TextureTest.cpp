@@ -27,158 +27,156 @@ void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
-		{
-			//----------------------------------------------------------------------------------------------
-			// Load Main Shader and Screen Shader---------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
+		// Load Main Shader and Screen Shader---------------------------------------------------------
 
-			Apex::ShaderDefinition* shaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/shader.xml"));
-			Apex::Shader* shader = new Apex::Shader(shaderDef);
+		Apex::ShaderDefinition* shaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/shader.xml"));
+		Apex::Shader* shader = new Apex::Shader(shaderDef);
 
-			Apex::ShaderDefinition* screeShaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/screenShader.xml"));
-			Apex::Shader* screenShader = new Apex::Shader(screeShaderDef);
+		Apex::ShaderDefinition* screeShaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/screenShader.xml"));
+		Apex::Shader* screenShader = new Apex::Shader(screeShaderDef);
 
-			//----------------------------------------------------------------------------------------------
-			// Enable Blending------------------------------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
+		// Enable Blending------------------------------------------------------------------------------
 
-			Apex::Renderer::GetInstance()->EnableBlend(Apex::ParseBlendFac[shader->GetSRC()], Apex::ParseBlendFac[shader->GetDST()], Apex::ParseBlendOp[shader->GetOP()]);
+		Apex::Renderer::GetInstance()->EnableBlend(Apex::ParseBlendFac[shader->GetSRC()], Apex::ParseBlendFac[shader->GetDST()], Apex::ParseBlendOp[shader->GetOP()]);
 
-			//----------------------------------------------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
 
-			g_Time.SetSeed();
+		g_Time.SetSeed();
 
-			//----------------------------------------------------------------------------------------------
-			// Load in the sprite Definition xml sheet------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
+		// Load in the sprite Definition xml sheet------------------------------------------------------
 
-			Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*Apex::SpriteDefinition::InitializeDef("tests/Texturing/Data/sprite.xml"));
+		Apex::SpriteDefinition* spriteDefs = new Apex::SpriteDefinition(*Apex::SpriteDefinition::InitializeDef("tests/Texturing/Data/sprite.xml"));
 
-			//----------------------------------------------------------------------------------------------
-			// Create the Bitmap Font-----------------------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
+		// Create the Bitmap Font-----------------------------------------------------------------------
 
-			Apex::Font* font = Apex::Renderer::GetInstance()->CreateBitmapFont("res/Textures/NewFont.png");
+		Apex::Font* font = Apex::Renderer::GetInstance()->CreateBitmapFont("res/Textures/NewFont.png");
 
-			//----------------------------------------------------------------------------------------------
-			// Create Animated Sprite-----------------------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
+		// Create Animated Sprite-----------------------------------------------------------------------
 
-			Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->CreateTexture("res/Textures/bird.png"), spriteDefs);
-			Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
+		Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->CreateTexture("res/Textures/bird.png"), spriteDefs);
+		Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
+		
+		//----------------------------------------------------------------------------------------------
+		// Create a quad with a texture attachment------------------------------------------------------
+
+		Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec3(1.0f, 1.0f, 1.0f), "res/Textures/stripes.png");
+
+		//----------------------------------------------------------------------------------------------
+           // Create a Screen Quad for the Framebuffer-----------------------------------------------------
+
+		Apex::Mesh* screenQuad = new Apex::Mesh(Apex::Vec2(0.0f, 0.0f), Apex::Vec2(1024.0f, 1024.0f));
+
+		//----------------------------------------------------------------------------------------------
+           // Create an Orthgraphic Camera-----------------------------------------------------------------
+
+		Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
+
+		//----------------------------------------------------------------------------------------------
+           // Create a Screen Shader for framebuffer-------------------------------------------------------
+
+		//Apex::Shader screenShader("res/Shaders/Code/Screen.shader");
+
+		//----------------------------------------------------------------------------------------------
+		// Create the Frambuffers-----------------------------------------------------------------------
+
+		g_CurrentFrameBuffer = new Apex::FrameBuffer();
+		g_NextFrameBuffer = new Apex::FrameBuffer();
+
+		//----------------------------------------------------------------------------------------------
+		// GAME LOOP------------------------------------------------------------------------------------
+
+		while (g_App.IsRun())
+		{  
+			//------------------------------------------------------------------------------------------
+			// The Message Loop-------------------------------------------------------------------------
 			
-			//----------------------------------------------------------------------------------------------
-			// Create a quad with a texture attachment------------------------------------------------------
+			g_App.Broadcast();
 
-			Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec3(1.0f, 1.0f, 1.0f), "res/Textures/stripes.png");
+			//------------------------------------------------------------------------------------------
 
-			//----------------------------------------------------------------------------------------------
-            // Create a Screen Quad for the Framebuffer-----------------------------------------------------
+			g_Time.Update();
 
-			Apex::Mesh* screenQuad = new Apex::Mesh(Apex::Vec2(0.0f, 0.0f), Apex::Vec2(1024.0f, 1024.0f));
+			//------------------------------------------------------------------------------------------
+			// Bind the Current FrameBuffer-------------------------------------------------------------
 
-			//----------------------------------------------------------------------------------------------
-            // Create an Orthgraphic Camera-----------------------------------------------------------------
+			g_CurrentFrameBuffer->Bind();
 
-			Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
+			//------------------------------------------------------------------------------------------
+			// Clearing Buffers-------------------------------------------------------------------------
 
-			//----------------------------------------------------------------------------------------------
-            // Create a Screen Shader for framebuffer-------------------------------------------------------
+			Apex::Renderer::GetInstance()->ClearColor();
+			Apex::Renderer::GetInstance()->Clear();
 
-			//Apex::Shader screenShader("res/Shaders/Code/Screen.shader");
+			//------------------------------------------------------------------------------------------
+			// Bind the Shader--------------------------------------------------------------------------
 
-			//----------------------------------------------------------------------------------------------
-			// Create the Frambuffers-----------------------------------------------------------------------
+			shader->Bind();
 
-			g_CurrentFrameBuffer = new Apex::FrameBuffer();
-			g_NextFrameBuffer = new Apex::FrameBuffer();
+			//------------------------------------------------------------------------------------------
+			// Set the Uniforms-------------------------------------------------------------------------
 
-			//----------------------------------------------------------------------------------------------
-			// GAME LOOP------------------------------------------------------------------------------------
+			shader->SetUniformMat4f("u_Proj", proj);
 
-			while (g_App.IsRun())
-			{  
-				//------------------------------------------------------------------------------------------
-				// The Message Loop-------------------------------------------------------------------------
-				
-				g_App.Broadcast();
+			//------------------------------------------------------------------------------------------
+			// Render the Animated Qaud-----------------------------------------------------------------
 
-				//------------------------------------------------------------------------------------------
+			animation->Update(g_Time.GetTimeDelta());
 
-				g_Time.Update();
+			Apex::Renderer::GetInstance()->DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
 
-				//------------------------------------------------------------------------------------------
-				// Bind the Current FrameBuffer-------------------------------------------------------------
+			//------------------------------------------------------------------------------------------
+			// Render the Text--------------------------------------------------------------------------
 
-				g_CurrentFrameBuffer->Bind();
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
-				//------------------------------------------------------------------------------------------
-				// Clearing Buffers-------------------------------------------------------------------------
+			//------------------------------------------------------------------------------------------
+			// Render the Qaud--------------------------------------------------------------------------
 
-				Apex::Renderer::GetInstance()->ClearColor();
-				Apex::Renderer::GetInstance()->Clear();
+			Apex::Renderer::GetInstance()->DrawQuad(quad, *shader);
 
-				//------------------------------------------------------------------------------------------
-				// Bind the Shader--------------------------------------------------------------------------
+			//------------------------------------------------------------------------------------------
+			// UnBind the Current FrameBuffer-----------------------------------------------------------
 
-				shader->Bind();
+			g_CurrentFrameBuffer->UnBind();
+			
+			Apex::Renderer::GetInstance()->ClearColor();
+			Apex::Renderer::GetInstance()->Clear();
 
-				//------------------------------------------------------------------------------------------
-				// Set the Uniforms-------------------------------------------------------------------------
+			//------------------------------------------------------------------------------------------
+			// Bind the Screen Shader-------------------------------------------------------------------
 
-				shader->SetUniformMat4f("u_Proj", proj);
+			screenShader->Bind();
 
-				//------------------------------------------------------------------------------------------
-				// Render the Animated Qaud-----------------------------------------------------------------
+			//------------------------------------------------------------------------------------------
+			// Copy from Current to Destination Framebuffer---------------------------------------------
 
-				animation->Update(g_Time.GetTimeDelta());
+			Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
+			Apex::Renderer::GetInstance()->DrawFrameBuffer(screenQuad);
 
-				Apex::Renderer::GetInstance()->DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
+			//------------------------------------------------------------------------------------------
+			// Swap Front and Back Buffer---------------------------------------------------------------
 
-				//------------------------------------------------------------------------------------------
-				// Render the Text--------------------------------------------------------------------------
-
-				Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
-				Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
-
-				//------------------------------------------------------------------------------------------
-				// Render the Qaud--------------------------------------------------------------------------
-
-				Apex::Renderer::GetInstance()->DrawQuad(quad, *shader);
-
-				//------------------------------------------------------------------------------------------
-				// UnBind the Current FrameBuffer-----------------------------------------------------------
-
-				g_CurrentFrameBuffer->UnBind();
-				
-				Apex::Renderer::GetInstance()->ClearColor();
-				Apex::Renderer::GetInstance()->Clear();
-
-				//------------------------------------------------------------------------------------------
-				// Bind the Screen Shader-------------------------------------------------------------------
-
-				screenShader->Bind();
-
-				//------------------------------------------------------------------------------------------
-				// Copy from Current to Destination Framebuffer---------------------------------------------
-
-				Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-				Apex::Renderer::GetInstance()->DrawFrameBuffer(screenQuad);
-
-				//------------------------------------------------------------------------------------------
-				// Swap Front and Back Buffer---------------------------------------------------------------
-
-				g_App.SwappingBuffers();
-			}
-
-			//----------------------------------------------------------------------------------------------
-			// Disable Blending-----------------------------------------------------------------------------
-
-			Apex::Renderer::GetInstance()->DisableBlend();
-
-			//----------------------------------------------------------------------------------------------
-
-			delete font;
-			delete quad;
-			delete sheet;
-			delete spriteDefs;
-			delete animation;
-			delete screenQuad;
+			g_App.SwappingBuffers();
 		}
+
+		//----------------------------------------------------------------------------------------------
+		// Disable Blending-----------------------------------------------------------------------------
+
+		Apex::Renderer::GetInstance()->DisableBlend();
+
+		//----------------------------------------------------------------------------------------------
+
+		delete font;
+		delete quad;
+		delete sheet;
+		delete spriteDefs;
+		delete animation;
+		delete screenQuad;
 	}
 }

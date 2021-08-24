@@ -1118,6 +1118,9 @@
     <ClInclude Include="src\Graphics\ShaderDefinition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\glm\detail\func_common.inl">
