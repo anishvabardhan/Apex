@@ -72,9 +72,7 @@ namespace Apex {
 
 	inline LogMessageFatal::~LogMessageFatal() 
 	{
-		printLogMessage();
-		LOG_INFO << "Application CLosed!";
-		
+		printLogMessage();		
 		exit(0);
 	}
 
