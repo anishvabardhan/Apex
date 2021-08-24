@@ -45,23 +45,28 @@ namespace Apex {
 	if(!(val1 op val2)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: " << " "
 
 
-	inline LogMessage::LogMessage(Severity severity, const char* funcName, int line) :
-		m_Severity(severity), m_FuncName(funcName), m_Line(line) {
+	inline LogMessage::LogMessage(Severity severity, const char* funcName, int line) 
+		: m_Severity(severity), m_FuncName(funcName), m_Line(line) 
+	{
 	}
 
-	inline LogMessage::~LogMessage() {
+	inline LogMessage::~LogMessage() 
+	{
 		printLogMessage();
 	}
 
-	inline void LogMessage::printLogMessage() {
+	inline void LogMessage::printLogMessage() 
+	{
 		fprintf(stderr, "%s: %s: Line Number: %d '%s'\n", SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
 	}
 
-	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line) :
-		Apex::LogMessage(FATAL, funcName, line) {
+	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line)
+		: Apex::LogMessage(FATAL, funcName, line) 
+	{
 	}
 
-	inline LogMessageFatal::~LogMessageFatal() {
+	inline LogMessageFatal::~LogMessageFatal() 
+	{
 		printLogMessage();
 		exit(0);
 	}
