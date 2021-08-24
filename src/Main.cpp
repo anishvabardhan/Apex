@@ -3,13 +3,13 @@
 
 int main()
 {
-	LOG_INFO << "Test Initialized!";
+	LOG_INFO << "Application Initialized!";
 
 	TextureTest* Test = new TextureTest();
 
 	Test->Init();
 
-	LOG_INFO << "Test Concluded!";
+	LOG_INFO << "Application CLosed!";
 
 	return 0;
 }
