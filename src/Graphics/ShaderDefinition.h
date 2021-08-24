@@ -9,7 +9,7 @@ namespace Apex {
 	class ShaderDefinition
 	{
 	public:
-		std::string m_FilePath = "INVALID";
+		std::string m_FilePath;
 		std::string m_BlendOp;
 		std::string m_BlendSRC;
 		std::string m_BlendDST;

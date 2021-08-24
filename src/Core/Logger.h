@@ -1,83 +1,69 @@
 #pragma once
 
 #include <string>
-#include <sstream>
 #include <stdio.h>
-
-#undef ERROR
+#include <sstream>
 
 namespace Apex {
 
-	enum SEVERITY {
-		INFO    = 0,
+	enum Severity {
+		INFO = 0,
 		WARNING = 1,
-		ERROR   = 2,
-		FATAL   = 3
+		PROBLEM = 2,
+		FATAL = 3,
 	};
 
-	static const char* SeverityNames[] = {
-		"INFO",
-		"ERROR",
-		"PROBLEM",
-		"FATAL"
-	};
+	static const char* SeverityNames[] = { "INFO","WARNING","PROBLEM","FATAL" };
 
-	class Logger : public std::ostringstream 
+	class LogMessage : public std::ostringstream 
 	{
-		SEVERITY m_Severity;
-		const char* m_FileName;
+		Severity m_Severity;
 		const char* m_FuncName;
 		int m_Line;
 	public:
-		Logger(SEVERITY severity, const char* fileName, const char* funcName, int line);
-		~Logger();
+		LogMessage(Severity severity, const char* funcName, int line);
+		~LogMessage();
 	protected:
 		void printLogMessage();
+	private:
 	};
 
-	class LoggerFatal : public Logger
+	class LogMessageFatal : public LogMessage 
 	{
 	public:
-		LoggerFatal(const char* fileName, const char* funcName, int line);
-		~LoggerFatal();
+		LogMessageFatal(const char* funcName, int line);
+		~LogMessageFatal();
 	};
 
-#define LOG_INFO Logger(INFO,__FILE__,__FUNCTION__,__LINE__).flush()
-#define LOG_WARNING Logger(WARNING,__FILE__,__FUNCTION__,__LINE__).flush()
-#define LOG_ERROR Logger(ERROR,__FILE__,__FUNCTION__,__LINE__).flush()
-#define LOG_FATAL LoggerFatal(__FILE__,__FUNCTION__,__LINE__).flush()
+#define LOG_INFO Apex::LogMessage(INFO,__FUNCTION__,__LINE__).flush()
+#define LOG_WARNING Apex::LogMessage(WARNING,__FUNCTION__,__LINE__).flush()
+#define LOG_PROBLEM Apex::LogMessage(PROBLEM,__FUNCTION__,__LINE__).flush()
+#define LOG_FATAL Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush()
 #define LOG(severity) LOG_##severity
 
-#define CHECK_OP(val1,op,val2) \
-	if(!(val1 op val2)) LoggerFatal(__FILE__,__FUNCTION__,__LINE__).flush() << "Check failed: " << " "
+#define CHECK(val1,op,val2) \
+	if(!(val1 op val2)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: " << " "
 
-	Logger::Logger(SEVERITY severity, const char* fileName, const char* funcName, int line)
-		: m_Severity(severity), m_FileName(fileName), m_FuncName(funcName), m_Line(line) 
-	{
 
+	inline LogMessage::LogMessage(Severity severity, const char* funcName, int line) :
+		m_Severity(severity), m_FuncName(funcName), m_Line(line) {
 	}
 
-	Logger::~Logger() 
-	{
-		if(SeverityNames[m_Severity] != "FATAL")
-			printLogMessage();
-	}
-
-	void Logger::printLogMessage() 
-	{
-		fprintf(stderr, "[%s]: %s:%s:%d '%s'\n", SeverityNames[m_Severity], m_FileName, m_FuncName, m_Line, str().c_str());
-	}
-
-	LoggerFatal::LoggerFatal(const char* fileName, const char* funcName, int line)
-		: Logger(FATAL, fileName, funcName, line) 
-	{
-
-	}
-
-	LoggerFatal::~LoggerFatal() 
-	{
+	inline LogMessage::~LogMessage() {
 		printLogMessage();
-		abort();
+	}
+
+	inline void LogMessage::printLogMessage() {
+		fprintf(stderr, "%s: %s: Line Number: %d '%s'\n", SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
+	}
+
+	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line) :
+		Apex::LogMessage(FATAL, funcName, line) {
+	}
+
+	inline LogMessageFatal::~LogMessageFatal() {
+		printLogMessage();
+		exit(0);
 	}
 
 }
