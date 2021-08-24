@@ -3,17 +3,23 @@
 #include <string>
 #include <stdio.h>
 #include <sstream>
+#include <map>
 
 namespace Apex {
 
 	enum Severity {
 		INFO = 0,
 		WARNING = 1,
-		PROBLEM = 2,
-		FATAL = 3,
+		FATAL = 2
 	};
 
-	static const char* SeverityNames[] = { "INFO","WARNING","PROBLEM","FATAL" };
+	static const char* SeverityNames[] = { "INFO","WARNING", "FATAL" };
+
+	static std::map<int, const char*>SeverityColor = {
+		{0, "\033[0;32m"},
+		{1, "\033[0;33m"},
+		{2, "\033[0;31m"}
+	};
 
 	class LogMessage : public std::ostringstream 
 	{
@@ -35,14 +41,13 @@ namespace Apex {
 		~LogMessageFatal();
 	};
 
-#define LOG_INFO Apex::LogMessage(INFO,__FUNCTION__,__LINE__).flush()
-#define LOG_WARNING Apex::LogMessage(WARNING,__FUNCTION__,__LINE__).flush()
-#define LOG_PROBLEM Apex::LogMessage(PROBLEM,__FUNCTION__,__LINE__).flush()
+#define LOG_INFO Apex::LogMessage(Apex::INFO,__FUNCTION__,__LINE__).flush()
+#define LOG_WARNING Apex::LogMessage(Apex::WARNING,__FUNCTION__,__LINE__).flush()
 #define LOG_FATAL Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush()
 #define LOG(severity) LOG_##severity
 
-#define CHECK(val1,op,val2) \
-	if(!(val1 op val2)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: " << " "
+#define LOG_CHECK(condition) \
+	if(!(condition)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: " << " "
 
 
 	inline LogMessage::LogMessage(Severity severity, const char* funcName, int line) 
@@ -57,11 +62,11 @@ namespace Apex {
 
 	inline void LogMessage::printLogMessage() 
 	{
-		fprintf(stderr, "%s: %s: Line Number: %d '%s'\n", SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
+		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s: Line Number: %d '%s'\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
 	}
 
 	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line)
-		: Apex::LogMessage(FATAL, funcName, line) 
+		: Apex::LogMessage(Apex::FATAL, funcName, line)
 	{
 	}
 

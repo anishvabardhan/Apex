@@ -5,7 +5,7 @@
 namespace Apex {
 
 	ShaderDefinition::ShaderDefinition(const tinyxml2::XMLElement& element)
-		: m_FilePath("Invalid")
+		: m_FilePath("Invalid"), m_BlendSRC("Invalid"), m_BlendDST("Invalid"), m_BlendOp("Invalid")
 	{
 		const tinyxml2::XMLElement* defElement = element.FirstChildElement("program");
 		
@@ -14,7 +14,7 @@ namespace Apex {
 			if (defElement->FindAttribute("src"))
 			{
 				m_FilePath = ParseXMLAttrib(*defElement, "src", m_FilePath);
-				CHECK(m_FilePath, == , "Invalid") << "m_FilePath is Invalid";
+				LOG_CHECK(m_FilePath != "Invalid") << "Data couldn't be parsed.";
 			}
 		}
 
@@ -27,10 +27,13 @@ namespace Apex {
 			if (blendElement)
 			{
 				m_BlendSRC = ParseXMLAttrib(*blendElement, "src", m_BlendSRC);
+				LOG_CHECK(m_BlendSRC != "Invalid") << "Data couldn't be parsed.";
 
 				m_BlendDST = ParseXMLAttrib(*blendElement, "dst", m_BlendDST);
+				LOG_CHECK(m_BlendDST != "Invalid") << "Data couldn't be parsed.";
 
 				m_BlendOp = ParseXMLAttrib(*blendElement, "op", m_BlendOp);
+				LOG_CHECK(m_BlendOp != "Invalid") << "Data couldn't be parsed.";
 			}
 		}
 	}
