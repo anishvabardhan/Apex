@@ -62,7 +62,7 @@ namespace Apex {
 
 	inline void LogMessage::printLogMessage() 
 	{
-		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s: Line Number: %d '%s'\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
+		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s: Line %d: '%s'\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
 	}
 
 	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line)

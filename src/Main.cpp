@@ -9,5 +9,7 @@ int main()
 
 	Test->Init();
 
+	LOG_INFO << "Test Concluded!";
+
 	return 0;
 }
