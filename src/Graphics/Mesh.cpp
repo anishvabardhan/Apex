@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+#include "../Core/Logger.h"
+
 namespace Apex {
 
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim, Vec3 color, const std::string& path)
@@ -18,7 +20,10 @@ namespace Apex {
 		};
 
 		m_VAO = new VertexArray();
+		LOG_CHECK(m_VAO != nullptr) << "Data is null";
+
 		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		LOG_CHECK(vbo != nullptr) << "Data is null";
 
 		VertexBufferLayout layout;
 		layout.Push(3);
@@ -28,8 +33,10 @@ namespace Apex {
 		m_VAO->AddBuffer(*vbo, layout);
 
 		m_IBO = new IndexBuffer(indices, 6);
+		LOG_CHECK(m_IBO != nullptr) << "Data is null";
 
 		m_Texture = new Texture(path);
+		LOG_CHECK(m_Texture != nullptr) << "Data is null";
 	}
 
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
@@ -48,7 +55,10 @@ namespace Apex {
 		};
 
 		m_VAO = new VertexArray();
+		LOG_CHECK(m_VAO != nullptr) << "Data is null";
+
 		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 8 * sizeof(float));
+		LOG_CHECK(vbo != nullptr) << "Data is null";
 
 		VertexBufferLayout layout;
 		layout.Push(2);
@@ -58,6 +68,7 @@ namespace Apex {
 		m_VAO->AddBuffer(*vbo, layout);
 
 		m_IBO = new IndexBuffer(indices, 6);
+		LOG_CHECK(m_IBO != nullptr) << "Data is null";
 
 		m_Texture = nullptr;
 	}

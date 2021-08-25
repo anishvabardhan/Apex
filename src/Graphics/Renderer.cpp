@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "../Core/Logger.h"
+
 #include <GL/glew.h>
 
 namespace Apex {
@@ -149,8 +151,10 @@ namespace Apex {
 			};
 
 			VertexArray* vao = new VertexArray();
+			LOG_CHECK(vao != nullptr) << "Data is null";
 
 			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+			LOG_CHECK(vbo != nullptr) << "Data is null";
 
 			VertexBufferLayout layout;
 			layout.Push(3);
@@ -160,6 +164,7 @@ namespace Apex {
 			vao->AddBuffer(*vbo, layout);
 
 			IndexBuffer* ibo = new IndexBuffer(indices, 6);
+			LOG_CHECK(ibo != nullptr) << "Data is null";
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
@@ -197,8 +202,10 @@ namespace Apex {
 		};
 
 		VertexArray* vao = new VertexArray();
+		LOG_CHECK(vao != nullptr) << "Data is null";
 
 		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		LOG_CHECK(vbo != nullptr) << "Data is null";
 
 		VertexBufferLayout layout;
 		layout.Push(3);
@@ -208,6 +215,7 @@ namespace Apex {
 		vao->AddBuffer(*vbo, layout);
 
 		IndexBuffer* ibo = new IndexBuffer(indices, 6);
+		LOG_CHECK(ibo != nullptr) << "Data is null";
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
@@ -283,15 +291,21 @@ namespace Apex {
 	Font* Renderer::CreateBitmapFont(const std::string& path)
 	{
 		Texture* texture = new Texture(path);
+		LOG_CHECK(texture != nullptr) << "Data is null";
 
 		SpriteSheet* bitMapsheet = new SpriteSheet(*texture, 16, 16);
+		LOG_CHECK(bitMapsheet != nullptr) << "Data is null";
+
 		Font* newFont = new Font(*bitMapsheet);
+		LOG_CHECK(newFont != nullptr) << "Data is null";
+
 		return newFont;
 	}
 
 	Texture* Renderer::CreateTexture(const std::string& path)
 	{
 		Texture* texture = new Texture(path);
+		LOG_CHECK(texture != nullptr) << "Data is null";
 
 		return texture;
 	}

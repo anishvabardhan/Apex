@@ -30,7 +30,7 @@ namespace Apex {
 		LogMessage(Severity severity, const char* funcName, int line);
 		~LogMessage();
 	protected:
-		void printLogMessage();
+		void printLogMessage(const char* exitText = nullptr);
 	private:
 	};
 
@@ -47,7 +47,7 @@ namespace Apex {
 #define LOG(severity) LOG_##severity
 
 #define LOG_CHECK(condition) \
-	if(!(condition)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: " << " "
+	if(!(condition)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: "
 
 
 	inline LogMessage::LogMessage(Severity severity, const char* funcName, int line) 
@@ -57,12 +57,12 @@ namespace Apex {
 
 	inline LogMessage::~LogMessage() 
 	{
-		printLogMessage();
+		printLogMessage("");
 	}
 
-	inline void LogMessage::printLogMessage() 
+	inline void LogMessage::printLogMessage(const char* exitText) 
 	{
-		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s: Line %d: '%s'\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str());
+		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s: Line %d: '%s' \033[0;31m%s\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str(), exitText);
 	}
 
 	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line)
@@ -72,7 +72,7 @@ namespace Apex {
 
 	inline LogMessageFatal::~LogMessageFatal() 
 	{
-		printLogMessage();		
+		printLogMessage("Application closed abruptly!");
 		exit(0);
 	}
 

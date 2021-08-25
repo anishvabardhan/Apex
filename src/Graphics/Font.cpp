@@ -1,5 +1,7 @@
 #include "Font.h"
 
+#include "../Core/Logger.h"
+
 namespace Apex {
 
 	Font::Font(SpriteSheet glyphSheet)
