@@ -1,5 +1,6 @@
 #include "SpriteAnimation.h"
 
+#include "../Core/Logger.h"
 #include "../Graphics/SpriteSheet.h"
 #include "../Graphics/Texture.h"
 #include "../Maths/AABB2.h"
@@ -10,6 +11,7 @@ namespace Apex {
 		: m_Elapsed(0), m_Duration(duration), m_Start(start), m_End(end), m_CurrentIndex(start), m_IsPlaying(true)
 	{
 		m_SpriteSheet = new SpriteSheet(spriteSheet.GetSpriteSheetTexture(), spriteSheet.GetLayout().m_X, spriteSheet.GetLayout().m_Y);
+		LOG_CHECK(m_SpriteSheet != nullptr) << "Data is NULL";
 	}
 
 	SpriteAnimation::~SpriteAnimation()

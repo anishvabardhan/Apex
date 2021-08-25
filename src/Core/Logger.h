@@ -5,6 +5,8 @@
 #include <sstream>
 #include <map>
 
+#include <GL/glew.h>
+
 namespace Apex {
 
 	enum Severity {
@@ -24,10 +26,10 @@ namespace Apex {
 	class LogMessage : public std::ostringstream 
 	{
 		Severity m_Severity;
-		const char* m_FuncName;
+		const char* m_FileName;
 		int m_Line;
 	public:
-		LogMessage(Severity severity, const char* funcName, int line);
+		LogMessage(Severity severity, const char* fileName, int line);
 		~LogMessage();
 	protected:
 		void printLogMessage(const char* exitText = nullptr);
@@ -37,21 +39,20 @@ namespace Apex {
 	class LogMessageFatal : public LogMessage 
 	{
 	public:
-		LogMessageFatal(const char* funcName, int line);
+		LogMessageFatal(const char* fileName, int line);
 		~LogMessageFatal();
 	};
 
-#define LOG_INFO Apex::LogMessage(Apex::INFO,__FUNCTION__,__LINE__).flush()
-#define LOG_WARNING Apex::LogMessage(Apex::WARNING,__FUNCTION__,__LINE__).flush()
-#define LOG_FATAL Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush()
+#define LOG_INFO Apex::LogMessage(Apex::INFO,__FILE__,__LINE__).flush()
+#define LOG_WARNING Apex::LogMessage(Apex::WARNING,__FILE__,__LINE__).flush()
+#define LOG_FATAL Apex::LogMessageFatal(__FILE__,__LINE__).flush()
 #define LOG(severity) LOG_##severity
 
 #define LOG_CHECK(condition) \
-	if(!(condition)) Apex::LogMessageFatal(__FUNCTION__,__LINE__).flush() << "Check failed: "
+	if(!(condition)) Apex::LogMessageFatal(__FILE__,__LINE__).flush() << "Check failed: "
 
-
-	inline LogMessage::LogMessage(Severity severity, const char* funcName, int line) 
-		: m_Severity(severity), m_FuncName(funcName), m_Line(line) 
+	inline LogMessage::LogMessage(Severity severity, const char* fileName, int line)
+		: m_Severity(severity), m_FileName(fileName), m_Line(line)
 	{
 	}
 
@@ -62,17 +63,17 @@ namespace Apex {
 
 	inline void LogMessage::printLogMessage(const char* exitText) 
 	{
-		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s: Line %d: '%s' \033[0;31m%s\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity],  m_FuncName, m_Line, str().c_str(), exitText);
+		fprintf(stderr, "[%s%s\033[0m]: \033[0;36m%s(Line %d): %s'%s' %s\033[0m\n", SeverityColor[m_Severity], SeverityNames[m_Severity], m_FileName, m_Line, SeverityColor[m_Severity], str().c_str(), exitText);
 	}
 
-	inline LogMessageFatal::LogMessageFatal(const char* funcName, int line)
-		: Apex::LogMessage(Apex::FATAL, funcName, line)
+	inline LogMessageFatal::LogMessageFatal(const char* fileName, int line)
+		: Apex::LogMessage(Apex::FATAL, fileName, line)
 	{
 	}
 
 	inline LogMessageFatal::~LogMessageFatal() 
 	{
-		printLogMessage("Application closed abruptly!");
+		printLogMessage(", Application closed abruptly!");
 		exit(0);
 	}
 

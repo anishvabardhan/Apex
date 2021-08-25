@@ -89,7 +89,9 @@ namespace Apex {
 	void Renderer::EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode)
 	{
 		glEnable(GL_BLEND);
+
 		glBlendFunc(src, dest);
+
 		glBlendEquation(mode);
 	}
 
