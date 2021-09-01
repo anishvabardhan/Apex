@@ -26,7 +26,7 @@ namespace Apex {
 		glViewport(0, 0, 1024, 1024);
 
 		//--------------------------------------------------------------------------------------------------
-        //Set Matrix Mode to Projection Matrix-----------------------------------------------------------
+        //Set Matrix Mode to Projection Matrix--------------------------------------------------------------
 		
 		glMatrixMode(GL_PROJECTION);
 
@@ -166,7 +166,7 @@ namespace Apex {
 			vao->AddBuffer(*vbo, layout);
 
 			IndexBuffer* ibo = new IndexBuffer(indices, 6);
-			LOG_CHECK(ibo != nullptr) << "Data is null";
+			LOG_CHECK(vbo != nullptr) << "Data is null";
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);

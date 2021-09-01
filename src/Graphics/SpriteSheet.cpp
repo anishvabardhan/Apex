@@ -1,4 +1,5 @@
 #include "SpriteSheet.h"
+
 #include "../Graphics/SpriteDefinition.h"
 
 namespace Apex {

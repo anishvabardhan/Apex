@@ -1,7 +1,6 @@
  #include "Texture.h"
 
 #include "../External/stb_image.h"
-#include "../Core/Logger.h"
 
 namespace Apex {
 
@@ -10,7 +9,6 @@ namespace Apex {
 	{
 		stbi_set_flip_vertically_on_load(1);
 		m_LocalBuffer = stbi_load(m_FilePath.c_str(), &m_Width, &m_Height, &m_Channels, 0);
-		LOG_CHECK(m_LocalBuffer != nullptr) << "Data is NULL";
 
 		GLenum internalFormat = 0;
 		GLenum dataFormat = 0;
