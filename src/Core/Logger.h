@@ -32,7 +32,7 @@ namespace Apex {
 	static const char* SeverityNames[] = { "INFO","WARNING", "FATAL" };
 
 	//----------------------------------------------------------------------------------------------------------------------------
-	// Declaring a HashMap of colors for severity levels--------------------------------------------------------------------------
+	// Declaring a map of colors for severity levels--------------------------------------------------------------------------
 
 	static std::map<int, const char*>SeverityColor = {
 		{0, "\033[0;32m"},
