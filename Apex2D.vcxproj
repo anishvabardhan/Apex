@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Logger.cpp" />
     <ClCompile Include="src\Graphics\ShaderDefinition.cpp" />
     <ClCompile Include="src\Graphics\SpriteAnimation.cpp" />
     <ClCompile Include="src\Graphics\Mesh.cpp" />
