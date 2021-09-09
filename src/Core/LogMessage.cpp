@@ -1,12 +1,87 @@
-#include "Logger.h"
+#include "LogMessage.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 #include <stdarg.h>
 #include <iostream>
+#include <stdint.h>
 
 namespace Apex {
+
+	void LogStartup()
+	{
+		std::string logFileName = "Log/";
+		logFileName += "Log";
+
+		std::string defaultLogFile = logFileName + ".txt";
+
+		if (!CreateDirectoryA("Log/", NULL))
+		{
+		}
+	}
+
+	void LogShutdown()
+	{
+		RemoveSink();
+	}
+
+	void AddSink(LogCallback callback)
+	{
+		callback();
+	}
+
+	void RemoveSink()
+	{
+		FILE* fp;
+		fp = fopen("Log/Log.txt", "w");
+
+		while (!Sinks.empty())
+		{
+			const char* msg = Sinks.back().c_str();
+
+			char text[2048];
+			va_list VAList;
+			va_start(VAList, msg);
+			vsnprintf_s(text, 2048, _TRUNCATE, msg, VAList);
+			va_end(VAList);
+			text[2047] = '\0';
+
+			int length = strlen(msg);
+			fwrite(msg, sizeof(char), length, fp);
+
+			Sinks.pop_back();
+		}
+
+		fclose(fp);
+	}
+
+	void AddInfoLog()
+	{
+		std::string str = "INFO:-" + MessageLog() + "\n";
+		Sinks.push_back(str);
+	}
+
+	void AddWarningLog()
+	{
+		std::string str = "WARNING:-" + MessageLog() + "\n";
+		Sinks.push_back(str);
+	}
+
+	void AddErrorLog()
+	{
+		std::string str = "ERROR:-" + MessageLog() + "\n";
+		Sinks.push_back(str);
+	}
+
+	std::string MessageLog()
+	{
+		std::string log;
+
+		log += FileName + "(Line" + std::to_string(Line) + ") :" + LogMsg;
+
+		return log;
+	}
 
 	unsigned int GetMessageBoxIconForSeverity(SEVERITY severity)
 	{
@@ -30,15 +105,32 @@ namespace Apex {
 
 	void LogMessage::printLogMessage(SEVERITY severity)
 	{
+		std::string messageText;
+
+		Severity = m_Severity;
+		FileName = m_FileName;
+		Line = m_Line;
+		LogMsg = str().c_str();
+
 		if (severity == Apex::INFO)
 		{
 			Debugf("\n------------------------------------------------------------------------------\n");
 			Debugf("\n[%s%s\033[0m]: %s(Line %d): %s\n", SeverityColor[m_Severity], SeverityNames[m_Severity], m_FileName, m_Line, str().c_str());
 			Debugf("\n------------------------------------------------------------------------------\n");
+
+			AddSink(AddInfoLog);
 		}
 		else
 		{
-			std::string messageText;
+			if (severity == Apex::WARNING)
+			{
+				AddSink(AddWarningLog);
+			}
+			else if (severity == Apex::FATAL)
+			{
+				AddSink(AddErrorLog);
+			}
+
 			bool isDebuggerPresent = (Apex::IsDebuggerPresent() == TRUE);
 
 			if (isDebuggerPresent)
@@ -58,6 +150,7 @@ namespace Apex {
 
 				if (isYesNo)
 				{
+					RemoveSink();
 					__debugbreak();
 				}
 			}
@@ -93,19 +186,19 @@ namespace Apex {
 
 	void Debugf(const char* messageText, ...)
 	{
-		char debugText[2048];
+		char text[2048];
 		va_list VAList;
 		va_start(VAList, messageText);
-		vsnprintf_s(debugText, 2048, _TRUNCATE, messageText, VAList);
+		vsnprintf_s(text, 2048, _TRUNCATE, messageText, VAList);
 		va_end(VAList);
-		debugText[2047] = '\0';
+		text[2047] = '\0';
 
 		if (IsDebuggerPresent())
 		{
-			OutputDebugStringA(debugText);
+			OutputDebugStringA(text);
 		}
 
-		std::cout << debugText;
+		std::cout << text;
 	}
 
 	bool IsDebuggerPresent()
@@ -146,4 +239,5 @@ namespace Apex {
 
 		return isYes;
 	}
+
 }

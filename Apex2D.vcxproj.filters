@@ -120,7 +120,7 @@
     <ClCompile Include="src\Graphics\ShaderDefinition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Logger.cpp">
+    <ClCompile Include="src\Core\LogMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1121,7 +1121,7 @@
     <ClInclude Include="src\Graphics\ShaderDefinition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Logger.h">
+    <ClInclude Include="src\Core\LogMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\EngineUtils.h">
@@ -1593,6 +1593,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="vendor\GLEW\LICENSE.txt" />
+    <Text Include="Log\Log.txt" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="tests\Texturing\Data\sprite.xml" />

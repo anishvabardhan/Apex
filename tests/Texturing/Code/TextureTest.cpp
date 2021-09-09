@@ -9,12 +9,14 @@
 #include "../Graphics/Mesh.h"
 #include "../Graphics/Font.h"
 #include "../Maths/Maths.h"
+#include "../Core/EngineUtils.h"
 
 #include <vector>
 
 TextureTest::TextureTest()
 	: g_Time(60)
 {
+	Apex::EngineStartup();
 }
 
 TextureTest::~TextureTest()
@@ -171,6 +173,8 @@ void TextureTest::Init()
 		Apex::Renderer::GetInstance()->DisableBlend();
 
 		//----------------------------------------------------------------------------------------------
+
+		Apex::EngineShutdown();
 
 		delete font;
 		delete quad;

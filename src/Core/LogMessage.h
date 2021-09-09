@@ -3,9 +3,11 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <vector>
+
+typedef void(*LogCallback)();
 
 namespace Apex {
-
 
 	//----------------------------------------------------------------------------------------------------------------------------
 	// Defining the Logging Checks of all severities------------------------------------------------------------------------------
@@ -32,15 +34,35 @@ namespace Apex {
 
 	unsigned int GetMessageBoxIconForSeverity(SEVERITY severity);
 	bool IsDebuggerPresent();
+
 	std::string Stringf(const char* messageText, ...);
 	void Debugf(const char* messageText, ...);
+	
 	bool MessageOK(const std::string& messageText, const std::string& severityName, SEVERITY severity);
 	bool MessageYesNo(const std::string& messageText, const std::string& severityName, SEVERITY severity);
+	
+	void LogStartup();
+	void LogShutdown();
+	
+	void AddSink(LogCallback callback);
+	void RemoveSink();
+	
+	void AddInfoLog();
+	void AddWarningLog();
+	void AddErrorLog();
+
+	std::string MessageLog();
+	std::string TimeLog();
 
 	//----------------------------------------------------------------------------------------------------------------------------
-	// Declaring a string array of severity levels--------------------------------------------------------------------------------
+	// global variables-----------------------------------------------------------------------------------------------------------
 
 	static const char* SeverityNames[] = { "INFO","WARNING", "FATAL" };
+	static std::vector<std::string> Sinks;
+	static SEVERITY Severity;
+	static std::string FileName;
+	static std::string LogMsg;
+	static int Line;
 
 	//----------------------------------------------------------------------------------------------------------------------------
 	// Declaring a map of colors for severity levels------------------------------------------------------------------------------

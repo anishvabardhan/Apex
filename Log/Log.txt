@@ -1,0 +1,3 @@
+INFO:-E:\Dev\Apex2D\src\Core\EngineUtils.h(Line15) :Application Shutdown!!
+INFO:-E:\Dev\Apex2D\src\Core\EngineUtils.h(Line10) :Application Initialised!!
+INFO:-(Line0) :

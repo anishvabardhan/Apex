@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include "../Core/Logger.h"
+#include "../Core/LogMessage.h"
 
 #include <GL/glew.h>
 

@@ -155,7 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Logger.cpp" />
+    <ClCompile Include="src\Core\LogMessage.cpp" />
     <ClCompile Include="src\Graphics\ShaderDefinition.cpp" />
     <ClCompile Include="src\Graphics\SpriteAnimation.cpp" />
     <ClCompile Include="src\Graphics\Mesh.cpp" />
@@ -194,7 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\EngineUtils.h" />
-    <ClInclude Include="src\Core\Logger.h" />
+    <ClInclude Include="src\Core\LogMessage.h" />
     <ClInclude Include="src\Graphics\ShaderDefinition.h" />
     <ClInclude Include="src\Graphics\SpriteAnimation.h" />
     <ClInclude Include="src\Graphics\Mesh.h" />
@@ -690,6 +690,7 @@
     <Library Include="vendor\GLEW\lib\Release\Win32\glew32s.lib" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Log\Log.txt" />
     <Text Include="vendor\GLEW\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
