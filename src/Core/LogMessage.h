@@ -5,8 +5,6 @@
 #include <map>
 #include <vector>
 
-typedef void(*LogCallback)();
-
 namespace Apex {
 
 	//----------------------------------------------------------------------------------------------------------------------------
@@ -43,26 +41,11 @@ namespace Apex {
 	
 	void LogStartup();
 	void LogShutdown();
-	
-	void AddSink(LogCallback callback);
-	void RemoveSink();
-	
-	void AddInfoLog();
-	void AddWarningLog();
-	void AddErrorLog();
-
-	std::string MessageLog();
-	std::string TimeLog();
 
 	//----------------------------------------------------------------------------------------------------------------------------
 	// global variables-----------------------------------------------------------------------------------------------------------
 
 	static const char* SeverityNames[] = { "INFO","WARNING", "FATAL" };
-	static std::vector<std::string> Sinks;
-	static SEVERITY Severity;
-	static std::string FileName;
-	static std::string LogMsg;
-	static int Line;
 
 	//----------------------------------------------------------------------------------------------------------------------------
 	// Declaring a map of colors for severity levels------------------------------------------------------------------------------
