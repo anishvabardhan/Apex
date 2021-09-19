@@ -82,7 +82,7 @@ namespace Apex {
 				bool isYesNo = Apex::MessageYesNo(messageText, Apex::SeverityNames[m_Severity], severity);
 
 				if (isYesNo)
-				{
+				{  
 					__debugbreak();
 				}
 			}
