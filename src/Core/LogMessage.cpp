@@ -3,27 +3,10 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-#include <stdarg.h>
 #include <iostream>
-#include <stdint.h>
+#include "Logger.h"
 
 namespace Apex {
-
-	void LogStartup()
-	{
-		std::string logFileName = "Log/";
-		logFileName += "Log";
-
-		std::string defaultLogFile = logFileName + ".txt";
-
-		if (!CreateDirectoryA("Log/", NULL))
-		{
-		}
-	}
-
-	void LogShutdown()
-	{
-	}
 
 	unsigned int GetMessageBoxIconForSeverity(SEVERITY severity)
 	{
@@ -42,28 +25,21 @@ namespace Apex {
 
     LogMessage::~LogMessage()
 	{
-		printLogMessage(m_Severity);
+		Log(m_Severity);
 	}
 
-	void LogMessage::printLogMessage(SEVERITY severity)
+	void LogMessage::Log(SEVERITY severity)
 	{
 		std::string messageText;
 
 		if (severity == Apex::INFO)
 		{
 			Debugf("\n------------------------------------------------------------------------------\n");
-			Debugf("\n[%s%s\033[0m]: %s(Line %d): %s\n", SeverityColor[m_Severity], SeverityNames[m_Severity], m_FileName, m_Line, str().c_str());
+			Debugf("\n[%s]: %s(Line %d): %s\n", SeverityNames[m_Severity], m_FileName, m_Line, str().c_str());
 			Debugf("\n------------------------------------------------------------------------------\n");
 		}
 		else
 		{
-			if (severity == Apex::WARNING)
-			{
-			}
-			else if (severity == Apex::FATAL)
-			{
-			}
-
 			bool isDebuggerPresent = (Apex::IsDebuggerPresent() == TRUE);
 
 			if (isDebuggerPresent)
@@ -74,12 +50,19 @@ namespace Apex {
 			messageText += Apex::Stringf("\n[%s]: %s(Line %d): %s\n", Apex::SeverityNames[m_Severity], m_FileName, m_Line, str().c_str());
 
 			Debugf("\n------------------------------------------------------------------------------\n");
-			Debugf("\n[%s%s\033[0m]: %s(Line %d): %s\n", Apex::SeverityColor[m_Severity], Apex::SeverityNames[m_Severity], m_FileName, m_Line, str().c_str());
+			Debugf("\n[%s]: %s(Line %d): %s\n", SeverityNames[m_Severity], m_FileName, m_Line, str().c_str());
 			Debugf("\n------------------------------------------------------------------------------\n");
+
+			if (severity == Apex::FATAL)
+			{
+				LOG_INFO << "Engine ShutDown Abruptly!!";
+			}
 
 			if (isDebuggerPresent)
 			{
 				bool isYesNo = Apex::MessageYesNo(messageText, Apex::SeverityNames[m_Severity], severity);
+
+				LogFLush();
 
 				if (isYesNo)
 				{  
@@ -100,7 +83,7 @@ namespace Apex {
 
 	LogMessageFatal::~LogMessageFatal()
 	{
-		printLogMessage(Apex::FATAL);
+		Log(Apex::FATAL);
 		exit(0);
 	}
 
@@ -125,12 +108,17 @@ namespace Apex {
 		va_end(VAList);
 		text[2047] = '\0';
 
+		LogPrint(text);
+	}
+
+	void LogToIDE(const LogMsg& msg)
+	{
 		if (IsDebuggerPresent())
 		{
-			OutputDebugStringA(text);
+			OutputDebugStringA(msg.text.c_str());
 		}
 
-		std::cout << text;
+		std::cout << msg.text.c_str();
 	}
 
 	bool IsDebuggerPresent()

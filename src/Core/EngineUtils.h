@@ -1,23 +1,19 @@
 #pragma once
 
 #include "LogMessage.h"
+#include "Logger.h"
 
 namespace Apex {
 
 	void EngineStartup()
 	{
 		LogStartup();
-		LOG_INFO << "Application Initialised!!";
-	}
-
-	void EngineUpdate()
-	{
-
+		LOG_INFO << "Engine Startup!!";
 	}
 
 	void EngineShutdown()
 	{
-		LOG_INFO << "Application Shutdown!!";
+		LOG_INFO << "Engine Shutdown!!";
 		LogShutdown();
 	}
 }

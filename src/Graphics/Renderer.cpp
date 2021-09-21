@@ -21,42 +21,42 @@ namespace Apex {
 	{
 
 		//--------------------------------------------------------------------------------------------------
-		//Setup OpenGL3 Viewport----------------------------------------------------------------------------
+		//Setup OpenGL3 Viewport
 		
 		glViewport(0, 0, 1024, 1024);
 
 		//--------------------------------------------------------------------------------------------------
-        //Set Matrix Mode to Projection Matrix--------------------------------------------------------------
+        //Set Matrix Mode to Projection Matrix
 		
 		glMatrixMode(GL_PROJECTION);
 
 		//--------------------------------------------------------------------------------------------------
-		//Set Current Matrix as Identity Matrix-------------------------------------------------------------
+		//Set Current Matrix as Identity Matrix
 
 		glLoadIdentity();
 
 		//--------------------------------------------------------------------------------------------------
-		//Multiply Orthographic Matrix to Current Matrix----------------------------------------------------
+		//Multiply Orthographic Matrix to Current Matrix
 
 		glOrtho(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
 
 		//--------------------------------------------------------------------------------------------------
-		//Set Matrix Mode to ModelView Matrix---------------------------------------------------------------
+		//Set Matrix Mode to ModelView Matrix
 
 		glMatrixMode(GL_MODELVIEW);
 
 		//--------------------------------------------------------------------------------------------------
-		//Set Current Matrix as Identity Matrix-------------------------------------------------------------
+		//Set Current Matrix as Identity Matrix
 
 		glLoadIdentity();
 
 		//--------------------------------------------------------------------------------------------------
-		//Clear Buffers to Preset Values--------------------------------------------------------------------
+		//Clear Buffers to Preset Values
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		
 		//--------------------------------------------------------------------------------------------------
-		//Specify Clear Values for the Color Buffers--------------------------------------------------------
+		//Specify Clear Values for the Color Buffers
 
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}

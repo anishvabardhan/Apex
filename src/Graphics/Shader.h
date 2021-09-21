@@ -23,7 +23,8 @@ namespace Apex {
 
 	class Shader
 	{
-		// Member Variables-------------------------------------------------------------------------------------
+		//----------------------------------------------------------------------------------------------
+		// Member Variables
 
 		std::string m_FilePath;
 		std::string m_BlendOp;
@@ -43,7 +44,9 @@ namespace Apex {
 		inline std::string GetDST() const { return m_BlendDST; }
 		inline std::string GetOP() const { return m_BlendOp; }
 
+		//----------------------------------------------------------------------------------------------
 		// Set Uniforms
+
 		void SetUniform1i(const std::string& name, int value);
 		void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
 		void SetUniformMat4f(const std::string& name, const Mat4& matrix);
