@@ -179,7 +179,6 @@ void Game::Tick()
 			g_App.SwappingBuffers();
 		}
 	}
-
 }
 
 void Game::SpawnBullet()

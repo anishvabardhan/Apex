@@ -184,7 +184,7 @@
     <ClCompile Include="src\Maths\Mat4.cpp" />
     <ClCompile Include="src\Maths\Vec3.cpp" />
     <ClCompile Include="src\Maths\Vec4.cpp" />
-    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\Maths\Vec2.cpp" />
     <ClCompile Include="src\Physics\2D\Collision2D.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />

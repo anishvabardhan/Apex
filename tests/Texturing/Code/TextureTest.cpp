@@ -9,7 +9,6 @@
 #include "../Graphics/Mesh.h"
 #include "../Graphics/Font.h"
 #include "../Maths/Maths.h"
-#include "../Core/EngineUtils.h"
 
 #include <vector>
 
@@ -28,8 +27,6 @@ void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
-		Apex::EngineStartup();
-
 		//----------------------------------------------------------------------------------------------
 		// Load Main Shader and Screen Shader
 
@@ -176,9 +173,5 @@ void TextureTest::Init()
 		delete spriteDefs;
 		delete animation;
 		delete screenQuad;
-
-		//----------------------------------------------------------------------------------------------
-
-		Apex::EngineShutdown();
 	}
 }
