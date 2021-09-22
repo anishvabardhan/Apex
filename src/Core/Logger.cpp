@@ -88,11 +88,11 @@ namespace Apex {
 
 	void Logger::Flush()
 	{
-		LogMsg msg;
+		std::string msg;
 
 		while (!m_LogQueue.empty())
 		{
-			msg.text = m_LogQueue.front();
+			msg = m_LogQueue.front();
 			m_LogQueue.pop();
 
 			for (int i = 0; i < m_Sinks.size(); i++)
@@ -102,9 +102,9 @@ namespace Apex {
 		}
 	}
 
-	void Logger::LogToFile(const LogMsg& msg)
+	void Logger::LogToFile(const std::string& msg)
 	{
-		fprintf(s_LogFile, "%s", msg.text.c_str());
+		fprintf(s_LogFile, "%s", msg.c_str());
 	}
 
 	Logger* Logger::CreateInstance()

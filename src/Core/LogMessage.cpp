@@ -111,14 +111,14 @@ namespace Apex {
 		LogPrint(text);
 	}
 
-	void LogToIDE(const LogMsg& msg)
+	void LogToIDE(const std::string& msg)
 	{
 		if (IsDebuggerPresent())
 		{
-			OutputDebugStringA(msg.text.c_str());
+			OutputDebugStringA(msg.c_str());
 		}
 
-		std::cout << msg.text.c_str();
+		std::cout << msg.c_str();
 	}
 
 	bool IsDebuggerPresent()

@@ -8,14 +8,7 @@ namespace Apex {
 
 	//----------------------------------------------------------------------------------------------
 
-	struct LogMsg
-	{
-		std::string text;
-	};
-
-	//----------------------------------------------------------------------------------------------
-
-	typedef void (*LogCallback)(const LogMsg& msg);
+	typedef void (*LogCallback)(const std::string& msg);
 
 	//----------------------------------------------------------------------------------------------
 	// SystemFunctions
@@ -49,7 +42,7 @@ namespace Apex {
 		//----------------------------------------------------------------------------------------------
 		//Static Methods
 
-		static void LogToFile(const LogMsg& msg);
+		static void LogToFile(const std::string& msg);
 		static Logger* CreateInstance();
 		static void DestroyInstance();
 	};

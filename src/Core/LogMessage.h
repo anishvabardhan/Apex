@@ -5,8 +5,6 @@
 
 namespace Apex {
 
-	struct LogMsg;
-
 	//----------------------------------------------------------------------------------------------------------------------------
 	// Defining the Logging Checks of all severities
 
@@ -35,7 +33,7 @@ namespace Apex {
 
 	std::string Stringf(const char* messageText, ...);
 	void Debugf(const char* messageText, ...);
-    void LogToIDE(const LogMsg& msg);
+    void LogToIDE(const std::string& msg);
 	
 	bool MessageOK(const std::string& messageText, const std::string& severityName, SEVERITY severity);
 	bool MessageYesNo(const std::string& messageText, const std::string& severityName, SEVERITY severity);
