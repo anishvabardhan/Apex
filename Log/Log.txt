@@ -7,6 +7,6 @@
 
 ------------------------------------------------------------------------------
 
-[INFO]: E:\Dev\Apex2D\src\Core\EngineUtils.h(Line 16): App Shutdown!!
+[INFO]: E:\Dev\Apex2D\src\Core\EngineUtils.h(Line 16): Engine Shutdown!!
 
 ------------------------------------------------------------------------------

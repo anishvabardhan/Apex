@@ -46,17 +46,14 @@ namespace Apex {
 
 	void LogPrint(const char* format, ...)
 	{
+		char text[2048];
 		va_list args;
 		va_start(args, format);
-
-		char text[2048];
-
 		vsnprintf_s(text, 2048, _TRUNCATE, format, args);
 		text[2047] = '\0';
+		va_end(args);
 
 		s_Logger->AddLogMessage(text);
-
-		va_end(args);
 	}
 
 	void LogFLush()
