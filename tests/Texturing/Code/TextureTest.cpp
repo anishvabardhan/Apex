@@ -53,12 +53,12 @@ void TextureTest::Init()
 		//----------------------------------------------------------------------------------------------
 		// Create the Bitmap Font
 
-		Apex::Font* font = Apex::Renderer::GetInstance()->CreateBitmapFont("res/Textures/NewFont.png");
+		Apex::Font* font = Apex::Renderer::GetInstance()->GetOrCreateFont("res/Textures/NewFont.png");
 
 		//----------------------------------------------------------------------------------------------
 		// Create Animated Sprite
 
-		Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->CreateTexture("res/Textures/bird.png"), spriteDefs);
+		Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->GetOrCreateTexture("res/Textures/bird.png"), spriteDefs);
 		Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
 		
 		//----------------------------------------------------------------------------------------------
@@ -122,18 +122,18 @@ void TextureTest::Init()
 
 			animation->Update(g_Time.GetTimeDelta());
 
-			Apex::Renderer::GetInstance()->DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
+			Apex::Renderer::GetInstance()->DrawMesh(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Text
 
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
+			Apex::Renderer::GetInstance()->DrawMesh(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
+			Apex::Renderer::GetInstance()->DrawMesh(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Qaud
 
-			Apex::Renderer::GetInstance()->DrawQuad(quad, *shader);
+			Apex::Renderer::GetInstance()->DrawMesh(quad, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// UnBind the Current FrameBuffer
@@ -152,7 +152,7 @@ void TextureTest::Init()
 			// Copy from Current to Destination Framebuffer
 
 			Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-			Apex::Renderer::GetInstance()->DrawFrameBuffer(screenQuad);
+			Apex::Renderer::GetInstance()->DrawMesh(screenQuad);
 
 			//------------------------------------------------------------------------------------------
 			// Swap Front and Back Buffer
