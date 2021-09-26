@@ -152,7 +152,7 @@ void TextureTest::Init()
 			// Copy from Current to Destination Framebuffer
 
 			Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-			Apex::Renderer::GetInstance()->DrawFrameBuffer(screenQuad);
+			Apex::Renderer::GetInstance()->DrawMesh(screenQuad);
 
 			//------------------------------------------------------------------------------------------
 			// Swap Front and Back Buffer

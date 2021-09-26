@@ -139,50 +139,16 @@ namespace Apex {
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			float positions[] = {
-				               //PositionCoords		                      //Color                    //TextureCoords
-				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
-				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
-			};
-
-			unsigned int indices[] = {
-				0, 1, 2,
-				2, 3, 0
-			};
-
-			VertexArray* vao = new VertexArray();
-			LOG_CHECK(vao != nullptr) << "Data is null";
-
-			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-			LOG_CHECK(vbo != nullptr) << "Data is null";
-
-			VertexBufferLayout layout;
-			layout.Push(3);
-			layout.Push(4);
-			layout.Push(2);
-
-			vao->AddBuffer(*vbo, layout);
-
-			IndexBuffer* ibo = new IndexBuffer(indices, 6);
-			LOG_CHECK(vbo != nullptr) << "Data is null";
+			Mesh* mesh = new Mesh(quadPos, uvPos);
+			LOG_CHECK(mesh != nullptr) << "Data is null";
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			vao->Bind();
-			ibo->Bind();
+			DrawMesh(mesh);
 
-			glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			ibo->UnBind();
-			vao->UnBind();
-
-			delete vbo;
-			delete ibo;
-			delete vao;
+			delete mesh;
 		}
 	}
 
@@ -190,50 +156,16 @@ namespace Apex {
 	{
 		texture.Bind(TEXTURESLOT::SLOT2);
 
-		float positions[] = {
-			                     //PositionCoords		                                             //Color                                   //TextureCoords
-            position.m_X,                  position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y,
-            position.m_X + dimensions.m_X, position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y,
-            position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f,	  color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y,
-            position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y
-		};
-
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		VertexArray* vao = new VertexArray();
-		LOG_CHECK(vao != nullptr) << "Data is null";
-
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-		LOG_CHECK(vbo != nullptr) << "Data is null";
-
-		VertexBufferLayout layout;
-		layout.Push(3);
-		layout.Push(4);
-		layout.Push(2);
-
-		vao->AddBuffer(*vbo, layout);
-
-		IndexBuffer* ibo = new IndexBuffer(indices, 6);
-		LOG_CHECK(ibo != nullptr) << "Data is null";
+		Mesh* mesh = new Mesh(position, dimensions, color, texCoords);
+		LOG_CHECK(mesh != nullptr) << "Data is null";
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		vao->Bind();
-		ibo->Bind();
+		DrawMesh(mesh);
 
-		glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		ibo->UnBind();
-		vao->UnBind();
-
-		delete vbo;
-		delete ibo;
-		delete vao;
+		delete mesh;
 	}
 
 	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
@@ -245,16 +177,10 @@ namespace Apex {
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mesh->GetVAO()->Bind();
-		mesh->GetIBO()->Bind();
-
-		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		mesh->GetIBO()->UnBind();
-		mesh->GetVAO()->UnBind();
+		DrawMesh(mesh);
 	}
 
-	void Renderer::DrawFrameBuffer(Mesh* mesh)
+	void Renderer::DrawMesh(Mesh* mesh)
 	{
 		mesh->GetVAO()->Bind();
 		mesh->GetIBO()->Bind();
