@@ -24,6 +24,7 @@ namespace Apex{
         ~Mesh();
 
         inline VertexArray* GetVAO() const { return m_VAO; }
+        inline VertexBuffer* GetVBO() const { return m_VBO; }
         inline IndexBuffer* GetIBO() const { return m_IBO; }
         inline Texture* GetTexture() const { return m_Texture; }
     };

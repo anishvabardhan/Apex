@@ -69,6 +69,8 @@ namespace Apex {
 
 		m_IBO = new IndexBuffer(indices, 6);
 		LOG_CHECK(m_IBO != nullptr) << "Data is null";
+
+		m_Texture = nullptr;
 	}
 
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
@@ -135,13 +137,18 @@ namespace Apex {
 
 		m_IBO = new IndexBuffer(indices, 6);
 		LOG_CHECK(m_IBO != nullptr) << "Data is null";
+
+		m_Texture = nullptr;
 	}
 	
 	Mesh::~Mesh()
 	{
 		delete m_VAO;
 		delete m_IBO;
-		delete m_Texture;
+		delete m_VBO;
+
+		if(m_Texture != nullptr)
+		    delete m_Texture;
 	}
 
 }
