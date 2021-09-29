@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Buffers/VertexArray.h"
+#include "Buffers/VertexArrayObject.h"
 #include "Buffers/VertexBuffer.h"
 #include "Buffers/IndexBuffer.h"
 #include "Buffers/VertexBufferLayout.h"
@@ -23,7 +23,7 @@ namespace Apex {
 
 		Mat4 m_Model;
 		
-		VertexArray* m_VAO;
+		VertexArrayObject* m_VAO;
 		IndexBuffer* m_IBO;
 		VertexBuffer* m_VBO;
 		VertexBufferLayout layout;
@@ -82,7 +82,7 @@ namespace Apex {
 
 		void CreateVAO()
 		{
-			m_VAO = new VertexArray();
+			m_VAO = new VertexArrayObject();
 
 			m_VAO->AddBuffer(*m_VBO, layout);
 		}
@@ -109,7 +109,7 @@ namespace Apex {
 
 // Creating Getter Methods-------------------------------------------------------------------------------
 
-		inline const VertexArray* GetVAO() const { return m_VAO; }
+		inline const VertexArrayObject* GetVAO() const { return m_VAO; }
 		inline const VertexBuffer* GetVBO() const { return m_VBO; }
 		inline const IndexBuffer* GetIBO() const { return m_IBO; }
 		inline Shader& GetShader() const { return m_Shader; }

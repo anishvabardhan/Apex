@@ -1,6 +1,8 @@
 #include "Renderer.h"
 
 #include "../Core/LogMessage.h"
+#include "VertexPCU.h"
+#include <vector>
 
 #include <GL/glew.h>
 
@@ -134,55 +136,70 @@ namespace Apex {
 
 		for (size_t i = 0; i < asciiText.size(); i++)
 		{
+			std::vector<VertexPCU> vertices;
+
 			quadPos.m_Mins.m_X = (i * quadWidth) + position.m_X;
 			quadPos.m_Maxs.m_X = ((i + 1) * quadWidth) + position.m_X;
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			float positions[] = {
-				               //PositionCoords		                      //Color                    //TextureCoords
-				quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
-				quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
-				quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
-			};
+			vertices.push_back(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y)));
+			vertices.push_back(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y)));
+			vertices.push_back(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
+			vertices.push_back(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
 
-			unsigned int indices[] = {
-				0, 1, 2,
-				2, 3, 0
-			};
+			//float positions[] = {
+			//	               //PositionCoords		                      //Color                    //TextureCoords
+			//	quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
+			//	quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
+			//	quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
+			//	quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
+			//};
+			//
+			//unsigned int indices[] = {
+			//	0, 1, 2,
+			//	2, 3, 0
+			//};
+			//
+			//VertexArrayObject* vao = new VertexArrayObject();
+			//LOG_CHECK(vao != nullptr) << "Data is null";
+			//
+			//VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+			//LOG_CHECK(vbo != nullptr) << "Data is null";
+			//
+			//VertexBufferLayout layout;
+			//layout.Push(3);
+			//layout.Push(4);
+			//layout.Push(2);
+			//
+			//vao->AddBuffer(*vbo, layout);
+			//
+			//IndexBuffer* ibo = new IndexBuffer(indices, 6);
+			//LOG_CHECK(vbo != nullptr) << "Data is null";
+			//
+			//Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
+			//shader.SetUniform1i("u_Texture", 0);
+			//shader.SetUniformMat4f("u_Model", model);
+			//
+			//vao->Bind();
+			//ibo->Bind();
+			//
+			//glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
+			//
+			//ibo->UnBind();
+			//vao->UnBind();
+			//
+			//delete vbo;
+			//delete ibo;
+			//delete vao;
 
-			VertexArray* vao = new VertexArray();
-			LOG_CHECK(vao != nullptr) << "Data is null";
-
-			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-			LOG_CHECK(vbo != nullptr) << "Data is null";
-
-			VertexBufferLayout layout;
-			layout.Push(3);
-			layout.Push(4);
-			layout.Push(2);
-
-			vao->AddBuffer(*vbo, layout);
-
-			IndexBuffer* ibo = new IndexBuffer(indices, 6);
-			LOG_CHECK(vbo != nullptr) << "Data is null";
+			Mesh* mesh = new Mesh(vertices);
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			vao->Bind();
-			ibo->Bind();
-
-			glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			ibo->UnBind();
-			vao->UnBind();
-
-			delete vbo;
-			delete ibo;
-			delete vao;
+			DrawFrameBuffer(mesh);
 		}
 	}
 
@@ -203,7 +220,7 @@ namespace Apex {
 			2, 3, 0
 		};
 
-		VertexArray* vao = new VertexArray();
+		VertexArrayObject* vao = new VertexArrayObject();
 		LOG_CHECK(vao != nullptr) << "Data is null";
 
 		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));

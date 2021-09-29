@@ -4,7 +4,7 @@
 #include <map>
 
 #include "Buffers/IndexBuffer.h"
-#include "Buffers/VertexArray.h"
+#include "Buffers/VertexArrayObject.h"
 #include "Buffers/FrameBuffer.h"
 #include "Mesh.h"
 #include "Font.h"

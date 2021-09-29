@@ -17,7 +17,7 @@ namespace Apex {
 			2, 3, 0
 		};
 
-		m_VAO = new VertexArray();
+		m_VAO = new VertexArrayObject();
 
 		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 
@@ -33,14 +33,14 @@ namespace Apex {
 		m_Texture = new Texture(path);
 	}
 
-	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
+	Mesh::Mesh(std::vector<VertexPCU> vertices)
 	{
 		float positions[] = {
-			               //PositionCoords		                              //Color               //TextureCoords
-			position.m_X,                position.m_Y,                 1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 0.0f,  // 0
-			position.m_X + meshDim.m_X,  position.m_Y,                 1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 0.0f,  // 1
-			position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 1.0f,  // 2
-			position.m_X,                position.m_Y + meshDim.m_Y,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 1.0f   // 3
+			                             //PositionCoords		                                                                    //Color                                                                 //TextureCoords
+            vertices[0].m_Pos.m_X, vertices[0].m_Pos.m_Y, vertices[0].m_Pos.m_Z,     vertices[0].m_Color.m_X, vertices[0].m_Color.m_Y, vertices[0].m_Color.m_Z, vertices[0].m_Color.m_W,      vertices[0].m_UV.m_X, vertices[0].m_UV.m_Y,  // 0
+			vertices[1].m_Pos.m_X, vertices[1].m_Pos.m_Y, vertices[1].m_Pos.m_Z,     vertices[1].m_Color.m_X, vertices[1].m_Color.m_Y, vertices[1].m_Color.m_Z, vertices[1].m_Color.m_W,      vertices[1].m_UV.m_X, vertices[1].m_UV.m_Y,  // 1
+			vertices[2].m_Pos.m_X, vertices[2].m_Pos.m_Y, vertices[2].m_Pos.m_Z,     vertices[2].m_Color.m_X, vertices[2].m_Color.m_Y, vertices[2].m_Color.m_Z, vertices[2].m_Color.m_W,      vertices[2].m_UV.m_X, vertices[2].m_UV.m_Y,  // 2
+			vertices[3].m_Pos.m_X, vertices[3].m_Pos.m_Y, vertices[3].m_Pos.m_Z,     vertices[3].m_Color.m_X, vertices[3].m_Color.m_Y, vertices[3].m_Color.m_Z, vertices[3].m_Color.m_W,      vertices[3].m_UV.m_X, vertices[3].m_UV.m_Y   // 3
 		};
 
 		unsigned int indices[] = {
@@ -48,12 +48,41 @@ namespace Apex {
 			2, 3, 0
 		};
 
-		m_VAO = new VertexArray();
+		m_VAO = new VertexArrayObject();
 
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 8 * sizeof(float));
+		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 
 		VertexBufferLayout layout;
+		layout.Push(3);
+		layout.Push(4);
 		layout.Push(2);
+
+		m_VAO->AddBuffer(*vbo, layout);
+
+		m_IBO = new IndexBuffer(indices, 6);
+	}
+
+	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
+	{
+		float positions[] = {
+			               //PositionCoords		                                    //Color               //TextureCoords
+			position.m_X,                position.m_Y,               0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 0.0f,  // 0
+			position.m_X + meshDim.m_X,  position.m_Y,               0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 0.0f,  // 1
+			position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 1.0f,  // 2
+			position.m_X,                position.m_Y + meshDim.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 1.0f   // 3
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		m_VAO = new VertexArrayObject();
+
+		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+
+		VertexBufferLayout layout;
+		layout.Push(3);
 		layout.Push(4);
 		layout.Push(2);
 

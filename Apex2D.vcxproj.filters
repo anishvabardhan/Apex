@@ -90,7 +90,7 @@
     <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Buffers\VertexArray.cpp">
+    <ClCompile Include="src\Graphics\Buffers\VertexArrayObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Windows.cpp">
@@ -1094,7 +1094,7 @@
     <ClInclude Include="src\Graphics\Renderable2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Buffers\VertexArray.h">
+    <ClInclude Include="src\Graphics\Buffers\VertexArrayObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Buffers\VertexBufferLayout.h">

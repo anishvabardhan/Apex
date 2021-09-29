@@ -1,19 +1,19 @@
-#include "VertexArray.h"
+#include "VertexArrayObject.h"
 
 namespace Apex {
 
-	VertexArray::VertexArray()
+	VertexArrayObject::VertexArrayObject()
 	{
 		glGenVertexArrays(1, &m_RendererID);
 		glBindVertexArray(m_RendererID);
 	}
 
-	VertexArray::~VertexArray()
+	VertexArrayObject::~VertexArrayObject()
 	{
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
-	void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout)
+	void VertexArrayObject::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout)
 	{
 		Bind();
 		vb.Bind();
@@ -28,12 +28,12 @@ namespace Apex {
 		}
 	}
 
-	void VertexArray::Bind() const
+	void VertexArrayObject::Bind() const
 	{
 		glBindVertexArray(m_RendererID);
 	}
 
-	void VertexArray::UnBind() const
+	void VertexArrayObject::UnBind() const
 	{
 		glBindVertexArray(0);
 	}

@@ -164,7 +164,7 @@
     <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphics\SpriteDefinition.cpp" />
     <ClCompile Include="src\Graphics\SpriteSheet.cpp" />
-    <ClCompile Include="src\Graphics\Buffers\VertexArray.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\VertexArrayObject.cpp" />
     <ClCompile Include="src\Graphics\Windows.cpp" />
     <ClCompile Include="src\Maths\AABB2.cpp" />
     <ClCompile Include="src\Graphics\Buffers\IndexBuffer.cpp" />
@@ -206,7 +206,7 @@
     <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteDefinition.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
-    <ClInclude Include="src\Graphics\Buffers\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Buffers\VertexArrayObject.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="src\Graphics\Windows.h" />
     <ClInclude Include="src\Maths\AABB2.h" />

@@ -1,6 +1,6 @@
 #include "TextureTest.h"
 
-#include "../Graphics/Buffers/VertexArray.h"
+#include "../Graphics/Buffers/VertexArrayObject.h"
 #include "../Graphics/Buffers/IndexBuffer.h"
 #include "../Graphics/SpriteAnimation.h"
 #include "../Graphics/SpriteDefinition.h"
