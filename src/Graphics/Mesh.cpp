@@ -5,7 +5,7 @@ namespace Apex {
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim, Vec3 color, const std::string& path)
 	{
 		float positions[] = {
-			                    //PositionCoords		                               //Color             //TextureCoords
+			                    //PositionCoords		                                         //Color                  //TextureCoords
             position.m_X,                position.m_Y,                0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      0.0f, 0.0f,  // 0
             position.m_X + meshDim.m_X,  position.m_Y,                0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      1.0f, 0.0f,  // 1
             position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y,  0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      1.0f, 1.0f,  // 2
@@ -19,22 +19,27 @@ namespace Apex {
 
 		m_VAO = new VertexArrayObject();
 
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 
-		VertexBufferLayout layout;
-		layout.Push(3);
-		layout.Push(4);
-		layout.Push(2);
+		m_Layout.Push(3);
+		m_Layout.Push(4);
+		m_Layout.Push(2);
 
-		m_VAO->AddBuffer(*vbo, layout);
+		m_VAO->AddBuffer(*m_VBO, m_Layout);
 
 		m_IBO = new IndexBuffer(indices, 6);
 
 		m_Texture = new Texture(path);
+		m_Vertices = nullptr;
+		m_Indices = nullptr;
 	}
 
 	Mesh::Mesh(std::vector<VertexPCU> vertices)
 	{
+		m_Texture = nullptr;
+		m_Vertices = nullptr;
+		m_Indices = nullptr;
+
 		float positions[] = {
 			                             //PositionCoords		                                                                    //Color                                                                 //TextureCoords
             vertices[0].m_Pos.m_X, vertices[0].m_Pos.m_Y, vertices[0].m_Pos.m_Z,     vertices[0].m_Color.m_X, vertices[0].m_Color.m_Y, vertices[0].m_Color.m_Z, vertices[0].m_Color.m_W,      vertices[0].m_UV.m_X, vertices[0].m_UV.m_Y,  // 0
@@ -48,18 +53,21 @@ namespace Apex {
 			2, 3, 0
 		};
 
-		m_VAO = new VertexArrayObject();
+		CopyToCPU(positions, indices);
+		CopyToGPU(positions, indices);
 
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-
-		VertexBufferLayout layout;
-		layout.Push(3);
-		layout.Push(4);
-		layout.Push(2);
-
-		m_VAO->AddBuffer(*vbo, layout);
-
-		m_IBO = new IndexBuffer(indices, 6);
+		//m_VAO = new VertexArrayObject();
+		//
+		//VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		//
+		//VertexBufferLayout layout;
+		//layout.Push(3);
+		//layout.Push(4);
+		//layout.Push(2);
+		//
+		//m_VAO->AddBuffer(*vbo, layout);
+		//
+		//m_IBO = new IndexBuffer(indices, 6);
 	}
 
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
@@ -79,25 +87,47 @@ namespace Apex {
 
 		m_VAO = new VertexArrayObject();
 
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 
-		VertexBufferLayout layout;
-		layout.Push(3);
-		layout.Push(4);
-		layout.Push(2);
+		m_Layout.Push(3);
+		m_Layout.Push(4);
+		m_Layout.Push(2);
 
-		m_VAO->AddBuffer(*vbo, layout);
+		m_VAO->AddBuffer(*m_VBO, m_Layout);
 
 		m_IBO = new IndexBuffer(indices, 6);
 
 		m_Texture = nullptr;
+		m_Vertices = nullptr;
+		m_Indices = nullptr;
 	}
 	
 	Mesh::~Mesh()
 	{
 		delete m_VAO;
 		delete m_IBO;
-		delete m_Texture;
+		delete m_VBO;
+
+		if (m_Texture != nullptr)
+			delete m_Texture;
+	}
+
+	void Mesh::CopyToCPU(const void* vertices, const unsigned int* indices)
+	{
+		m_Vertices = vertices;
+		m_Indices = indices;
+		
+		m_Layout.Push(3);
+		m_Layout.Push(4);
+		m_Layout.Push(2);
+	}
+
+	void Mesh::CopyToGPU(const void* vertices, const unsigned int* indices)
+	{
+		m_VAO = new VertexArrayObject();
+		m_VBO = new VertexBuffer(vertices, 4 * 9 * sizeof(float));
+		m_VAO->AddBuffer(*m_VBO, m_Layout);
+		m_IBO = new IndexBuffer(indices, 6);
 	}
 
 }

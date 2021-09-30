@@ -148,51 +148,6 @@ namespace Apex {
 			vertices.push_back(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
 			vertices.push_back(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
 
-			//float positions[] = {
-			//	               //PositionCoords		                      //Color                    //TextureCoords
-			//	quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
-			//	quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
-			//	quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
-			//	quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
-			//};
-			//
-			//unsigned int indices[] = {
-			//	0, 1, 2,
-			//	2, 3, 0
-			//};
-			//
-			//VertexArrayObject* vao = new VertexArrayObject();
-			//LOG_CHECK(vao != nullptr) << "Data is null";
-			//
-			//VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-			//LOG_CHECK(vbo != nullptr) << "Data is null";
-			//
-			//VertexBufferLayout layout;
-			//layout.Push(3);
-			//layout.Push(4);
-			//layout.Push(2);
-			//
-			//vao->AddBuffer(*vbo, layout);
-			//
-			//IndexBuffer* ibo = new IndexBuffer(indices, 6);
-			//LOG_CHECK(vbo != nullptr) << "Data is null";
-			//
-			//Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
-			//shader.SetUniform1i("u_Texture", 0);
-			//shader.SetUniformMat4f("u_Model", model);
-			//
-			//vao->Bind();
-			//ibo->Bind();
-			//
-			//glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-			//
-			//ibo->UnBind();
-			//vao->UnBind();
-			//
-			//delete vbo;
-			//delete ibo;
-			//delete vao;
-
 			Mesh* mesh = new Mesh(vertices);
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
@@ -200,6 +155,8 @@ namespace Apex {
 			shader.SetUniformMat4f("u_Model", model);
 
 			DrawFrameBuffer(mesh);
+
+			delete mesh;
 		}
 	}
 
@@ -207,50 +164,22 @@ namespace Apex {
 	{
 		texture.Bind(TEXTURESLOT::SLOT2);
 
-		float positions[] = {
-			                     //PositionCoords		                                             //Color                                   //TextureCoords
-            position.m_X,                  position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y,
-            position.m_X + dimensions.m_X, position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y,
-            position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f,	  color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y,
-            position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y
-		};
+		std::vector<VertexPCU> vertices;
 
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
+		vertices.push_back(VertexPCU(Vec3(position.m_X,                  position.m_Y,                  0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
+		vertices.push_back(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y,                  0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
+		vertices.push_back(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
+		vertices.push_back(VertexPCU(Vec3(position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
 
-		VertexArrayObject* vao = new VertexArrayObject();
-		LOG_CHECK(vao != nullptr) << "Data is null";
-
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-		LOG_CHECK(vbo != nullptr) << "Data is null";
-
-		VertexBufferLayout layout;
-		layout.Push(3);
-		layout.Push(4);
-		layout.Push(2);
-
-		vao->AddBuffer(*vbo, layout);
-
-		IndexBuffer* ibo = new IndexBuffer(indices, 6);
-		LOG_CHECK(ibo != nullptr) << "Data is null";
+		Mesh* mesh = new Mesh(vertices);
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		vao->Bind();
-		ibo->Bind();
+		DrawFrameBuffer(mesh);
 
-		glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		ibo->UnBind();
-		vao->UnBind();
-
-		delete vbo;
-		delete ibo;
-		delete vao;
+		delete mesh;
 	}
 
 	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
@@ -262,24 +191,24 @@ namespace Apex {
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mesh->GetVAO()->Bind();
-		mesh->GetIBO()->Bind();
+		mesh->m_VAO->Bind();
+		mesh->m_IBO->Bind();
 
 		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-		mesh->GetIBO()->UnBind();
-		mesh->GetVAO()->UnBind();
+		mesh->m_IBO->UnBind();
+		mesh->m_VAO->UnBind();
 	}
 
 	void Renderer::DrawFrameBuffer(Mesh* mesh)
 	{
-		mesh->GetVAO()->Bind();
-		mesh->GetIBO()->Bind();
+		mesh->m_VAO->Bind();
+		mesh->m_IBO->Bind();
 
-		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-		mesh->GetIBO()->UnBind();
-		mesh->GetVAO()->UnBind();
+		mesh->m_IBO->UnBind();
+		mesh->m_VAO->UnBind();
 	}
 
 	void Renderer::CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next)
