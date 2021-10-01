@@ -122,18 +122,18 @@ void TextureTest::Init()
 
 			animation->Update(g_Time.GetTimeDelta());
 
-			Apex::Renderer::GetInstance()->DrawMesh(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
+			Apex::Renderer::GetInstance()->DrawQuad(sheet->m_Position, sheet->m_Dimension, *animation->GetTexture(), Apex::AABB2(animation->GetTexCoords().m_Mins, animation->GetTexCoords().m_Maxs), sheet->m_Color, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Text
 
-			Apex::Renderer::GetInstance()->DrawMesh(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
-			Apex::Renderer::GetInstance()->DrawMesh(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Qaud
 
-			Apex::Renderer::GetInstance()->DrawMesh(quad, *shader);
+			Apex::Renderer::GetInstance()->DrawQuad(quad, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// UnBind the Current FrameBuffer

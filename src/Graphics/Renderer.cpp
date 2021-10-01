@@ -120,7 +120,7 @@ namespace Apex {
 		glPopMatrix();
 	}
 
-	void Renderer::DrawMesh(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader)
+	void Renderer::Drawtext(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader)
 	{
 		font->GetSpriteSheet().GetSpriteSheetTexture().Bind(TEXTURESLOT::SLOT0);
 
@@ -139,104 +139,36 @@ namespace Apex {
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			float positions[] = {
-				//PositionCoords		                      //Color                    //TextureCoords
- quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
- quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
- quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
- quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
-			};
-
-			unsigned int indices[] = {
-				0, 1, 2,
-				2, 3, 0
-			};
-
-			VertexArray* vao = new VertexArray();
-			LOG_CHECK(vao != nullptr) << "Data is null";
-
-			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-			LOG_CHECK(vbo != nullptr) << "Data is null";
-
-			VertexBufferLayout layout;
-			layout.Push(3);
-			layout.Push(4);
-			layout.Push(2);
-
-			vao->AddBuffer(*vbo, layout);
-
-			IndexBuffer* ibo = new IndexBuffer(indices, 6);
-			LOG_CHECK(vbo != nullptr) << "Data is null";
+			Mesh* mesh = new Mesh(quadPos, uvPos);
+			LOG_CHECK(mesh != nullptr) << "Data is null";
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			vao->Bind();
-			ibo->Bind();
+			DrawMesh(mesh);
 
-			glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			ibo->UnBind();
-			vao->UnBind();
-
-			delete vbo;
-			delete ibo;
-			delete vao;
+			delete mesh;
 		}
 	}
 
-	void Renderer::DrawMesh(const Vec2& position, const Vec2& dimensions, const Texture& texture, const AABB2& texCoords, const Vec4& color, Shader shader)
+	void Renderer::DrawQuad(const Vec2& position, const Vec2& dimensions, const Texture& texture, const AABB2& texCoords, const Vec4& color, Shader shader)
 	{
 		texture.Bind(TEXTURESLOT::SLOT2);
 
-		float positions[] = {
-			//PositionCoords		                                             //Color                                   //TextureCoords
-position.m_X,                  position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y,
-position.m_X + dimensions.m_X, position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y,
-position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f,	  color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y,
-position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y
-		};
-
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		VertexArray* vao = new VertexArray();
-		LOG_CHECK(vao != nullptr) << "Data is null";
-
-		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-		LOG_CHECK(vbo != nullptr) << "Data is null";
-
-		VertexBufferLayout layout;
-		layout.Push(3);
-		layout.Push(4);
-		layout.Push(2);
-
-		vao->AddBuffer(*vbo, layout);
-
-		IndexBuffer* ibo = new IndexBuffer(indices, 6);
-		LOG_CHECK(ibo != nullptr) << "Data is null";
+		Mesh* mesh = new Mesh(position, dimensions, color, texCoords);
+		LOG_CHECK(mesh != nullptr) << "Data is null";
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		vao->Bind();
-		ibo->Bind();
+		DrawMesh(mesh);
 
-		glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		ibo->UnBind();
-		vao->UnBind();
-
-		delete vbo;
-		delete ibo;
-		delete vao;
+		delete mesh;
 	}
 
-	void Renderer::DrawMesh(Mesh* mesh, Shader shader)
+	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
 	{
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 
@@ -245,13 +177,7 @@ position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X,
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mesh->GetVAO()->Bind();
-		mesh->GetIBO()->Bind();
-
-		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		mesh->GetIBO()->UnBind();
-		mesh->GetVAO()->UnBind();
+		DrawMesh(mesh);
 	}
 
 	void Renderer::DrawMesh(Mesh* mesh)
@@ -294,7 +220,7 @@ position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X,
 	{
 		if (m_LoadedFonts.find(path) != m_LoadedFonts.end())
 		{
-			return m_LoadedFonts[path];
+			return m_LoadedFonts.at(path);
 		}
 		else
 		{
@@ -317,7 +243,7 @@ position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X,
 	{
 		if (m_LoadedTextures.find(path) != m_LoadedTextures.end())
 		{
-			return m_LoadedTextures[path];
+			return m_LoadedTextures.at(path);
 		}
 		else
 		{
@@ -334,7 +260,7 @@ position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X,
 	{
 		if (m_LoadedShaders.find(path) != m_LoadedShaders.end())
 		{
-			return m_LoadedShaders[path];
+			return m_LoadedShaders.at(path);
 		}
 		else
 		{
