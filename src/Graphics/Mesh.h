@@ -7,9 +7,9 @@
 #include "Texture.h"
 #include "../Maths/Maths.h"
 
-namespace Apex{
+namespace Apex {
 
-	class Mesh
+    class Mesh
     {
         VertexArray* m_VAO;
         IndexBuffer* m_IBO;
