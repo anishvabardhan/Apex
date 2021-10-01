@@ -81,7 +81,7 @@ namespace Apex {
 		void Drawtext(const Vec2& position, const std::string& asciiText, float quadHeight, Font* font, Shader shader);
 		void DrawQuad(const Vec2& position, const Vec2& dimensions, const Texture& texture, const AABB2& texCoords, const Vec4& color, Shader shader);
 		void DrawQuad(Mesh* mesh, Shader shader);
-		void DrawMesh(Mesh* mesh);
+		void DrawFrameBuffer(Mesh* mesh);
 		void CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next);
 		void Clear() const;
 		void ClearColor() const;
@@ -95,7 +95,9 @@ namespace Apex {
 		static void BeginPolygon();
 		static void BeginQuads();
 
+		static void CreateInstance();
 		static Renderer* GetInstance();
+		static void DestroyInstance();
 
 		static void EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode = APEX_BLEND_OP::APEX_FUNC_ADD);
 		static void DisableBlend();

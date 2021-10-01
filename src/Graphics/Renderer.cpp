@@ -81,9 +81,20 @@ namespace Apex {
 		glBegin(GL_QUADS);
 	}
 
+	void Renderer::CreateInstance()
+	{
+		m_Renderer = new Renderer();
+	}
+
 	Renderer* Renderer::GetInstance()
 	{
 		return m_Renderer;
+	}
+
+	void Renderer::DestroyInstance()
+	{
+		delete m_Renderer;
+		m_Renderer = nullptr;
 	}
 
 	void Renderer::EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode)
@@ -139,16 +150,50 @@ namespace Apex {
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			Mesh* mesh = new Mesh(quadPos, uvPos);
-			LOG_CHECK(mesh != nullptr) << "Data is null";
+			float positions[] = {
+				//PositionCoords		                      //Color                    //TextureCoords
+                quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y,
+                quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y,
+                quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f,	0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y,
+                quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,    uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y
+			};
+
+			unsigned int indices[] = {
+				0, 1, 2,
+				2, 3, 0
+			};
+
+			VertexArray* vao = new VertexArray();
+			LOG_CHECK(vao != nullptr) << "Data is null";
+
+			VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+			LOG_CHECK(vbo != nullptr) << "Data is null";
+
+			VertexBufferLayout layout;
+			layout.Push(3);
+			layout.Push(4);
+			layout.Push(2);
+
+			vao->AddBuffer(*vbo, layout);
+
+			IndexBuffer* ibo = new IndexBuffer(indices, 6);
+			LOG_CHECK(vbo != nullptr) << "Data is null";
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			DrawMesh(mesh);
+			vao->Bind();
+			ibo->Bind();
 
-			delete mesh;
+			glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			ibo->UnBind();
+			vao->UnBind();
+
+			delete vbo;
+			delete ibo;
+			delete vao;
 		}
 	}
 
@@ -156,16 +201,50 @@ namespace Apex {
 	{
 		texture.Bind(TEXTURESLOT::SLOT2);
 
-		Mesh* mesh = new Mesh(position, dimensions, color, texCoords);
-		LOG_CHECK(mesh != nullptr) << "Data is null";
+		float positions[] = {
+			//PositionCoords		                                             //Color                                   //TextureCoords
+            position.m_X,                  position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y,
+            position.m_X + dimensions.m_X, position.m_Y, 0.0f,                    color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y,
+            position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f,	  color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y,
+            position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f,   color.m_X, color.m_Y, color.m_Z, color.m_W,    texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		VertexArray* vao = new VertexArray();
+		LOG_CHECK(vao != nullptr) << "Data is null";
+
+		VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		LOG_CHECK(vbo != nullptr) << "Data is null";
+
+		VertexBufferLayout layout;
+		layout.Push(3);
+		layout.Push(4);
+		layout.Push(2);
+
+		vao->AddBuffer(*vbo, layout);
+
+		IndexBuffer* ibo = new IndexBuffer(indices, 6);
+		LOG_CHECK(ibo != nullptr) << "Data is null";
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawMesh(mesh);
+		vao->Bind();
+		ibo->Bind();
 
-		delete mesh;
+		glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		ibo->UnBind();
+		vao->UnBind();
+
+		delete vbo;
+		delete ibo;
+		delete vao;
 	}
 
 	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
@@ -177,10 +256,16 @@ namespace Apex {
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawMesh(mesh);
+		mesh->GetVAO()->Bind();
+		mesh->GetIBO()->Bind();
+
+		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mesh->GetIBO()->UnBind();
+		mesh->GetVAO()->UnBind();
 	}
 
-	void Renderer::DrawMesh(Mesh* mesh)
+	void Renderer::DrawFrameBuffer(Mesh* mesh)
 	{
 		mesh->GetVAO()->Bind();
 		mesh->GetIBO()->Bind();

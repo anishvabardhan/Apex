@@ -27,6 +27,8 @@ void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
+		Apex::Renderer::CreateInstance();
+
 		//----------------------------------------------------------------------------------------------
 		// Load Main Shader and Screen Shader
 
@@ -127,8 +129,8 @@ void TextureTest::Init()
 			//------------------------------------------------------------------------------------------
 			// Render the Text
 
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 919.0f), "APEX ENGINE", 50.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 889.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Qaud
@@ -152,7 +154,7 @@ void TextureTest::Init()
 			// Copy from Current to Destination Framebuffer
 
 			Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-			Apex::Renderer::GetInstance()->DrawMesh(screenQuad);
+			Apex::Renderer::GetInstance()->DrawFrameBuffer(screenQuad);
 
 			//------------------------------------------------------------------------------------------
 			// Swap Front and Back Buffer
@@ -173,5 +175,7 @@ void TextureTest::Init()
 		delete spriteDefs;
 		delete animation;
 		delete screenQuad;
+
+		Apex::Renderer::DestroyInstance();
 	}
 }
