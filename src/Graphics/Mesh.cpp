@@ -30,13 +30,10 @@ namespace Apex {
 		m_VAO->AddBuffer(*m_VBO, m_Layout);
 
 		m_IBO = new IndexBuffer(indices, 6);
-
-		m_Texture = new Texture(path);
 	}
 
 	Mesh::Mesh(std::vector<VertexPCU> vertices)
 	{
-		m_Texture = nullptr;
 
 		float positions[] = {
 			                             //PositionCoords		                                                                    //Color                                                                 //TextureCoords
@@ -90,8 +87,6 @@ namespace Apex {
 		m_VAO->AddBuffer(*m_VBO, m_Layout);
 
 		m_IBO = new IndexBuffer(indices, 6);
-
-		m_Texture = nullptr;
 	}
 	
 	Mesh::~Mesh()
@@ -99,9 +94,6 @@ namespace Apex {
 		delete m_VAO;
 		delete m_IBO;
 		delete m_VBO;
-
-		if (m_Texture != nullptr)
-			delete m_Texture;
 	}
 
 }

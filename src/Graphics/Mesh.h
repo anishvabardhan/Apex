@@ -4,7 +4,6 @@
 
 #include "Buffers/VertexArrayObject.h"
 #include "Buffers/IndexBuffer.h"
-#include "Texture.h"
 #include "../Maths/Maths.h"
 
 namespace Apex{
@@ -17,7 +16,6 @@ namespace Apex{
         VertexArrayObject* m_VAO;
         VertexBuffer* m_VBO;
         IndexBuffer* m_IBO;
-        Texture* m_Texture;
 
         explicit Mesh(const Vec2& position, Vec2 meshDim, Vec3 color, const std::string& path);
         explicit Mesh(std::vector<VertexPCU> vertices);
