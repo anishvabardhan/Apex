@@ -1,7 +1,9 @@
 #include "Mesh.h"
 
-namespace Apex {
+#include "MeshBuilder.h"
 
+namespace Apex {
+	
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim, Vec3 color, const std::string& path)
 	{
 		float positions[] = {
@@ -30,15 +32,11 @@ namespace Apex {
 		m_IBO = new IndexBuffer(indices, 6);
 
 		m_Texture = new Texture(path);
-		m_Vertices = nullptr;
-		m_Indices = nullptr;
 	}
 
 	Mesh::Mesh(std::vector<VertexPCU> vertices)
 	{
 		m_Texture = nullptr;
-		m_Vertices = nullptr;
-		m_Indices = nullptr;
 
 		float positions[] = {
 			                             //PositionCoords		                                                                    //Color                                                                 //TextureCoords
@@ -53,21 +51,17 @@ namespace Apex {
 			2, 3, 0
 		};
 
-		CopyToCPU(positions, indices);
-		CopyToGPU(positions, indices);
-
-		//m_VAO = new VertexArrayObject();
-		//
-		//VertexBuffer* vbo = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-		//
-		//VertexBufferLayout layout;
-		//layout.Push(3);
-		//layout.Push(4);
-		//layout.Push(2);
-		//
-		//m_VAO->AddBuffer(*vbo, layout);
-		//
-		//m_IBO = new IndexBuffer(indices, 6);
+		m_VAO = new VertexArrayObject();
+		
+		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
+		
+		m_Layout.Push(3);
+		m_Layout.Push(4);
+		m_Layout.Push(2);
+		
+		m_VAO->AddBuffer(*m_VBO, m_Layout);
+		
+		m_IBO = new IndexBuffer(indices, 6);
 	}
 
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
@@ -98,8 +92,6 @@ namespace Apex {
 		m_IBO = new IndexBuffer(indices, 6);
 
 		m_Texture = nullptr;
-		m_Vertices = nullptr;
-		m_Indices = nullptr;
 	}
 	
 	Mesh::~Mesh()
@@ -110,24 +102,6 @@ namespace Apex {
 
 		if (m_Texture != nullptr)
 			delete m_Texture;
-	}
-
-	void Mesh::CopyToCPU(const void* vertices, const unsigned int* indices)
-	{
-		m_Vertices = vertices;
-		m_Indices = indices;
-		
-		m_Layout.Push(3);
-		m_Layout.Push(4);
-		m_Layout.Push(2);
-	}
-
-	void Mesh::CopyToGPU(const void* vertices, const unsigned int* indices)
-	{
-		m_VAO = new VertexArrayObject();
-		m_VBO = new VertexBuffer(vertices, 4 * 9 * sizeof(float));
-		m_VAO->AddBuffer(*m_VBO, m_Layout);
-		m_IBO = new IndexBuffer(indices, 6);
 	}
 
 }

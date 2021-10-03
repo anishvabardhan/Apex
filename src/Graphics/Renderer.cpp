@@ -2,6 +2,7 @@
 
 #include "../Core/LogMessage.h"
 #include "VertexPCU.h"
+#include "MeshBuilder.h"
 #include <vector>
 
 #include <GL/glew.h>
@@ -136,27 +137,32 @@ namespace Apex {
 
 		for (size_t i = 0; i < asciiText.size(); i++)
 		{
-			std::vector<VertexPCU> vertices;
+			MeshBuilder* mb = new MeshBuilder();
 
 			quadPos.m_Mins.m_X = (i * quadWidth) + position.m_X;
 			quadPos.m_Maxs.m_X = ((i + 1) * quadWidth) + position.m_X;
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			vertices.push_back(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y)));
-			vertices.push_back(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y)));
-			vertices.push_back(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
-			vertices.push_back(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
-
-			Mesh* mesh = new Mesh(vertices);
+			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
+			mb->CopyToGPU();
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			DrawFrameBuffer(mesh);
+			mb->GetMesh()->m_VAO->Bind();
+			mb->GetMesh()->m_IBO->Bind();
 
-			delete mesh;
+			glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			mb->GetMesh()->m_IBO->UnBind();
+			mb->GetMesh()->m_VAO->UnBind();
+
+			delete mb;
 		}
 	}
 
@@ -164,40 +170,78 @@ namespace Apex {
 	{
 		texture.Bind(TEXTURESLOT::SLOT2);
 
-		std::vector<VertexPCU> vertices;
+		MeshBuilder* mb = new MeshBuilder();
 
-		vertices.push_back(VertexPCU(Vec3(position.m_X,                  position.m_Y,                  0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
-		vertices.push_back(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y,                  0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
-		vertices.push_back(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
-		vertices.push_back(VertexPCU(Vec3(position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
-
-		Mesh* mesh = new Mesh(vertices);
+		mb->Push(VertexPCU(Vec3(position.m_X,                  position.m_Y,                  0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y,                  0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X,                  position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
+		mb->CopyToGPU();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawFrameBuffer(mesh);
+		mb->GetMesh()->m_VAO->Bind();
+		mb->GetMesh()->m_IBO->Bind();
 
-		delete mesh;
+		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mb->GetMesh()->m_IBO->UnBind();
+		mb->GetMesh()->m_VAO->UnBind();
+
+		delete mb;
 	}
 
-	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
+	void Renderer::DrawQuad(const Vec2& position, Vec2 meshDim, Vec4 color, const std::string& path, Shader shader)
 	{
+		MeshBuilder* mb = new MeshBuilder();
+		Texture* texture = new Texture(path);
+
+		mb->Push(VertexPCU(Vec3(position.m_X,               position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X,               position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f)));
+		mb->CopyToGPU();
+
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 
-		mesh->GetTexture()->Bind(TEXTURESLOT::SLOT1);
+		texture->Bind(TEXTURESLOT::SLOT1);
 
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mesh->m_VAO->Bind();
-		mesh->m_IBO->Bind();
+		mb->GetMesh()->m_VAO->Bind();
+		mb->GetMesh()->m_IBO->Bind();
 
-		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-		mesh->m_IBO->UnBind();
-		mesh->m_VAO->UnBind();
+		mb->GetMesh()->m_IBO->UnBind();
+		mb->GetMesh()->m_VAO->UnBind();
+
+		delete mb;
+		delete texture;
+	}
+
+	void Renderer::DrawFrameBuffer(const Vec2& position, Vec2 meshDim)
+	{
+		MeshBuilder* mb = new MeshBuilder();
+
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+		mb->CopyToGPU();
+
+		mb->GetMesh()->m_VAO->Bind();
+		mb->GetMesh()->m_IBO->Bind();
+
+		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mb->GetMesh()->m_IBO->UnBind();
+		mb->GetMesh()->m_VAO->UnBind();
+
+		delete mb;
 	}
 
 	void Renderer::DrawFrameBuffer(Mesh* mesh)
