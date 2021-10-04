@@ -24,7 +24,11 @@ namespace Apex {
 
 	void MeshBuilder::CopyToGPU()
 	{
-		m_Mesh = new Mesh(m_Vertices);
+		m_Layout.Push(3);
+		m_Layout.Push(4);
+		m_Layout.Push(2);
+
+		m_Mesh = new Mesh(m_Vertices, m_Layout);
 	}
 
 }

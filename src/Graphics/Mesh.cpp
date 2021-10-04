@@ -3,36 +3,8 @@
 #include "MeshBuilder.h"
 
 namespace Apex {
-	
-	Mesh::Mesh(const Vec2& position, Vec2 meshDim, Vec3 color, const std::string& path)
-	{
-		float positions[] = {
-			                    //PositionCoords		                                         //Color                  //TextureCoords
-            position.m_X,                position.m_Y,                0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      0.0f, 0.0f,  // 0
-            position.m_X + meshDim.m_X,  position.m_Y,                0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      1.0f, 0.0f,  // 1
-            position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y,  0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      1.0f, 1.0f,  // 2
-            position.m_X,                position.m_Y + meshDim.m_Y,  0.0f,     color.m_X, color.m_Y, color.m_Z, 1.0f,      0.0f, 1.0f   // 3
-		};
 
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		m_VAO = new VertexArrayObject();
-
-		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-
-		m_Layout.Push(3);
-		m_Layout.Push(4);
-		m_Layout.Push(2);
-
-		m_VAO->AddBuffer(*m_VBO, m_Layout);
-
-		m_IBO = new IndexBuffer(indices, 6);
-	}
-
-	Mesh::Mesh(std::vector<VertexPCU> vertices)
+	Mesh::Mesh(std::vector<VertexPCU> vertices, VertexBufferLayout layout)
 	{
 
 		float positions[] = {
@@ -52,40 +24,8 @@ namespace Apex {
 		
 		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 		
-		m_Layout.Push(3);
-		m_Layout.Push(4);
-		m_Layout.Push(2);
+		m_VAO->AddBuffer(*m_VBO, layout);
 		
-		m_VAO->AddBuffer(*m_VBO, m_Layout);
-		
-		m_IBO = new IndexBuffer(indices, 6);
-	}
-
-	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
-	{
-		float positions[] = {
-			               //PositionCoords		                                    //Color               //TextureCoords
-			position.m_X,                position.m_Y,               0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 0.0f,  // 0
-			position.m_X + meshDim.m_X,  position.m_Y,               0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 0.0f,  // 1
-			position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 1.0f,  // 2
-			position.m_X,                position.m_Y + meshDim.m_Y, 0.0f,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 1.0f   // 3
-		};
-
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		m_VAO = new VertexArrayObject();
-
-		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-
-		m_Layout.Push(3);
-		m_Layout.Push(4);
-		m_Layout.Push(2);
-
-		m_VAO->AddBuffer(*m_VBO, m_Layout);
-
 		m_IBO = new IndexBuffer(indices, 6);
 	}
 	
