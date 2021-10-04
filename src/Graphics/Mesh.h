@@ -8,9 +8,9 @@
 #include "../Maths/Maths.h"
 #include "../Maths/AABB2.h"
 
-namespace Apex{
+namespace Apex {
 
-	class Mesh
+    class Mesh
     {
         VertexArray* m_VAO;
         VertexBuffer* m_VBO;

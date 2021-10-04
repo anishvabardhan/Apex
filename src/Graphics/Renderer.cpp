@@ -81,9 +81,20 @@ namespace Apex {
 		glBegin(GL_QUADS);
 	}
 
+	void Renderer::CreateInstance()
+	{
+		m_Renderer = new Renderer();
+	}
+
 	Renderer* Renderer::GetInstance()
 	{
 		return m_Renderer;
+	}
+
+	void Renderer::DestroyInstance()
+	{
+		delete m_Renderer;
+		m_Renderer = nullptr;
 	}
 
 	void Renderer::EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode)
@@ -125,10 +136,10 @@ namespace Apex {
 		font->GetSpriteSheet().GetSpriteSheetTexture().Bind(TEXTURESLOT::SLOT0);
 
 		float quadWidth = quadHeight;
-		
+
 		AABB2 quadPos;
 		AABB2 uvPos;
-		
+
 		quadPos.m_Mins.m_Y = position.m_Y;
 		quadPos.m_Maxs.m_Y = position.m_Y + quadHeight;
 
@@ -216,26 +227,61 @@ namespace Apex {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
-	Font* Renderer::CreateBitmapFont(const std::string& path)
+	Font* Renderer::GetOrCreateFont(const std::string& path)
 	{
-		Texture* texture = new Texture(path);
-		LOG_CHECK(texture != nullptr) << "Data is null";
+		if (m_LoadedFonts.find(path) != m_LoadedFonts.end())
+		{
+			return m_LoadedFonts.at(path);
+		}
+		else
+		{
+			Texture* texture = new Texture(path);
+			LOG_CHECK(texture != nullptr) << "Data is null";
 
-		SpriteSheet* bitMapsheet = new SpriteSheet(*texture, 16, 16);
-		LOG_CHECK(bitMapsheet != nullptr) << "Data is null";
+			SpriteSheet* bitMapsheet = new SpriteSheet(*texture, 16, 16);
+			LOG_CHECK(bitMapsheet != nullptr) << "Data is null";
 
-		Font* newFont = new Font(*bitMapsheet);
-		LOG_CHECK(newFont != nullptr) << "Data is null";
+			Font* font = new Font(*bitMapsheet);
+			LOG_CHECK(font != nullptr) << "Data is null";
 
-		return newFont;
+			m_LoadedFonts[path] = font;
+
+			return font;
+		}
 	}
 
-	Texture* Renderer::CreateTexture(const std::string& path)
+	Texture* Renderer::GetOrCreateTexture(const std::string& path)
 	{
-		Texture* texture = new Texture(path);
-		LOG_CHECK(texture != nullptr) << "Data is null";
+		if (m_LoadedTextures.find(path) != m_LoadedTextures.end())
+		{
+			return m_LoadedTextures.at(path);
+		}
+		else
+		{
+			Texture* texture = new Texture(path);
+			LOG_CHECK(texture != nullptr) << "Data is null";
 
-		return texture;
+			m_LoadedTextures[path] = texture;
+
+			return texture;
+		}
+	}
+
+	Shader* Renderer::GetOrCreateShader(const std::string& path)
+	{
+		if (m_LoadedShaders.find(path) != m_LoadedShaders.end())
+		{
+			return m_LoadedShaders.at(path);
+		}
+		else
+		{
+			Shader* shader = new Shader(path);
+			LOG_CHECK(shader != nullptr) << "Data is null";
+	
+			m_LoadedShaders[path] = shader;
+	
+			return shader;
+		}
 	}
 
 }

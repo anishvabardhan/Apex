@@ -66,6 +66,9 @@ namespace Apex {
 
 	class Renderer
 	{
+		std::map<std::string, Texture*> m_LoadedTextures;
+		std::map<std::string, Shader*> m_LoadedShaders;
+		std::map<std::string, Font*> m_LoadedFonts;
 	public:
 		Renderer();
 	    ~Renderer();
@@ -83,15 +86,18 @@ namespace Apex {
 		void Clear() const;
 		void ClearColor() const;
 
-		Font* CreateBitmapFont(const std::string& path);
-		Texture* CreateTexture(const std::string& path);
+		Font* GetOrCreateFont(const std::string& path);
+		Texture* GetOrCreateTexture(const std::string& path);
+		Shader* GetOrCreateShader(const std::string& path);
 
 		static void BeginLineLoop();
 		static void BeginLineStrip();
 		static void BeginPolygon();
 		static void BeginQuads();
 
+		static void CreateInstance();
 		static Renderer* GetInstance();
+		static void DestroyInstance();
 
 		static void EnableBlend(enum APEX_BLEND_FACTOR src, enum APEX_BLEND_FACTOR dest, enum APEX_BLEND_OP mode = APEX_BLEND_OP::APEX_FUNC_ADD);
 		static void DisableBlend();

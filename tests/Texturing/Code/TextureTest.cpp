@@ -27,6 +27,8 @@ void TextureTest::Init()
 {
 	if (g_App.Init())
 	{
+		Apex::Renderer::CreateInstance();
+
 		//----------------------------------------------------------------------------------------------
 		// Load Main Shader and Screen Shader
 
@@ -53,12 +55,12 @@ void TextureTest::Init()
 		//----------------------------------------------------------------------------------------------
 		// Create the Bitmap Font
 
-		Apex::Font* font = Apex::Renderer::GetInstance()->CreateBitmapFont("res/Textures/NewFont.png");
+		Apex::Font* font = Apex::Renderer::GetInstance()->GetOrCreateFont("res/Textures/NewFont.png");
 
 		//----------------------------------------------------------------------------------------------
 		// Create Animated Sprite
 
-		Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->CreateTexture("res/Textures/bird.png"), spriteDefs);
+		Apex::SpriteSheet* sheet = new Apex::SpriteSheet(*Apex::Renderer::GetInstance()->GetOrCreateTexture("res/Textures/bird.png"), spriteDefs);
 		Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
 		
 		//----------------------------------------------------------------------------------------------
@@ -127,8 +129,8 @@ void TextureTest::Init()
 			//------------------------------------------------------------------------------------------
 			// Render the Text
 
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 974.0f), "APEX ENGINE", 50.0f, font, *shader);
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 949.0f), "OpenGL3-Textures", 25.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 919.0f), "APEX ENGINE", 50.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 889.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Qaud
@@ -173,5 +175,7 @@ void TextureTest::Init()
 		delete spriteDefs;
 		delete animation;
 		delete screenQuad;
+
+		Apex::Renderer::DestroyInstance();
 	}
 }

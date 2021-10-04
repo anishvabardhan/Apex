@@ -76,11 +76,11 @@ namespace Apex {
 	Mesh::Mesh(const Vec2& position, Vec2 meshDim)
 	{
 		float positions[] = {
-			               //PositionCoords		                              //Color               //TextureCoords
-			position.m_X,                position.m_Y,                 1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 0.0f,  // 0
-			position.m_X + meshDim.m_X,  position.m_Y,                 1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 0.0f,  // 1
-			position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 1.0f,  // 2
-			position.m_X,                position.m_Y + meshDim.m_Y,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 1.0f   // 3
+			//PositionCoords		                                          //Color               //TextureCoords
+            position.m_X,                position.m_Y,                 1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 0.0f,  // 0
+            position.m_X + meshDim.m_X,  position.m_Y,                 1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 0.0f,  // 1
+            position.m_X + meshDim.m_X,  position.m_Y + meshDim.m_Y,   1.0f, 1.0f, 1.0f, 1.0f,        1.0f, 1.0f,  // 2
+            position.m_X,                position.m_Y + meshDim.m_Y,   1.0f, 1.0f, 1.0f, 1.0f,        0.0f, 1.0f   // 3
 		};
 
 		unsigned int indices[] = {
@@ -140,7 +140,7 @@ namespace Apex {
 
 		m_Texture = nullptr;
 	}
-	
+
 	Mesh::~Mesh()
 	{
 		delete m_VAO;
