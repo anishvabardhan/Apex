@@ -154,13 +154,7 @@ namespace Apex {
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			mb->GetMesh()->m_VAO->Bind();
-			mb->GetMesh()->m_IBO->Bind();
-
-			glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			mb->GetMesh()->m_IBO->UnBind();
-			mb->GetMesh()->m_VAO->UnBind();
+			DrawMesh(mb->GetMesh());
 
 			delete mb;
 		}
@@ -181,14 +175,8 @@ namespace Apex {
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
-
-		mb->GetMesh()->m_VAO->Bind();
-		mb->GetMesh()->m_IBO->Bind();
-
-		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		mb->GetMesh()->m_IBO->UnBind();
-		mb->GetMesh()->m_VAO->UnBind();
+		
+		DrawMesh(mb->GetMesh());
 
 		delete mb;
 	}
@@ -211,13 +199,7 @@ namespace Apex {
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mb->GetMesh()->m_VAO->Bind();
-		mb->GetMesh()->m_IBO->Bind();
-
-		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		mb->GetMesh()->m_IBO->UnBind();
-		mb->GetMesh()->m_VAO->UnBind();
+		DrawMesh(mb->GetMesh());
 
 		delete mb;
 		delete texture;
@@ -244,7 +226,7 @@ namespace Apex {
 		delete mb;
 	}
 
-	void Renderer::DrawFrameBuffer(Mesh* mesh)
+	void Renderer::DrawMesh(Mesh* mesh)
 	{
 		mesh->m_VAO->Bind();
 		mesh->m_IBO->Bind();
