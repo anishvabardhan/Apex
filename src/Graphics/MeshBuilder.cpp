@@ -27,7 +27,7 @@ namespace Apex {
 
 	void MeshBuilder::CopyToGPU()
 	{
-		m_Mesh = new Mesh(m_Vertices, m_Layout);
+		m_Mesh = new Mesh(m_Vertices, m_Indices, m_Layout);
 	}
 
 }

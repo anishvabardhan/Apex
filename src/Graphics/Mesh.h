@@ -17,7 +17,7 @@ namespace Apex {
         VertexBuffer* m_VBO;
         IndexBuffer* m_IBO;
 
-        Mesh(std::vector<VertexPCU> vertices, VertexBufferLayout layout);
+        Mesh(std::vector<VertexPCU> vertices, const unsigned int* indices, VertexBufferLayout layout);
         ~Mesh();
     };
 
