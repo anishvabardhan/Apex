@@ -227,13 +227,7 @@ namespace Apex {
 		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f)));
 		mb->CopyToGPU();
 
-		mb->GetMesh()->m_VAO->Bind();
-		mb->GetMesh()->m_IBO->Bind();
-
-		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		mb->GetMesh()->m_IBO->UnBind();
-		mb->GetMesh()->m_VAO->UnBind();
+		DrawMesh(mb->GetMesh());
 
 		delete mb;
 	}
