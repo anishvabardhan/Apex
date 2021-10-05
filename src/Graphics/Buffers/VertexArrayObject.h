@@ -5,14 +5,14 @@
 
 namespace Apex {
 
-	class VertexArray
+	class VertexArrayObject
 	{
 // Member Variables-------------------------------------------------------------------------------------
 
 		unsigned int m_RendererID;
 	public:
-		VertexArray();
-		~VertexArray();
+		VertexArrayObject();
+		~VertexArrayObject();
 
 		void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
 

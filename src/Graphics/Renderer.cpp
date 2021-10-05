@@ -1,6 +1,9 @@
 #include "Renderer.h"
 
 #include "../Core/LogMessage.h"
+#include "VertexPCU.h"
+#include "MeshBuilder.h"
+#include <vector>
 
 #include <GL/glew.h>
 
@@ -145,21 +148,26 @@ namespace Apex {
 
 		for (size_t i = 0; i < asciiText.size(); i++)
 		{
+			MeshBuilder* mb = new MeshBuilder();
+
 			quadPos.m_Mins.m_X = (i * quadWidth) + position.m_X;
 			quadPos.m_Maxs.m_X = ((i + 1) * quadWidth) + position.m_X;
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			Mesh* mesh = new Mesh(quadPos, uvPos);
-			LOG_CHECK(mesh != nullptr) << "Data is null";
+			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(0.0f, 1.0f, 0.0f, 1.0f), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
+			mb->CopyToGPU();
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			DrawMesh(mesh);
+			DrawMesh(mb->GetMesh());
 
-			delete mesh;
+			delete mb;
 		}
 	}
 
@@ -167,39 +175,78 @@ namespace Apex {
 	{
 		texture.Bind(TEXTURESLOT::SLOT2);
 
-		Mesh* mesh = new Mesh(position, dimensions, color, texCoords);
-		LOG_CHECK(mesh != nullptr) << "Data is null";
+		MeshBuilder* mb = new MeshBuilder();
+
+		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
+		mb->CopyToGPU();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawMesh(mesh);
+		DrawMesh(mb->GetMesh());
 
-		delete mesh;
+		delete mb;
+
 	}
 
-	void Renderer::DrawQuad(Mesh* mesh, Shader shader)
+	void Renderer::DrawQuad(const Vec2& position, Vec2 meshDim, Vec4 color, const std::string& path, Shader shader)
 	{
+		MeshBuilder* mb = new MeshBuilder();
+		Texture* texture = new Texture(path);
+
+		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f)));
+		mb->CopyToGPU();
+
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 
-		mesh->GetTexture()->Bind(TEXTURESLOT::SLOT1);
+		texture->Bind(TEXTURESLOT::SLOT1);
 
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawMesh(mesh);
+		DrawMesh(mb->GetMesh());
+
+		delete mb;
+		delete texture;
+	}
+
+	void Renderer::DrawFrameBuffer(const Vec2& position, Vec2 meshDim)
+	{
+		MeshBuilder* mb = new MeshBuilder();
+
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+		mb->CopyToGPU();
+
+		mb->GetMesh()->m_VAO->Bind();
+		mb->GetMesh()->m_IBO->Bind();
+
+		glDrawElements(GL_TRIANGLES, mb->GetMesh()->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mb->GetMesh()->m_IBO->UnBind();
+		mb->GetMesh()->m_VAO->UnBind();
+
+		delete mb;
 	}
 
 	void Renderer::DrawMesh(Mesh* mesh)
 	{
-		mesh->GetVAO()->Bind();
-		mesh->GetIBO()->Bind();
+		mesh->m_VAO->Bind();
+		mesh->m_IBO->Bind();
 
-		glDrawElements(GL_TRIANGLES, mesh->GetIBO()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-		mesh->GetIBO()->UnBind();
-		mesh->GetVAO()->UnBind();
+		mesh->m_IBO->UnBind();
+		mesh->m_VAO->UnBind();
 	}
 
 	void Renderer::CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next)

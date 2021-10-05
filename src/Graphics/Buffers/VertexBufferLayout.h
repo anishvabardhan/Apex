@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 namespace Apex{
 

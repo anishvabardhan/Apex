@@ -1,6 +1,6 @@
 #include "TextureTest.h"
 
-#include "../Graphics/Buffers/VertexArray.h"
+#include "../Graphics/Buffers/VertexArrayObject.h"
 #include "../Graphics/Buffers/IndexBuffer.h"
 #include "../Graphics/SpriteAnimation.h"
 #include "../Graphics/SpriteDefinition.h"
@@ -64,16 +64,6 @@ void TextureTest::Init()
 		Apex::SpriteAnimation* animation = new Apex::SpriteAnimation(*sheet, 10.0, 0, 14);
 		
 		//----------------------------------------------------------------------------------------------
-		// Create a quad with a texture attachment
-
-		Apex::Mesh* quad = new Apex::Mesh(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec3(1.0f, 1.0f, 1.0f), "res/Textures/stripes.png");
-
-		//----------------------------------------------------------------------------------------------
-        // Create a Screen Quad for the Framebuffer
-
-		Apex::Mesh* screenQuad = new Apex::Mesh(Apex::Vec2(0.0f, 0.0f), Apex::Vec2(1024.0f, 1024.0f));
-
-		//----------------------------------------------------------------------------------------------
         // Create an Orthgraphic Camera
 
 		Apex::Mat4 proj = Apex::Mat4::orthographic(0.0f, 1024.0f, 0.0f, 1024.0f, -2.0f, 2.0f);
@@ -135,7 +125,7 @@ void TextureTest::Init()
 			//------------------------------------------------------------------------------------------
 			// Render the Qaud
 
-			Apex::Renderer::GetInstance()->DrawQuad(quad, *shader);
+			Apex::Renderer::GetInstance()->DrawQuad(Apex::Vec2(312.0f, 312.0f), Apex::Vec2(400.0f, 400.0f), Apex::Vec4(1.0f, 1.0f, 1.0f, 1.0f), "res/Textures/stripes.png", *shader);
 
 			//------------------------------------------------------------------------------------------
 			// UnBind the Current FrameBuffer
@@ -154,7 +144,7 @@ void TextureTest::Init()
 			// Copy from Current to Destination Framebuffer
 
 			Apex::Renderer::GetInstance()->CopyFrameBuffer(g_CurrentFrameBuffer, g_NextFrameBuffer);
-			Apex::Renderer::GetInstance()->DrawMesh(screenQuad);
+			Apex::Renderer::GetInstance()->DrawFrameBuffer(Apex::Vec2(0.0f, 0.0f), Apex::Vec2(1024.0f, 1024.0f));
 
 			//------------------------------------------------------------------------------------------
 			// Swap Front and Back Buffer
@@ -170,12 +160,9 @@ void TextureTest::Init()
 		//----------------------------------------------------------------------------------------------
 
 		delete font;
-		delete quad;
 		delete sheet;
 		delete spriteDefs;
 		delete animation;
-		delete screenQuad;
-
 		Apex::Renderer::DestroyInstance();
 	}
 }
