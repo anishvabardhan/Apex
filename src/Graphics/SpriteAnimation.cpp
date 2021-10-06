@@ -24,7 +24,7 @@ namespace Apex {
 			deltaTime = 0.0f;
 		}
 		
-		m_Elapsed += 16.0f * deltaTime;
+		m_Elapsed += deltaTime;
 
 		float elapsedFraction;
 		elapsedFraction = m_Elapsed / m_Duration;

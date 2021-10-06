@@ -67,7 +67,7 @@ namespace Apex {
 	class Renderer
 	{
 		std::map<std::string, Texture*> m_LoadedTextures;
-		std::map<std::string, Shader*> m_LoadedShaders;
+		std::map<ShaderDefinition*, Shader*> m_LoadedShaders;
 		std::map<std::string, Font*> m_LoadedFonts;
 	public:
 		Renderer();
@@ -89,7 +89,7 @@ namespace Apex {
 
 		Font* GetOrCreateFont(const std::string& path);
 		Texture* GetOrCreateTexture(const std::string& path);
-		Shader* GetOrCreateShader(const std::string& path);
+		Shader* GetOrCreateShader(ShaderDefinition* shaderDef);
 
 		static void BeginLineLoop();
 		static void BeginLineStrip();

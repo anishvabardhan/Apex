@@ -177,10 +177,10 @@ namespace Apex {
 
 		MeshBuilder* mb = new MeshBuilder();
 
-		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
-		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X                 , position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
 		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
-		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X                 , position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
 		mb->CopyToGPU();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
@@ -196,12 +196,12 @@ namespace Apex {
 	void Renderer::DrawQuad(const Vec2& position, Vec2 meshDim, Vec4 color, const std::string& path, Shader shader)
 	{
 		MeshBuilder* mb = new MeshBuilder();
-		Texture* texture = new Texture(path);
+		Texture* texture = GetOrCreateTexture(path);
 
-		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 0.0f)));
-		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f)));
 		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 1.0f)));
-		mb->Push(VertexPCU(Vec3(position.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f)));
 		mb->CopyToGPU();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
@@ -214,7 +214,6 @@ namespace Apex {
 		DrawMesh(mb->GetMesh());
 
 		delete mb;
-		delete texture;
 	}
 
 	void Renderer::DrawFrameBuffer(const Vec2& position, Vec2 meshDim)
@@ -308,18 +307,18 @@ namespace Apex {
 		}
 	}
 
-	Shader* Renderer::GetOrCreateShader(const std::string& path)
+	Shader* Renderer::GetOrCreateShader(ShaderDefinition* shaderDef)
 	{
-		if (m_LoadedShaders.find(path) != m_LoadedShaders.end())
+		if (m_LoadedShaders.find(shaderDef) != m_LoadedShaders.end())
 		{
-			return m_LoadedShaders.at(path);
+			return m_LoadedShaders.at(shaderDef);
 		}
 		else
 		{
-			Shader* shader = new Shader(path);
+			Shader* shader = new Shader(shaderDef);
 			LOG_CHECK(shader != nullptr) << "Data is null";
 	
-			m_LoadedShaders[path] = shader;
+			m_LoadedShaders[shaderDef] = shader;
 	
 			return shader;
 		}

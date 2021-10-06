@@ -33,10 +33,10 @@ void TextureTest::Init()
 		// Load Main Shader and Screen Shader
 
 		Apex::ShaderDefinition* shaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/shader.xml"));
-		Apex::Shader* shader = new Apex::Shader(shaderDef);
+		Apex::Shader* shader = Apex::Renderer::GetInstance()->GetOrCreateShader(shaderDef);
 
 		Apex::ShaderDefinition* screeShaderDef = new Apex::ShaderDefinition(*Apex::ShaderDefinition::InitializeDef("res/Shaders/Data/screenShader.xml"));
-		Apex::Shader* screenShader = new Apex::Shader(screeShaderDef);
+		Apex::Shader* screenShader = Apex::Renderer::GetInstance()->GetOrCreateShader(screeShaderDef);
 
 		//----------------------------------------------------------------------------------------------
 		// Enable Blending
