@@ -1,6 +1,5 @@
 #pragma once
 
-#include "VertexPCU.h"
 #include "Buffers/VertexBufferLayout.h"
 #include "Mesh.h"
 

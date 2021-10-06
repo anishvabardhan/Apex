@@ -5,11 +5,11 @@
 #include "../Graphics/SpriteAnimation.h"
 #include "../Graphics/SpriteDefinition.h"
 #include "../Graphics/ShaderDefinition.h"
+#include "../Graphics/Renderer.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/Mesh.h"
 #include "../Graphics/Font.h"
 #include "../Maths/Maths.h"
-
 #include <vector>
 
 TextureTest::TextureTest()
@@ -119,8 +119,8 @@ void TextureTest::Init()
 			//------------------------------------------------------------------------------------------
 			// Render the Text
 
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 919.0f), "APEX ENGINE", 50.0f, font, *shader);
-			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 889.0f), "OpenGL3-Textures", 25.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 919.0f), Apex::Vec4(1.0f, 0.0f, 1.0f, 1.0f), "APEX ENGINE", 50.0f, font, *shader);
+			Apex::Renderer::GetInstance()->Drawtext(Apex::Vec2(0.0f, 889.0f), Apex::Vec4(0.0f, 1.0f, 0.0f, 1.0f), "OpenGL3-Textures", 25.0f, font, *shader);
 
 			//------------------------------------------------------------------------------------------
 			// Render the Qaud
@@ -163,6 +163,7 @@ void TextureTest::Init()
 		delete sheet;
 		delete spriteDefs;
 		delete animation;
+
 		Apex::Renderer::DestroyInstance();
 	}
 }

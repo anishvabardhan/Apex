@@ -193,7 +193,6 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\External\tinyxml2.cpp" />
     <ClCompile Include="src\Core\XMLParser.cpp" />
-    <ClCompile Include="src\Graphics\VertexPCU.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\MeshBuilder.h" />
@@ -532,7 +531,6 @@
     <ClInclude Include="vendor\GLEW\include\GL\glxew.h" />
     <ClInclude Include="vendor\GLEW\include\GL\wglew.h" />
     <ClInclude Include="src\Core\XMLParser.h" />
-    <ClInclude Include="src\Graphics\VertexPCU.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Code\Basic.shader" />
