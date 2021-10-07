@@ -7,7 +7,7 @@
 #include "../Graphics/ShaderDefinition.h"
 #include "../Graphics/Renderer.h"
 #include "../Graphics/Shader.h"
-#include "../Graphics/Mesh.h"
+#include "../Graphics/MeshBuilder.h"
 #include "../Graphics/Font.h"
 #include "../Maths/Maths.h"
 #include <vector>

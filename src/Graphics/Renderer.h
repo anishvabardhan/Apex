@@ -4,7 +4,7 @@
 #include <map>
 
 #include "Buffers/FrameBuffer.h"
-#include "Mesh.h"
+#include "MeshBuilder.h"
 #include "Font.h"
 #include "Texture.h"
 #include "Shader.h"
@@ -80,7 +80,7 @@ namespace Apex {
 		void DrawQuad(const Vec2& position, const Vec2& dimensions, const Texture& texture, const AABB2& texCoords, const Vec4& color, Shader shader);
 		void DrawQuad(const Vec2& position, Vec2 meshDim, Vec4 color, const std::string& path, Shader shader);
 		void DrawFrameBuffer(const Vec2& position, Vec2 meshDim);
-		void DrawMesh(Mesh* mesh);
+		void DrawMesh(MeshBuilder* mesh);
 		void CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next);
 		void Clear() const;
 		void ClearColor() const;

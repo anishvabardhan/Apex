@@ -1,13 +1,15 @@
 #pragma once
 
 #include "Buffers/VertexBufferLayout.h"
-#include "Mesh.h"
-
+#include "../Maths/Maths.h"
 #include <vector>
-
 #include <GL/glew.h>
 
 namespace Apex {
+
+	class VertexArrayObject;
+	class IndexBuffer;
+	class VertexBuffer;
 
 	struct VertexPCU
 	{
@@ -18,20 +20,24 @@ namespace Apex {
 		VertexPCU(Vec3 position, Vec4 color, Vec2 uv);
 	};
 
-	class MeshBuilder
+	struct MeshBuilder
 	{
-		Mesh* m_Mesh;
+		GLenum m_DrawType;
+		VertexArrayObject* m_VAO;
+		VertexBuffer* m_VBO;
+		IndexBuffer* m_IBO;
 		VertexBufferLayout m_Layout;
 		std::vector<VertexPCU> m_Vertices;
-		unsigned int m_Indices[6] = { 0, 1, 2, 2, 3, 0 };
-	public:
+		unsigned int m_Indices[6];
+
 		MeshBuilder();
 		~MeshBuilder();
 
+		void Begin(GLenum drawType);
 		void Push(VertexPCU pcu);
-		void CopyToGPU();
+		void End();
 
-		inline Mesh* GetMesh() const { return m_Mesh; }
+		void CreateMesh();
 	};
 
 }

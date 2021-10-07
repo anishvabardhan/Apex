@@ -158,13 +158,15 @@ namespace Apex {
 			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y)));
 			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
 			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
-			mb->CopyToGPU();
+			mb->CreateMesh();
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			DrawMesh(mb->GetMesh());
+			mb->Begin(GL_TRIANGLES);
+			DrawMesh(mb);
+			mb->End();
 
 			delete mb;
 		}
@@ -180,13 +182,15 @@ namespace Apex {
 		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
 		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
 		mb->Push(VertexPCU(Vec3(position.m_X                 , position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
-		mb->CopyToGPU();
+		mb->CreateMesh();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawMesh(mb->GetMesh());
+		mb->Begin(GL_TRIANGLES);
+		DrawMesh(mb);
+		mb->End();
 
 		delete mb;
 
@@ -201,7 +205,7 @@ namespace Apex {
 		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f)));
 		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 1.0f)));
 		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f)));
-		mb->CopyToGPU();
+		mb->CreateMesh();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 
@@ -210,7 +214,9 @@ namespace Apex {
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		DrawMesh(mb->GetMesh());
+		mb->Begin(GL_TRIANGLES);
+		DrawMesh(mb);
+		mb->End();
 
 		delete mb;
 	}
@@ -223,22 +229,18 @@ namespace Apex {
 		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 0.0f)));
 		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 1.0f)));
 		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f)));
-		mb->CopyToGPU();
+		mb->CreateMesh();
 
-		DrawMesh(mb->GetMesh());
+		mb->Begin(GL_TRIANGLES);
+		DrawMesh(mb);
+		mb->End();
 
 		delete mb;
 	}
 
-	void Renderer::DrawMesh(Mesh* mesh)
+	void Renderer::DrawMesh(MeshBuilder* mesh)
 	{
-		mesh->m_VAO->Bind();
-		mesh->m_IBO->Bind();
-
-		glDrawElements(GL_TRIANGLES, mesh->m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		mesh->m_IBO->UnBind();
-		mesh->m_VAO->UnBind();
+		glDrawElements(mesh->m_DrawType, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
 	void Renderer::CopyFrameBuffer(FrameBuffer* current, FrameBuffer* next)

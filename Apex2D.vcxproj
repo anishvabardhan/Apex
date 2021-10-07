@@ -160,7 +160,6 @@
     <ClCompile Include="src\Core\LogMessage.cpp" />
     <ClCompile Include="src\Graphics\ShaderDefinition.cpp" />
     <ClCompile Include="src\Graphics\SpriteAnimation.cpp" />
-    <ClCompile Include="src\Graphics\Mesh.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\Buffers\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphics\SpriteDefinition.cpp" />
@@ -201,7 +200,6 @@
     <ClInclude Include="src\Core\LogMessage.h" />
     <ClInclude Include="src\Graphics\ShaderDefinition.h" />
     <ClInclude Include="src\Graphics\SpriteAnimation.h" />
-    <ClInclude Include="src\Graphics\Mesh.h" />
     <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\Buffers\FrameBuffer.h" />
     <ClInclude Include="src\Graphics\Renderable2D.h" />
