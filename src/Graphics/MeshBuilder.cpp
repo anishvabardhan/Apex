@@ -19,10 +19,6 @@ namespace Apex {
 		m_Indices[3] = 2;
 		m_Indices[4] = 3;
 		m_Indices[5] = 0;
-
-		m_Layout.Push(3);
-		m_Layout.Push(4);
-		m_Layout.Push(2);
 	}
 	
 	MeshBuilder::~MeshBuilder()
@@ -30,6 +26,7 @@ namespace Apex {
 		delete m_VAO;
 		delete m_IBO;
 		delete m_VBO;
+		delete m_Layout;
 	}
 	
 	void MeshBuilder::Begin(GLenum drawType)
@@ -49,23 +46,41 @@ namespace Apex {
 	{
 		m_VAO->UnBind();
 		m_IBO->UnBind();
+
+		while (!m_Layout->m_Elements.empty())
+		{
+			m_Layout->m_Elements.pop_back();
+		}
+
+		m_Layout->m_Stride = 0;
 	}
 
 	void MeshBuilder::CreateMesh()
 	{
 		float positions[] = {
-			//PositionCoords		                                                                    //Color                                                                 //TextureCoords
+			//PositionCoords		                                                                             //Color                                                                        //TextureCoords
 			m_Vertices[0].m_Pos.m_X, m_Vertices[0].m_Pos.m_Y, m_Vertices[0].m_Pos.m_Z,     m_Vertices[0].m_Color.m_X, m_Vertices[0].m_Color.m_Y, m_Vertices[0].m_Color.m_Z, m_Vertices[0].m_Color.m_W,      m_Vertices[0].m_UV.m_X, m_Vertices[0].m_UV.m_Y,  // 0
 			m_Vertices[1].m_Pos.m_X, m_Vertices[1].m_Pos.m_Y, m_Vertices[1].m_Pos.m_Z,     m_Vertices[1].m_Color.m_X, m_Vertices[1].m_Color.m_Y, m_Vertices[1].m_Color.m_Z, m_Vertices[1].m_Color.m_W,      m_Vertices[1].m_UV.m_X, m_Vertices[1].m_UV.m_Y,  // 1
 			m_Vertices[2].m_Pos.m_X, m_Vertices[2].m_Pos.m_Y, m_Vertices[2].m_Pos.m_Z,     m_Vertices[2].m_Color.m_X, m_Vertices[2].m_Color.m_Y, m_Vertices[2].m_Color.m_Z, m_Vertices[2].m_Color.m_W,      m_Vertices[2].m_UV.m_X, m_Vertices[2].m_UV.m_Y,  // 2
 			m_Vertices[3].m_Pos.m_X, m_Vertices[3].m_Pos.m_Y, m_Vertices[3].m_Pos.m_Z,     m_Vertices[3].m_Color.m_X, m_Vertices[3].m_Color.m_Y, m_Vertices[3].m_Color.m_Z, m_Vertices[3].m_Color.m_W,      m_Vertices[3].m_UV.m_X, m_Vertices[3].m_UV.m_Y   // 3
 		};
 
+		m_Layout = new VertexBufferLayout();
+
+		m_Layout->m_Elements.push_back({ GL_FLOAT, 3, GL_FALSE });
+		m_Layout->m_Elements.push_back({ GL_FLOAT, 4, GL_FALSE });
+		m_Layout->m_Elements.push_back({ GL_FLOAT, 2, GL_FALSE });
+
+		for (auto i : m_Layout->m_Elements)
+		{
+			m_Layout->m_Stride += i.count * VertexBufferElement::GetSizeOfType(GL_FLOAT);
+		}
+
 		m_VAO = new VertexArrayObject();
 
 		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
 
-		m_VAO->AddBuffer(*m_VBO, m_Layout);
+		m_VAO->AddBuffer(*m_VBO, *m_Layout);
 
 		m_IBO = new IndexBuffer(m_Indices, 6);
 	}

@@ -202,11 +202,9 @@
     <ClInclude Include="src\Graphics\SpriteAnimation.h" />
     <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\Buffers\FrameBuffer.h" />
-    <ClInclude Include="src\Graphics\Renderable2D.h" />
     <ClInclude Include="src\Graphics\SpriteDefinition.h" />
     <ClInclude Include="src\Graphics\SpriteSheet.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexArrayObject.h" />
-    <ClInclude Include="src\Graphics\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="src\Graphics\Windows.h" />
     <ClInclude Include="src\Maths\AABB2.h" />
     <ClInclude Include="src\Graphics\External\glcorearb.h" />

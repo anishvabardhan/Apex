@@ -1,7 +1,8 @@
 #pragma once
 
 #include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
+#include "../MeshBuilder.h"
+#include <vector>
 
 namespace Apex {
 

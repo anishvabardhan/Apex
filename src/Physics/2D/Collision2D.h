@@ -1,7 +1,7 @@
 #pragma once
 
 //#include "Graphics/Windows.h"
-#include "../Graphics/Renderable2D.h"
+//#include "../Graphics/Renderable2D.h"
 #include "../../tests/Astroids/Code/Ship.h"
 #include "../../tests/Astroids/Code/Astroid.h"
 
@@ -13,7 +13,7 @@ namespace Apex {
 		bool CollisionX, CollisionY;
 	public:
 
-		bool CollisionObjects(const Renderable2D& GameObj1, const Renderable2D& GameObj2);
+		//bool CollisionObjects(const Renderable2D& GameObj1, const Renderable2D& GameObj2);
 		bool CollisionObjects(const Ship& GameObj1, const Astroid& GameObj2);
 	    void CollisionWorld(const Astroid& GameObj);
 

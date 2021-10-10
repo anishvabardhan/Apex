@@ -165,7 +165,9 @@ namespace Apex {
 			shader.SetUniformMat4f("u_Model", model);
 
 			mb->Begin(GL_TRIANGLES);
+
 			DrawMesh(mb);
+
 			mb->End();
 
 			delete mb;
@@ -189,7 +191,9 @@ namespace Apex {
 		shader.SetUniformMat4f("u_Model", model);
 
 		mb->Begin(GL_TRIANGLES);
+
 		DrawMesh(mb);
+
 		mb->End();
 
 		delete mb;
@@ -215,7 +219,9 @@ namespace Apex {
 		shader.SetUniformMat4f("u_Model", model);
 
 		mb->Begin(GL_TRIANGLES);
+
 		DrawMesh(mb);
+
 		mb->End();
 
 		delete mb;
@@ -232,7 +238,9 @@ namespace Apex {
 		mb->CreateMesh();
 
 		mb->Begin(GL_TRIANGLES);
+
 		DrawMesh(mb);
+
 		mb->End();
 
 		delete mb;

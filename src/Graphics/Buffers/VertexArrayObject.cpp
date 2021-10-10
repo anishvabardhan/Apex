@@ -17,13 +17,13 @@ namespace Apex {
 	{
 		Bind();
 		vb.Bind();
-		const auto& elements = layout.GetElements();
+		const auto& elements = layout.m_Elements;
 		unsigned int offset = 0;
 		for (unsigned int i = 0; i < elements.size(); i++)
 		{
 			const auto& element = elements[i];
 			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.GetStride(), (const void*)offset);
+			glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.m_Stride, (const void*)offset);
 			offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 		}
 	}
