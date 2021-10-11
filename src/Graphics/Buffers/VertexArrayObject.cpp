@@ -1,5 +1,7 @@
 #include "VertexArrayObject.h"
 
+#include "../MeshBuilder.h"
+
 namespace Apex {
 
 	VertexArrayObject::VertexArrayObject()
@@ -17,14 +19,14 @@ namespace Apex {
 	{
 		Bind();
 		vb.Bind();
-		const auto& elements = layout.m_Elements;
+		const auto& elements = layout.m_Element;
 		unsigned int offset = 0;
 		for (unsigned int i = 0; i < elements.size(); i++)
 		{
 			const auto& element = elements[i];
 			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.m_Stride, (const void*)offset);
-			offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
+			glVertexAttribPointer(i, element.m_ElementCount, element.m_Type, element.m_Normalized, layout.m_Stride, (const void*)offset);
+			offset += element.m_ElementCount * VertexBufferElement::GetSizeOfType(element.m_Type);
 		}
 	}
 

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "VertexBuffer.h"
-#include "../MeshBuilder.h"
 #include <vector>
 
 namespace Apex {
+
+	struct VertexBufferLayout;
 
 	class VertexArrayObject
 	{

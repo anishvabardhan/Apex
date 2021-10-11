@@ -14,9 +14,9 @@ namespace Apex {
 
 	struct VertexBufferElement
 	{
-		unsigned int type;
-		unsigned int count;
-		unsigned char normalized;
+		unsigned int m_Type;
+		unsigned int m_ElementCount;
+		unsigned char m_Normalized;
 
 		static unsigned int GetSizeOfType(unsigned int type)
 		{
@@ -29,15 +29,17 @@ namespace Apex {
 
 			return 0;
 		}
+
+		VertexBufferElement(unsigned int type, unsigned int count, unsigned char normalized);
 	};
 
 	struct VertexBufferLayout
 	{
 
-		std::vector<VertexBufferElement> m_Elements;
+		std::vector<VertexBufferElement> m_Element;
 		unsigned int m_Stride;
 
-		VertexBufferLayout(): m_Stride(0) {}
+		VertexBufferLayout(const std::vector<VertexBufferElement> element, unsigned int stride);
 	};
 
 	struct VertexPCU
@@ -46,6 +48,10 @@ namespace Apex {
 		Vec4 m_Color;
 		Vec2 m_UV;
 
+		static std::vector<VertexBufferElement> m_Attributes;
+		static VertexBufferLayout m_Layout;
+
+		VertexPCU();
 		VertexPCU(Vec3 position, Vec4 color, Vec2 uv);
 	};
 
@@ -56,16 +62,18 @@ namespace Apex {
 		VertexBuffer* m_VBO;
 		IndexBuffer* m_IBO;
 		std::vector<VertexPCU> m_Vertices;
-		unsigned int m_Indices[6];
-		VertexBufferLayout* m_Layout;
 
 		MeshBuilder();
 		~MeshBuilder();
 
 		void Begin(GLenum drawType);
-		void Push(VertexPCU pcu);
+		void Push(VertexPCU vertex);
 		void End();
+
+		template<typename FORMAT>
 		void CreateMesh();
 	};
+
+	template void MeshBuilder::CreateMesh<VertexPCU>();
 
 }

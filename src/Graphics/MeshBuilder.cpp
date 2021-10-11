@@ -5,20 +5,37 @@
 
 namespace Apex {
 
+	std::vector<VertexBufferElement> VertexPCU::m_Attributes = {
+		VertexBufferElement(GL_FLOAT, 3, GL_FALSE),
+		VertexBufferElement(GL_FLOAT, 4, GL_FALSE),
+		VertexBufferElement(GL_FLOAT, 2, GL_FALSE)
+	};
+
+	VertexBufferLayout VertexPCU::m_Layout(VertexPCU::m_Attributes, sizeof(VertexPCU));
+
+	VertexBufferLayout::VertexBufferLayout(const std::vector<VertexBufferElement> element, unsigned int stride)
+		: m_Element(element), m_Stride(stride)
+	{
+	}
+
+	VertexBufferElement::VertexBufferElement(unsigned int type, unsigned int count, unsigned char normalized)
+		: m_Type(type), m_ElementCount(count), m_Normalized(normalized)
+	{
+	}
+
+	VertexPCU::VertexPCU()
+		: m_Pos(Vec3(0, 0, 0)), m_Color(Vec4(0, 0, 0, 0)), m_UV(Vec2(0, 0))
+	{
+	}
+
 	VertexPCU::VertexPCU(Vec3 position, Vec4 color, Vec2 uv)
 		: m_Pos(position), m_Color(color), m_UV(uv)
 	{
 	}
 
 	MeshBuilder::MeshBuilder()
-		: m_IBO(nullptr), m_VAO(nullptr), m_VBO(nullptr)
+		: m_VAO(nullptr), m_VBO(nullptr), m_IBO(nullptr)
 	{
-		m_Indices[0] = 0;
-		m_Indices[1] = 1;
-		m_Indices[2] = 2;
-		m_Indices[3] = 2;
-		m_Indices[4] = 3;
-		m_Indices[5] = 0;
 	}
 	
 	MeshBuilder::~MeshBuilder()
@@ -26,7 +43,6 @@ namespace Apex {
 		delete m_VAO;
 		delete m_IBO;
 		delete m_VBO;
-		delete m_Layout;
 	}
 	
 	void MeshBuilder::Begin(GLenum drawType)
@@ -37,52 +53,43 @@ namespace Apex {
 		m_IBO->Bind();
 	}
 
-	void MeshBuilder::Push(VertexPCU pcu)
+	void MeshBuilder::Push(VertexPCU vertex)
 	{
-		m_Vertices.push_back(pcu);
+		m_Vertices.push_back(vertex);
 	}
 
 	void MeshBuilder::End()
 	{
 		m_VAO->UnBind();
 		m_IBO->UnBind();
-
-		while (!m_Layout->m_Elements.empty())
-		{
-			m_Layout->m_Elements.pop_back();
-		}
-
-		m_Layout->m_Stride = 0;
 	}
 
+	template <typename FORMAT>
 	void MeshBuilder::CreateMesh()
 	{
-		float positions[] = {
-			//PositionCoords		                                                                             //Color                                                                        //TextureCoords
-			m_Vertices[0].m_Pos.m_X, m_Vertices[0].m_Pos.m_Y, m_Vertices[0].m_Pos.m_Z,     m_Vertices[0].m_Color.m_X, m_Vertices[0].m_Color.m_Y, m_Vertices[0].m_Color.m_Z, m_Vertices[0].m_Color.m_W,      m_Vertices[0].m_UV.m_X, m_Vertices[0].m_UV.m_Y,  // 0
-			m_Vertices[1].m_Pos.m_X, m_Vertices[1].m_Pos.m_Y, m_Vertices[1].m_Pos.m_Z,     m_Vertices[1].m_Color.m_X, m_Vertices[1].m_Color.m_Y, m_Vertices[1].m_Color.m_Z, m_Vertices[1].m_Color.m_W,      m_Vertices[1].m_UV.m_X, m_Vertices[1].m_UV.m_Y,  // 1
-			m_Vertices[2].m_Pos.m_X, m_Vertices[2].m_Pos.m_Y, m_Vertices[2].m_Pos.m_Z,     m_Vertices[2].m_Color.m_X, m_Vertices[2].m_Color.m_Y, m_Vertices[2].m_Color.m_Z, m_Vertices[2].m_Color.m_W,      m_Vertices[2].m_UV.m_X, m_Vertices[2].m_UV.m_Y,  // 2
-			m_Vertices[3].m_Pos.m_X, m_Vertices[3].m_Pos.m_Y, m_Vertices[3].m_Pos.m_Z,     m_Vertices[3].m_Color.m_X, m_Vertices[3].m_Color.m_Y, m_Vertices[3].m_Color.m_Z, m_Vertices[3].m_Color.m_W,      m_Vertices[3].m_UV.m_X, m_Vertices[3].m_UV.m_Y   // 3
+		int count = m_Vertices.size();
+
+		FORMAT* vertices = new FORMAT[sizeof(FORMAT) * count];
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
 		};
 
-		m_Layout = new VertexBufferLayout();
-
-		m_Layout->m_Elements.push_back({ GL_FLOAT, 3, GL_FALSE });
-		m_Layout->m_Elements.push_back({ GL_FLOAT, 4, GL_FALSE });
-		m_Layout->m_Elements.push_back({ GL_FLOAT, 2, GL_FALSE });
-
-		for (auto i : m_Layout->m_Elements)
+		for (int i = 0; i < count; i++)
 		{
-			m_Layout->m_Stride += i.count * VertexBufferElement::GetSizeOfType(GL_FLOAT);
+			vertices[i] = FORMAT(m_Vertices[i]);
 		}
-
+	
 		m_VAO = new VertexArrayObject();
+	
+		m_VBO = new VertexBuffer(vertices, count * FORMAT::m_Layout.m_Stride);
+	
+		m_VAO->AddBuffer(*m_VBO, FORMAT::m_Layout);
+	
+		m_IBO = new IndexBuffer(indices, 6);
 
-		m_VBO = new VertexBuffer(positions, 4 * 9 * sizeof(float));
-
-		m_VAO->AddBuffer(*m_VBO, *m_Layout);
-
-		m_IBO = new IndexBuffer(m_Indices, 6);
+		delete[] vertices;
 	}
 
 }
