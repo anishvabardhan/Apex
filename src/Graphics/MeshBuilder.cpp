@@ -73,7 +73,7 @@ namespace Apex {
 
 		for (int i = 0; i < size; i++)
 		{
-			temp[i] = FORMAT(vertices[i]);
+			temp[i] = vertices[i];
 		}
 	
 		m_VAO = new VertexArrayObject();
