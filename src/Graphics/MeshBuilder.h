@@ -61,19 +61,17 @@ namespace Apex {
 		VertexArrayObject* m_VAO;
 		VertexBuffer* m_VBO;
 		IndexBuffer* m_IBO;
-		std::vector<VertexPCU> m_Vertices;
 
 		MeshBuilder();
 		~MeshBuilder();
 
 		void Begin(GLenum drawType);
-		void Push(VertexPCU vertex);
 		void End();
 
 		template<typename FORMAT>
-		void CreateMesh();
+		void CreateMesh(const FORMAT vertices[]);
 	};
 
-	template void MeshBuilder::CreateMesh<VertexPCU>();
+	template void MeshBuilder::CreateMesh<VertexPCU>(const VertexPCU vertices[]);
 
 }

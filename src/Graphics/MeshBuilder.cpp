@@ -53,11 +53,6 @@ namespace Apex {
 		m_IBO->Bind();
 	}
 
-	void MeshBuilder::Push(VertexPCU vertex)
-	{
-		m_Vertices.push_back(vertex);
-	}
-
 	void MeshBuilder::End()
 	{
 		m_VAO->UnBind();
@@ -65,31 +60,31 @@ namespace Apex {
 	}
 
 	template <typename FORMAT>
-	void MeshBuilder::CreateMesh()
+	void MeshBuilder::CreateMesh(const FORMAT vertices[])
 	{
-		int count = m_Vertices.size();
+		int size = sizeof(vertices);
 
-		FORMAT* vertices = new FORMAT[sizeof(FORMAT) * count];
+		FORMAT* temp = new FORMAT[sizeof(FORMAT) * size];
 
 		unsigned int indices[] = {
 			0, 1, 2,
 			2, 3, 0
 		};
 
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < size; i++)
 		{
-			vertices[i] = FORMAT(m_Vertices[i]);
+			temp[i] = FORMAT(vertices[i]);
 		}
 	
 		m_VAO = new VertexArrayObject();
 	
-		m_VBO = new VertexBuffer(vertices, count * FORMAT::m_Layout.m_Stride);
+		m_VBO = new VertexBuffer(temp, size * FORMAT::m_Layout.m_Stride);
 	
 		m_VAO->AddBuffer(*m_VBO, FORMAT::m_Layout);
 	
 		m_IBO = new IndexBuffer(indices, 6);
 
-		delete[] vertices;
+		delete[] temp;
 	}
 
 }
