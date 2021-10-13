@@ -2,6 +2,7 @@
 
 #include "../Core/LogMessage.h"
 #include "MeshBuilder.h"
+#include "Mesh.h"
 #include <vector>
 
 #include <GL/glew.h>
@@ -145,8 +146,6 @@ namespace Apex {
 		quadPos.m_Mins.m_Y = position.m_Y;
 		quadPos.m_Maxs.m_Y = position.m_Y + quadHeight;
 
-		VertexPCU vertices[4];
-
 		for (size_t i = 0; i < asciiText.size(); i++)
 		{
 			MeshBuilder* mb = new MeshBuilder();
@@ -156,23 +155,24 @@ namespace Apex {
 
 			uvPos = font->GetGlyphUV(asciiText[i]);
 
-			vertices[0] = VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y));
-			vertices[1] = VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y));
-			vertices[2] = VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y));
-			vertices[3] = VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Mins.m_X, uvPos.m_Maxs.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Mins.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Maxs.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Maxs.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Maxs.m_X, uvPos.m_Mins.m_Y)));
+			mb->Push(VertexPCU(Vec3(quadPos.m_Mins.m_X, quadPos.m_Maxs.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(uvPos.m_Mins.m_X, uvPos.m_Mins.m_Y)));
 			
-			mb->CreateMesh<VertexPCU>(vertices);
+			Mesh* mesh = mb->CreateMesh<VertexPCU>();
 
 			Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 			shader.SetUniform1i("u_Texture", 0);
 			shader.SetUniformMat4f("u_Model", model);
 
-			mb->Begin(GL_TRIANGLES);
+			mesh->Begin(GL_TRIANGLES);
 
-			DrawMesh(mb);
+			DrawMesh(mesh);
 
-			mb->End();
+			mesh->End();
 
+			delete mesh;
 			delete mb;
 		}
 	}
@@ -182,25 +182,25 @@ namespace Apex {
 		texture.Bind(TEXTURESLOT::SLOT2);
 
 		MeshBuilder* mb = new MeshBuilder();
-		VertexPCU vertices[4];
 
-		vertices[0] = VertexPCU(Vec3(position.m_X                 , position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y));
-		vertices[1] = VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y));
-		vertices[2] = VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y));
-		vertices[3] = VertexPCU(Vec3(position.m_X                 , position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y));
+		mb->Push(VertexPCU(Vec3(position.m_X                 , position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y                 , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Maxs.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X + dimensions.m_X, position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Maxs.m_X, texCoords.m_Mins.m_Y)));
+		mb->Push(VertexPCU(Vec3(position.m_X                 , position.m_Y + dimensions.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(texCoords.m_Mins.m_X, texCoords.m_Mins.m_Y)));
 		
-		mb->CreateMesh<VertexPCU>(vertices);
+		Mesh* mesh = mb->CreateMesh<VertexPCU>();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 		shader.SetUniform1i("u_Texture", 2);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mb->Begin(GL_TRIANGLES);
+		mesh->Begin(GL_TRIANGLES);
 
-		DrawMesh(mb);
+		DrawMesh(mesh);
 
-		mb->End();
+		mesh->End();
 
+		delete mesh;
 		delete mb;
 	}
 
@@ -208,14 +208,13 @@ namespace Apex {
 	{
 		MeshBuilder* mb = new MeshBuilder();
 		Texture* texture = GetOrCreateTexture(path);
-		VertexPCU vertices[4];
 
-		vertices[0] = VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 0.0f));
-		vertices[1] = VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f));
-		vertices[2] = VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 1.0f));
-		vertices[3] = VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(1.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(color.m_X, color.m_Y, color.m_Z, color.m_W), Vec2(0.0f, 1.0f)));
 		
-		mb->CreateMesh<VertexPCU>(vertices);
+		Mesh* mesh = mb->CreateMesh<VertexPCU>();
 
 		Mat4 model = Mat4::translation(Vec3(0.0f, 0.0f, 0.0f));
 
@@ -224,37 +223,38 @@ namespace Apex {
 		shader.SetUniform1i("u_Texture", 1);
 		shader.SetUniformMat4f("u_Model", model);
 
-		mb->Begin(GL_TRIANGLES);
+		mesh->Begin(GL_TRIANGLES);
 
-		DrawMesh(mb);
+		DrawMesh(mesh);
 
-		mb->End();
+		mesh->End();
 
+		delete mesh;
 		delete mb;
 	}
 
 	void Renderer::DrawFrameBuffer(const Vec2& position, Vec2 meshDim)
 	{
 		MeshBuilder* mb = new MeshBuilder();
-		VertexPCU vertices[4];
 
-		vertices[0] = VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 0.0f));
-		vertices[1] = VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 0.0f));
-		vertices[2] = VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 1.0f));
-		vertices[3] = VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y              , 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 0.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X + meshDim.m_X, position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1.0f, 1.0f)));
+		mb->Push(VertexPCU(Vec3(position.m_X              , position.m_Y + meshDim.m_Y, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f)));
 		
-		mb->CreateMesh<VertexPCU>(vertices);
+		Mesh* mesh = mb->CreateMesh<VertexPCU>();
 
-		mb->Begin(GL_TRIANGLES);
+		mesh->Begin(GL_TRIANGLES);
 
-		DrawMesh(mb);
+		DrawMesh(mesh);
 
-		mb->End();
+		mesh->End();
 
+		delete mesh;
 		delete mb;
 	}
 
-	void Renderer::DrawMesh(MeshBuilder* mesh)
+	void Renderer::DrawMesh(Mesh* mesh)
 	{
 		glDrawElements(mesh->m_DrawType, 6, GL_UNSIGNED_INT, nullptr);
 	}

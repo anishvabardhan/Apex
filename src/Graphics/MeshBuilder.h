@@ -8,9 +8,7 @@
 
 namespace Apex {
 
-	class VertexArrayObject;
-	class VertexBuffer;
-	class IndexBuffer;
+	struct Mesh;
 
 	struct VertexBufferElement
 	{
@@ -35,7 +33,6 @@ namespace Apex {
 
 	struct VertexBufferLayout
 	{
-
 		std::vector<VertexBufferElement> m_Element;
 		unsigned int m_Stride;
 
@@ -57,21 +54,17 @@ namespace Apex {
 
 	struct MeshBuilder
 	{
-		GLenum m_DrawType;
-		VertexArrayObject* m_VAO;
-		VertexBuffer* m_VBO;
-		IndexBuffer* m_IBO;
+		std::vector<VertexPCU> m_Vertices;
 
 		MeshBuilder();
 		~MeshBuilder();
 
-		void Begin(GLenum drawType);
-		void End();
+		void Push(VertexPCU vertex);
 
 		template<typename FORMAT>
-		void CreateMesh(const FORMAT vertices[]);
+		Mesh* CreateMesh();
 	};
 
-	template void MeshBuilder::CreateMesh<VertexPCU>(const VertexPCU vertices[]);
+	template Mesh* MeshBuilder::CreateMesh<VertexPCU>();
 
 }

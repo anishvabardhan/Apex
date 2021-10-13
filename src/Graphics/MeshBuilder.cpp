@@ -1,7 +1,6 @@
 #include "MeshBuilder.h"
 
-#include "Buffers/VertexArrayObject.h"
-#include "Buffers/IndexBuffer.h"
+#include "Mesh.h"
 
 namespace Apex {
 
@@ -34,35 +33,22 @@ namespace Apex {
 	}
 
 	MeshBuilder::MeshBuilder()
-		: m_VAO(nullptr), m_VBO(nullptr), m_IBO(nullptr)
 	{
 	}
 	
 	MeshBuilder::~MeshBuilder()
 	{
-		delete m_VAO;
-		delete m_IBO;
-		delete m_VBO;
-	}
-	
-	void MeshBuilder::Begin(GLenum drawType)
-	{
-		m_DrawType = drawType;
-
-		m_VAO->Bind();
-		m_IBO->Bind();
 	}
 
-	void MeshBuilder::End()
+	void MeshBuilder::Push(VertexPCU vertex)
 	{
-		m_VAO->UnBind();
-		m_IBO->UnBind();
+		m_Vertices.push_back(vertex);
 	}
 
 	template <typename FORMAT>
-	void MeshBuilder::CreateMesh(const FORMAT vertices[])
+	Mesh* MeshBuilder::CreateMesh()
 	{
-		int size = sizeof(vertices);
+		int size = m_Vertices.size();
 
 		FORMAT* temp = new FORMAT[sizeof(FORMAT) * size];
 
@@ -73,18 +59,14 @@ namespace Apex {
 
 		for (int i = 0; i < size; i++)
 		{
-			temp[i] = vertices[i];
+			temp[i] = (FORMAT)m_Vertices[i];
 		}
-	
-		m_VAO = new VertexArrayObject();
-	
-		m_VBO = new VertexBuffer(temp, size * FORMAT::m_Layout.m_Stride);
-	
-		m_VAO->AddBuffer(*m_VBO, FORMAT::m_Layout);
-	
-		m_IBO = new IndexBuffer(indices, 6);
+
+		Mesh* mesh = new Mesh(temp, &FORMAT::m_Layout);
 
 		delete[] temp;
+
+		return mesh;
 	}
 
 }

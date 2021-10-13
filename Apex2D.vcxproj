@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\Mesh.cpp" />
     <ClCompile Include="src\Graphics\MeshBuilder.cpp" />
     <ClCompile Include="src\Core\Logger.cpp" />
     <ClCompile Include="src\Core\LogMessage.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="src\Core\XMLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\Mesh.h" />
     <ClInclude Include="src\Graphics\MeshBuilder.h" />
     <ClInclude Include="src\Core\Logger.h" />
     <ClInclude Include="src\Core\EngineUtils.h" />
