@@ -39,32 +39,43 @@ namespace Apex {
 		VertexBufferLayout(const std::vector<VertexBufferElement> element, unsigned int stride);
 	};
 
-	struct VertexPCU
+	struct VertexMaster
 	{
 		Vec3 m_Pos;
 		Vec4 m_Color;
 		Vec2 m_UV;
 
-		static std::vector<VertexBufferElement> m_Attributes;
-		static VertexBufferLayout m_Layout;
+		static int m_Size;
 
-		VertexPCU();
-		VertexPCU(Vec3 position, Vec4 color, Vec2 uv);
+		VertexMaster(Vec3 position, Vec4 color, Vec2 uv);
+		~VertexMaster();
+
+		void PushPosCoords(Vec3 position);
+		void PushColorCoords(Vec4 color);
+		void PushUVCoords(Vec2 uv);
+
+		struct PCU
+		{
+			static std::vector<VertexBufferElement> m_Attributes;
+			static VertexBufferLayout m_Layout;
+		};
 	};
 
 	struct MeshBuilder
 	{
-		std::vector<VertexPCU> m_Vertices;
+		//std::vector<VertexPCU> m_Vertices;
+		std::vector<VertexMaster> m_Vertices;
 
 		MeshBuilder();
 		~MeshBuilder();
 
-		void Push(VertexPCU vertex);
+		//void Push(VertexPCU vertex);
+		void Push(VertexMaster vertex);
 
 		template<typename FORMAT>
 		Mesh* CreateMesh();
 	};
 
-	template Mesh* MeshBuilder::CreateMesh<VertexPCU>();
+	template Mesh* MeshBuilder::CreateMesh<VertexMaster::PCU>();
 
 }

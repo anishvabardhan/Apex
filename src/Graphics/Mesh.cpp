@@ -32,7 +32,7 @@ namespace Apex {
 
 		m_VAO->AddBuffer(*m_VBO, *m_Layout);
 
-		m_IBO = new IndexBuffer(indices, 6);
+		m_IBO = new IndexBuffer(indices, sizeof(indices));
 	}
 
 	void Mesh::Begin(GLenum drawType)

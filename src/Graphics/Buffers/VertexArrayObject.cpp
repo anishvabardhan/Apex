@@ -24,8 +24,8 @@ namespace Apex {
 		for (unsigned int i = 0; i < elements.size(); i++)
 		{
 			const auto& element = elements[i];
-			glEnableVertexAttribArray(i);
 			glVertexAttribPointer(i, element.m_ElementCount, element.m_Type, element.m_Normalized, layout.m_Stride, (const void*)offset);
+			glEnableVertexAttribArray(i);
 			offset += element.m_ElementCount * VertexBufferElement::GetSizeOfType(element.m_Type);
 		}
 	}
